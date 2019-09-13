@@ -26,6 +26,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+app.get(/.*/,(req,res)=>{
+  res.sendFile(__dirname+'/dist/index.html')
+})
+app.use(express.static(__dirname+'/dist/'))
+
 var indexRouter = require('./public/routes/index');
 var usersRouter = require('./public/routes/users');
 var favoriteRouter = require('./public/routes/favorite');
@@ -34,9 +39,5 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/favorite', favoriteRouter);
 
-app.use(express.static(__dirname+'/dist/'))
-app.get(/.*/,(req,res)=>{
-  res.sendFile(__dirname+'/dist/index.html')
-})
 app.listen(port)
 console.log('start!!!');
