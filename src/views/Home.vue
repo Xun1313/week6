@@ -105,13 +105,13 @@ export default {
     }
   },
   mounted() {
-    let token = document.head.querySelector('meta[name="csrf-token"]');
+    //let token = document.head.querySelector('meta[name="csrf-token"]');
     //window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
     this.$http
       .get(`${process.env.VUE_APP_api}/rooms`, {
-        headers: {
-          "CSRF-Token": token // <-- is the csrf token as a header
-        }
+        /* headers: {
+          "CSRF-Token": token
+        } */
       })
       .then(res => {
         //axios.defaults.headers.common['X-CSRF-TOKEN'] = res.data.csrfToken

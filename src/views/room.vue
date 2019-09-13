@@ -182,22 +182,22 @@ export default {
       this.$refs.dark.classList.toggle("dark");
     },
     orderHandler() {
-      var token = document
+      /* var token = document
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
-        console.log(token);
+        console.log(token); */
       this.$http
         .post(
           `${process.env.VUE_APP_api}/room/${this.roomId}`,
           {
             ...this.orderInfo
           },
-          {
+          /* {
             credentials: 'same-origin',
             headers: {
               "CSRF-Token": token
             }
-          }
+          } */
         )
         .then(res => {
           console.log(res);
@@ -292,13 +292,13 @@ export default {
     }
   },
   mounted() {
-    let token = document.head.querySelector('meta[name="csrf-token"]');
+    //let token = document.head.querySelector('meta[name="csrf-token"]');
     this.roomId = this.$route.params.id;
     this.$http
       .get(`${process.env.VUE_APP_api}/room/${this.roomId}`, {
-        headers: {
-          "CSRF-Token": token // <-- is the csrf token as a header
-        }
+        /* headers: {
+          "CSRF-Token": token
+        } */
       })
       .then(res => {
         console.log(res);
@@ -311,9 +311,9 @@ export default {
       });
     this.$http
       .get(`${process.env.VUE_APP_api}/rooms`, {
-        headers: {
-          "CSRF-Token": token // <-- is the csrf token as a header
-        }
+        /* headers: {
+          "CSRF-Token": token
+        } */
       })
       .then(res => {
         res.data.item.forEach(e => {
