@@ -200,7 +200,6 @@ export default {
           } */
         )
         .then(res => {
-          console.log(res);
           //彈跳視窗
           this.orderWindow();
         });
@@ -301,7 +300,6 @@ export default {
         } */
       })
       .then(res => {
-        console.log(res);
         this.roomInfo = res.data.room[0];
         let sum = 0;
         for (const key in this.roomDevice) {

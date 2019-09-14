@@ -1,7 +1,7 @@
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
-//import './assets/bootstrap/bootstrap.css';
+import './assets/bootstrap/bootstrap.css';
 import axios from 'axios';
 axios.defaults.withCredentials=true
 axios.defaults.headers.post['Content-Type'] = 'application/json';
