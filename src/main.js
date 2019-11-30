@@ -1,10 +1,10 @@
-import Vue from "vue";
-import App from "./App.vue";
-import router from "./router";
+import Vue from 'vue';
+import App from './App.vue';
+import router from './router';
 import './assets/bootstrap/bootstrap.css';
 import axios from 'axios';
-axios.defaults.withCredentials=true
-axios.defaults.headers.post['Content-Type'] = 'application/json';
+axios.defaults.withCredentials = true;
+//axios.defaults.headers.post['Content-Type'] = 'application/json';
 import VueAxios from 'vue-axios';
 
 import VueI18n from 'vue-i18n';
@@ -26,5 +26,5 @@ Vue.config.productionTip = false;
 
 new Vue({
   router,
-  render: h => h(App)
-}).$mount("#app");
+  render: h => h(App),
+}).$mount('#app');

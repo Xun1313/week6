@@ -1,38 +1,17 @@
 <template>
   <div class="room">
     <div class="nav">
-      <div class="nav-title">WHITE INN</div>
       <div class="nav-group">
-        <template v-for="(item,value) in roomKind">
-          <div
-            class="nav-group-item"
-            v-if="value!==roomInfo.name"
-            @click="routeRoom(item)"
-          >{{value}}</div>
+        <template v-for="(item, value) in roomKind">
+          <div class="nav-group-item" v-if="value !== roomInfo.name" @click="routeRoom(item)">{{ value }}</div>
         </template>
       </div>
-      <label class="nav-menu" for="nav-switch">
-        <i class="fas fa-bars"></i>
-      </label>
-    </div>
-    <input type="checkbox" id="nav-switch" />
-    <div class="menu">
-      <div
-        class="menu-item"
-        v-for="(item,value) in roomKind"
-        :key="item"
-        @click="routeRoom(item)"
-      >{{value}}</div>
     </div>
 
     <div class="all">
       <div class="main">
         <div class="main-primary">
-          <div
-            class="main-primary-pic1"
-            :style="`background-image:url(${roomInfo.imageUrl[switchPic[0]]})`"
-            @click="zoomHandler()"
-          >
+          <div class="main-primary-pic1" :style="`background-image:url(${roomInfo.imageUrl[switchPic[0]]})`" @click="zoomHandler()">
             <div class="main-primary-pic1-btn" @click="switchPicHandler($event)">
               <i class="fas fa-angle-right"></i>
             </div>
@@ -40,50 +19,42 @@
         </div>
         <div class="main-sub">
           <div class="main-sub-pic2">
-            <div
-              class="main-sub-pic2-sub"
-              :style="`background-image:url(${roomInfo.imageUrl[switchPic[1]]})`"
-            ></div>
+            <div class="main-sub-pic2-sub" :style="`background-image:url(${roomInfo.imageUrl[switchPic[1]]})`"></div>
           </div>
           <div class="main-sub-pic2">
-            <div
-              class="main-sub-pic2-sub"
-              :style="`background-image:url(${roomInfo.imageUrl[switchPic[2]]})`"
-            ></div>
+            <div class="main-sub-pic2-sub" :style="`background-image:url(${roomInfo.imageUrl[switchPic[2]]})`"></div>
           </div>
         </div>
       </div>
 
       <div class="info">
         <div class="info-header">
-          <div class="info-header-title">{{roomInfo.name}}</div>
+          <div class="info-header-title">{{ roomInfo.name }}</div>
           <div class="info-header-price">
-            <div class="info-header-price-day">平日(一~四)價格:{{roomInfo.normalDayPrice}}</div>
-            <div class="info-header-price-day">假日(五~日)價格:{{roomInfo.holidayPrice}}</div>
+            <div class="info-header-price-day">平日(一~四)價格:{{ roomInfo.normalDayPrice }}</div>
+            <div class="info-header-price-day">假日(五~日)價格:{{ roomInfo.holidayPrice }}</div>
           </div>
         </div>
         <div class="info-main">
           <div class="info-main-detail">
-            <div class="info-main-detail-describe">{{roomInfo.description}}</div>
+            <div class="info-main-detail-describe">{{ roomInfo.description }}</div>
             <div class="info-main-detail-content">
-              <div class="content">房客人數限制:{{roomInfo.descriptionShort.GuestMax}}人</div>
-              <div class="content">床型:{{roomInfo.descriptionShort.Bed[0]}}</div>
-              <div class="content">衛浴數量:{{roomInfo.descriptionShort['Private-Bath']}}間</div>
-              <div class="content">房間大小:{{roomInfo.descriptionShort.Footage}}平方公尺</div>
-              <div
-                class="content"
-              >checkin時間:{{roomInfo.checkInAndOut.checkInEarly}}~{{roomInfo.checkInAndOut.checkInLate}}</div>
-              <div class="content">checkout時間:{{roomInfo.checkInAndOut.checkOut}}</div>
+              <div class="content">房客人數限制:{{ roomInfo.descriptionShort.GuestMax }}人</div>
+              <div class="content">床型:{{ roomInfo.descriptionShort.Bed[0] }}</div>
+              <div class="content">衛浴數量:{{ roomInfo.descriptionShort['Private-Bath'] }}間</div>
+              <div class="content">房間大小:{{ roomInfo.descriptionShort.Footage }}平方公尺</div>
+              <div class="content">checkin時間:{{ roomInfo.checkInAndOut.checkInEarly }}~{{ roomInfo.checkInAndOut.checkInLate }}</div>
+              <div class="content">checkout時間:{{ roomInfo.checkInAndOut.checkOut }}</div>
             </div>
           </div>
 
-          <datePicker @toggleOrder="toggleOrder"></datePicker>
+          <datePicker @toggleOrder="toggleOrder" :roomId="roomId"></datePicker>
         </div>
 
         <div class="info-footer row">
-          <div class="info-footer-item col-4" v-for="(key,value,index) in roomDevice" :key="value">
+          <div class="info-footer-item col-4" v-for="(key, value, index) in roomDevice" :key="value">
             <input type="checkbox" class="info-footer-item-check" :checked="key" disabled />
-            <div class="info-footer-item-name">{{value}}</div>
+            <div class="info-footer-item-name">{{ value }}</div>
           </div>
         </div>
       </div>
@@ -98,20 +69,18 @@
 
     <div class="order none" ref="order">
       <div class="order-all">
-        <div class="order-all-title">{{roomInfo.name}}</div>
+        <div class="order-all-title">{{ roomInfo.name }}</div>
         <div class="order-all-item">
           <div class="order-all-item-sign">入住</div>
-          <div class="order-all-item-date">{{orderInfo.date[0]}}星期{{changeDay(0)}}</div>
-          <div class="order-all-item-time">({{roomInfo.checkInAndOut.checkInEarly}}起)</div>
+          <div class="order-all-item-date">{{ orderInfo.date[0] }}星期{{ changeDay(0) }}</div>
+          <div class="order-all-item-time">({{ roomInfo.checkInAndOut.checkInEarly }}起)</div>
         </div>
         <div class="order-all-item">
           <div class="order-all-item-sign">退房</div>
-          <div
-            class="order-all-item-date"
-          >{{orderInfo.date[orderInfo.date.length-1]}}星期{{changeDay(orderInfo.date.length-1)}}</div>
-          <div class="order-all-item-time">({{roomInfo.checkInAndOut.checkOut}}前)</div>
+          <div class="order-all-item-date">{{ orderInfo.date[orderInfo.date.length - 1] }}星期{{ changeDay(orderInfo.date.length - 1) }}</div>
+          <div class="order-all-item-time">({{ roomInfo.checkInAndOut.checkOut }}前)</div>
         </div>
-        <div class="order-all-sum">{{orderInfo.date.length}}晚/{{price}}元</div>
+        <div class="order-all-sum">{{ orderInfo.date.length }}晚/{{ price }}元</div>
         <div class="order-all-confirm" @click="orderHandler()">確定</div>
         <div class="order-all-cancel" @click="toggleOrder()">
           <i class="fas fa-times"></i>
@@ -122,30 +91,31 @@
 </template>
 
 <script>
-import datePicker from "../components/date-picker";
-const moment = require("moment");
+import datePicker from '../components/date-picker';
+const moment = require('moment');
 export default {
   data() {
     return {
       moment: moment,
+      roomId: '',
       orderInfo: {
-        date: []
+        date: [],
       },
-      zoomPic: "",
+      zoomPic: '',
       switchPic: [0, 1, 2],
       roomDevice: {
-        空調: "",
-        早餐: "",
-        適合兒童: "",
-        漂亮的視野: "",
-        "Mini Bar": "",
-        寵物攜帶: "",
-        冰箱: "",
-        "Room Service": "",
-        禁止吸菸: "",
-        沙發: "",
-        電話: "",
-        wifi: ""
+        空調: '',
+        早餐: '',
+        適合兒童: '',
+        漂亮的視野: '',
+        'Mini Bar': '',
+        寵物攜帶: '',
+        冰箱: '',
+        'Room Service': '',
+        禁止吸菸: '',
+        沙發: '',
+        電話: '',
+        wifi: '',
       },
       /* roomKind: {
         "Single Room":'',
@@ -159,10 +129,10 @@ export default {
       roomInfo: {
         checkInAndOut: {},
         descriptionShort: {
-          Bed: []
+          Bed: [],
         },
-        imageUrl: []
-      }
+        imageUrl: [],
+      },
     };
   },
   methods: {
@@ -178,8 +148,11 @@ export default {
     },
     zoomHandler() {
       this.zoomPic = this.roomInfo.imageUrl[this.switchPic[0]];
-      this.$refs.zoom.classList.toggle("none");
-      this.$refs.dark.classList.toggle("dark");
+      this.$refs.zoom.classList.toggle('none');
+      this.$refs.dark.classList.toggle('dark');
+    },
+    barHandler() {
+      this.$refs.dark.classList.toggle('dark');
     },
     orderHandler() {
       /* var token = document
@@ -187,18 +160,9 @@ export default {
         .getAttribute("content");
         console.log(token); */
       this.$http
-        .post(
-          `${process.env.VUE_APP_api}/room/${this.roomId}`,
-          {
-            ...this.orderInfo
-          },
-          /* {
-            credentials: 'same-origin',
-            headers: {
-              "CSRF-Token": token
-            }
-          } */
-        )
+        .post(`${process.env.VUE_APP_api}/room/${this.roomId}`, {
+          ...this.orderInfo,
+        })
         .then(res => {
           //彈跳視窗
           this.orderWindow();
@@ -210,66 +174,81 @@ export default {
         this.orderInfo = val;
       } else {
         this.orderInfo = {};
-        this.$set(this.orderInfo, "date", []);
+        this.$set(this.orderInfo, 'date', []);
       }
       //彈跳視窗
       this.orderWindow();
     },
     orderWindow() {
-      this.$refs.order.classList.toggle("none");
-      this.$refs.dark.classList.toggle("dark");
+      this.$refs.order.classList.toggle('none');
+      this.$refs.dark.classList.toggle('dark');
     },
     routeRoom(val) {
-      this.$router
-        .push(`/room/${val}`)
-        .then(() => {
+      this.roomId = val;
+      this.$refs.dark.classList.remove('dark');
+      this.$refs['nav-switch'].checked = false;
+      /* this.$router.push(`/room/${val}`)
+      .then(() => {
           location.reload();
         })
-        .catch(err => {});
+        .catch(err => {}); */
+    },
+    updateRoom() {
+      this.$http
+        .get(`${process.env.VUE_APP_api}/room/${this.roomId}`, {
+          /* headers: {
+          "CSRF-Token": token
+        } */
+        })
+        .then(res => {
+          this.roomInfo = res.data.room[0];
+          let sum = 0;
+          for (const key in this.roomDevice) {
+            this.roomDevice[key] = Object.values(res.data.room[0].amenities)[sum];
+            sum++;
+          }
+        });
     },
     changeDay(val) {
       switch (new Date(this.orderInfo.date[val]).getDay()) {
         case 0:
-          return "日";
+          return '日';
           break;
         case 1:
-          return "一";
+          return '一';
           break;
         case 2:
-          return "二";
+          return '二';
           break;
         case 3:
-          return "三";
+          return '三';
           break;
         case 4:
-          return "四";
+          return '四';
           break;
         case 5:
-          return "五";
+          return '五';
           break;
         case 6:
-          return "六";
+          return '六';
           break;
         default:
           break;
       }
-    }
+    },
   },
   computed: {
     price() {
       //差異天數
-      const diff = moment(this.orderInfo.date[1]).diff(
-        moment(this.orderInfo.date[0]),
-        "days"
-      );
+      const diff = moment(this.orderInfo.date[1]).diff(moment(this.orderInfo.date[0]), 'days');
       //初始天
       let firstDay = this.orderInfo.date[0];
       //所有星期
       let days = [this.orderInfo.date[0]];
       for (let i = 0; i < diff; i++) {
         const result = moment(firstDay)
-          .add(1, "d")
-          .format("YYYY-MM-DD");
+          .add(1, 'd')
+          .format('YYYY-MM-DD');
         days.push(result);
         firstDay = result;
       }
@@ -288,36 +267,17 @@ export default {
         return prev + next;
       }, 0);
       return sum;
-    }
+    },
   },
   mounted() {
     //let token = document.head.querySelector('meta[name="csrf-token"]');
     this.roomId = this.$route.params.id;
-    this.$http
-      .get(`${process.env.VUE_APP_api}/room/${this.roomId}`, {
-        /* headers: {
-          "CSRF-Token": token
-        } */
-      })
-      .then(res => {
-        this.roomInfo = res.data.room[0];
-        let sum = 0;
-        for (const key in this.roomDevice) {
-          this.roomDevice[key] = Object.values(res.data.room[0].amenities)[sum];
-          sum++;
-        }
+    this.updateRoom();
+    this.$http.get(`${process.env.VUE_APP_api}/rooms`, {}).then(res => {
+      res.data.item.forEach(e => {
+        this.$set(this.roomKind, e.name, e.id);
       });
-    this.$http
-      .get(`${process.env.VUE_APP_api}/rooms`, {
-        /* headers: {
-          "CSRF-Token": token
-        } */
-      })
-      .then(res => {
-        res.data.item.forEach(e => {
-          this.$set(this.roomKind, e.name, e.id);
-        });
-      });
+    });
     /* this.$http.get('https://challenge.thef2e.com/api/thef2e2019/stage6/room/3Elqe8kfMxdZv5xFLV4OUeN6jhmxIvQSTyj4eTgIowfIRvF4rerA2Nuegzc2Rgwu',{
       headers:{
         Authorization:'Bearer 90jD9OF3s2JA5WZuRfcHTkHpCwAqMVv3C8m3j2J8VbhcRj7Lpn1wbNrWJZ9N',
@@ -327,27 +287,37 @@ export default {
       console.log(res.data);
     }) */
   },
+  watch: {
+    $route(now) {
+      console.log(now);
+      this.roomId = now.params.id;
+      this.updateRoom();
+    },
+    roomId(val) {
+      console.log(val);
+      this.$router.push(`/room/${val}`);
+      this.updateRoom();
+    },
+  },
   components: {
-    datePicker
-  }
+    datePicker,
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/_mixin.scss";
-@import "../assets/_grid.scss";
+@import '../assets/_mixin.scss';
+@import '../assets/_grid.scss';
+@import url('https://fonts.googleapis.com/css?family=Indie+Flower&display=swap');
 /* .room{
   min-height: 100vh;
 } */
 .nav {
-  position: fixed;
-  z-index: 20;
+  position: relative;
+  z-index: 25;
   width: 100%;
-  background-color: #f0f0f0;
+  //background-color: #f0f0f0;
   padding: 10px 50px;
-  &-title {
-    font-size: 30px;
-  }
   &-group {
     display: none;
     @include lapTopHigh {
@@ -368,7 +338,7 @@ export default {
       margin-left: auto;
     }
   }
-  &-menu {
+  /* &-menu {
     margin-left: auto;
     display: block;
     text-align: right;
@@ -378,9 +348,9 @@ export default {
     i {
       cursor: pointer;
     }
-  }
+  } */
 }
-.menu {
+/* .menu {
   @include lapTopHigh {
     display: none;
   }
@@ -398,24 +368,28 @@ export default {
     color: white;
     cursor: pointer;
   }
-}
+} */
 #nav-switch {
   display: none;
   &:checked ~ .menu {
-    z-index: 25;
+    z-index: 35;
     transform: translateY(105px);
+  }
+  &:checked ~ .nav {
+    z-index: 35;
   }
 }
 
 .all {
   padding: 0;
   position: relative;
-  transform: translateY(15%);
+  //transform: translateY(15%);
+  margin: 50px 0;
   z-index: 15;
   @include lapTopHigh {
     display: flex;
     padding: 0 50px; //固定內縮的尺寸
-    transform: translateY(25%);
+    //transform: translateY(25%);
   }
 }
 .main {
@@ -485,7 +459,7 @@ export default {
   }
 }
 .info {
-  padding: 0 0 0 30px;
+  padding: 0 30px;
   width: 100%;
   @include lapTopHigh {
     width: 150%;
@@ -529,7 +503,7 @@ export default {
   }
   &-footer {
     font-size: 16px;
-    margin: 0;
+    margin: 20px 0;
     padding: 10px;
     border-top: 1px solid black;
     &-item {
@@ -543,7 +517,7 @@ export default {
   }
 }
 .zoom {
-  z-index: 30;
+  z-index: 35;
   overflow: hidden;
   transition: 0.5s all;
   opacity: 1;
@@ -600,6 +574,9 @@ export default {
 }
 .dark {
   background-color: rgba(32, 28, 28, 0.7);
+  /* @include lapTopHigh {
+    background-color: rgba(255, 255, 255,0)
+  } */
   position: fixed;
   top: 0;
   bottom: 0;
@@ -608,7 +585,7 @@ export default {
   margin: auto;
   width: 100%;
   height: 100%;
-  z-index: 25;
+  z-index: 30;
 }
 .order {
   position: fixed;

@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="home-title">WHITE INN</div>
-    <div class="bg-light">
+    <!-- <div class="bg-light"> -->
       <div class="home-all row">
         <div
           class="home-all-item item col-12 col-md-4 col-xl-2"
@@ -29,12 +29,45 @@
           <div class="content">abcd@efgijk.com</div>
         </div>
       </div>
-    </div>
+    <!-- </div> -->
   </div>
 </template>
 
+<script>
+export default {
+  data() {
+    return {
+      allRooms: [],
+    };
+  },
+  methods: {
+    roomHandler(id) {
+      this.$router.push(`/room/${id}`);
+    },
+    buyRecordHandler(id) {
+      this.$router.push(`/buy-record/${id}`);
+    },
+  },
+  mounted() {
+    //let token = document.head.querySelector('meta[name="csrf-token"]');
+    //window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+    this.$http
+      .get(`${process.env.VUE_APP_api}/rooms`, {
+        /* headers: {
+          "CSRF-Token": token
+        } */
+      })
+      .then(res => {
+        //axios.defaults.headers.common['X-CSRF-TOKEN'] = res.data.csrfToken
+        this.allRooms = res.data.item;
+      });
+  },
+};
+</script>
+
 <style lang="scss" scoped>
-@import "../assets/_grid.scss";
+@import '../assets/_grid.scss';
+@import url('https://fonts.googleapis.com/css?family=Indie+Flower&display=swap');
 .home {
   height: auto;
   display: flex;
@@ -44,11 +77,21 @@
     height: 100vh;
   }
   margin: auto;
+  &-menu {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    &-item {
+      list-style: none;
+      cursor: pointer;
+    }
+  }
   &-title {
+    font-family: 'Indie Flower', cursive;
     display: flex;
     justify-content: center;
     margin: 80px 0;
-    font-size: 40px;
+    font-size: 56px;
   }
   &-all {
     width: 90%;
@@ -89,34 +132,5 @@
       }
     }
   }
-}
+} 
 </style>
-
-<script>
-export default {
-  data() {
-    return {
-      allRooms: []
-    };
-  },
-  methods: {
-    roomHandler(id) {
-      this.$router.push(`/room/${id}`);
-    }
-  },
-  mounted() {
-    //let token = document.head.querySelector('meta[name="csrf-token"]');
-    //window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
-    this.$http
-      .get(`${process.env.VUE_APP_api}/rooms`, {
-        /* headers: {
-          "CSRF-Token": token
-        } */
-      })
-      .then(res => {
-        //axios.defaults.headers.common['X-CSRF-TOKEN'] = res.data.csrfToken
-        this.allRooms = res.data.item;
-      });
-  }
-};
-</script>
