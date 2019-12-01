@@ -19,7 +19,7 @@
           購買清單
         </li>
         <li class="nav-menu-item">
-          <router-link to="/login" >登入</router-link>
+          <router-link to="/login">登入</router-link>
         </li>
       </ul>
     </div>
@@ -38,6 +38,9 @@ export default {
   methods: {
     barHandler() {
       this.$refs.dark.classList.toggle('dark');
+    },
+    buyRecordHandler(id) {
+      this.$router.push(`/buy-record/${id}`);
     },
   },
   mounted() {
@@ -98,9 +101,9 @@ export default {
       margin-left: 10px;
       list-style: none;
       cursor: pointer;
-      a{
+      a {
         text-decoration: none;
-        color: black
+        color: black;
       }
     }
   }

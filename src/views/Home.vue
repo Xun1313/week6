@@ -44,9 +44,6 @@ export default {
     roomHandler(id) {
       this.$router.push(`/room/${id}`);
     },
-    buyRecordHandler(id) {
-      this.$router.push(`/buy-record/${id}`);
-    },
   },
   mounted() {
     //let token = document.head.querySelector('meta[name="csrf-token"]');
