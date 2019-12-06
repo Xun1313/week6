@@ -10,12 +10,14 @@ import VueAxios from 'vue-axios';
 import VueI18n from 'vue-i18n';
 import VeeValidate from 'vee-validate';
 import validationMessages from 'vee-validate/dist/locale/zh_TW';
+import '../bus'
 
 Vue.use(VueAxios, axios);
 Vue.use(VueI18n);
 const i18n = new VueI18n();
 i18n.locale = 'zhTW';
 Vue.use(VeeValidate, {
+  //events: '',
   i18n,
   dictionary: {
     zhTW: validationMessages,

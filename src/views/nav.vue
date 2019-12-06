@@ -19,7 +19,7 @@
           購買清單
         </li>
         <li class="nav-menu-item">
-          <router-link to="/login">登入</router-link>
+          <router-link to="/login">{{login}}</router-link>
         </li>
       </ul>
     </div>
@@ -33,6 +33,7 @@ export default {
   data() {
     return {
       roomKind: {},
+      login:'登入'
     };
   },
   methods: {
@@ -42,8 +43,17 @@ export default {
     buyRecordHandler(id) {
       this.$router.push(`/buy-record/${id}`);
     },
+    isSignin() {
+      this.$http.get(`${process.env.VUE_APP_api}/users/isSignin`).then(res => {
+        if (res.data.success) {
+          this.login='已登入'
+        }
+        console.log(res);
+      });
+    },
   },
   mounted() {
+    this.isSignin()
     this.$http
       .get(`${process.env.VUE_APP_api}/rooms`, {
         /* headers: {
@@ -55,6 +65,9 @@ export default {
           this.$set(this.roomKind, e.name, e.id);
         });
       });
+      this.$bus.$on('refreshSignin',()=>{
+        this.isSignin()
+      })
   },
 };
 </script>

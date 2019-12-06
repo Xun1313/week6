@@ -1,47 +1,60 @@
 <template>
   <div class="bg-login">
+    <loading :active.sync="isLoading"></loading>
     <div class="login">
       <i class="fas fa-user-alt login-icon"></i>
       <div class="login-title">MEMBER LOGIN</div>
 
       <div class="login-item">
-        <div class="login-item-icon">
-          <i class="far fa-envelope"></i>
+        <div class="login-item-flex" :class="{ error: errors.has('email') }">
+          <div class="login-item-flex-icon">
+            <i class="far fa-envelope"></i>
+          </div>
+          <input type="email" class="login-item-flex-input" placeholder="Email ID" v-model="account.email" v-validate="'required|email'" data-vv-as="電子郵件" name="email" />
         </div>
-        <input type="email" class="login-item-input" placeholder="Email ID" v-model="account.email"/>
+        <div class="login-item-error" v-if="errors.has('email')">不符合email格式<!-- {{errors.first('email')}} --></div>
       </div>
 
       <div class="login-item">
-        <div class="login-item-icon">
-          <i class="fas fa-lock"></i>
+        <div class="login-item-flex" :class="{ error: errors.has('password') }">
+          <div class="login-item-flex-icon">
+            <i class="fas fa-lock"></i>
+          </div>
+          <input type="password" class="login-item-flex-input" placeholder="Password" ref="password" v-model="account.password" v-validate="'required'" data-vv-as="密碼" name="password" />
+          <i class="far fa-eye login-item-flex-eye" :class="[eye ? 'fa-eye' : 'fa-eye-slash']" @click="eyeHandler()"></i>
         </div>
-        <input type="password" class="login-item-input" placeholder="Password" ref="password" v-model="account.password"/>
-        <i class="far fa-eye login-item-eye" :class="[eye?'fa-eye':'fa-eye-slash']" @click="eyeHandler()"></i>
+        <div class="login-item-error" v-if="errors.has('password')">密碼為必填<!-- {{errors.first('password')}} --></div>
       </div>
+
+      <div class="login-item-error" v-if="error">帳號或密碼有誤</div>
       <div class="login-signin" @click="signin()">SIGN IN</div>
+      <router-link to="/signup" class="login-signup">立即註冊</router-link>
     </div>
-    <!-- <div @click="toFavorite()">toFavorite</div>
-    <div @click="signin()">signin</div>
-    <div @click="signout()">signout</div>
-    <div @click="deleteFavorite()">deleteFavorite</div> -->
   </div>
 </template>
 
 <script>
+//import Vue from 'vue';
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
+//Vue.use(Loading);
 export default {
   data() {
     return {
-      account:{
-        email:'',
-        password:''
+      count: '',
+      error: false,
+      isLoading: false,
+      account: {
+        email: '',
+        password: '',
       },
-      eye:false
-    }
+      eye: false,
+    };
   },
   methods: {
-    eyeHandler(){
-      this.eye?this.$refs.password.type='password':this.$refs.password.type='text'
-      this.eye=!this.eye
+    eyeHandler() {
+      this.eye ? (this.$refs.password.type = 'password') : (this.$refs.password.type = 'text');
+      this.eye = !this.eye;
     },
     toFavorite() {
       this.$http
@@ -53,26 +66,52 @@ export default {
         });
     },
     signin() {
-      this.$http
-        .post(`${process.env.VUE_APP_api}/users/signin`, {
-          ...this.account
-          /* email: '123@gmail.com',
-          password: 'adam10426009', */
-        })
-        .then(res => {
-          console.log(res);
-        });
+      this.$validator.validate().then(validate => {
+        if (validate) {
+          let respond = '';
+          this.isLoading = true;
+          this.$http
+            .post(`${process.env.VUE_APP_api}/users/signin`, {
+              ...this.account,
+            })
+            .then(res => {
+              respond = res;
+              clearTimeout(this.count);
+              this.count = setTimeout(() => {
+                this.isLoading = false;
+              }, 0);
+            })
+            .then(() => {
+              if (respond.data.success) {
+                this.$bus.$emit('refreshSignin');
+                this.$router.push('/');
+              } else {
+                this.error = true;
+              }
+            });
+        }
+      });
     },
     signout() {
       this.$http.post(`${process.env.VUE_APP_api}/users/signout`).then(res => {
         console.log(res);
       });
     },
+    
     deleteFavorite() {
       this.$http.delete(`${process.env.VUE_APP_api}/favorite/-LmcHMVJzVF35Zg25qm4`).then(res => {
         console.log(res);
       });
     },
+  },
+  mounted() {
+    console.log(this.$refs);
+  },
+  beforeDestroy() {
+    clearTimeout(this.count);
+  },
+  components: {
+    Loading,
   },
 };
 </script>
@@ -88,7 +127,7 @@ export default {
 }
 .login {
   width: 90%;
-  @include pad{
+  @include pad {
     width: auto;
   }
   background-color: gray;
@@ -99,39 +138,46 @@ export default {
     text-align: center;
     font-size: 26px;
     display: block;
+    width: 100%;
+    margin-bottom: 5px;
   }
   &-title {
     text-align: center;
-    margin-bottom: 15px
+    margin-bottom: 15px;
   }
   &-item {
-    display: flex;
-    align-items: center;
-    background-color: rgb(70, 69, 69);
-    border-radius: 30px;
     padding: 5px;
     margin-bottom: 15px;
-    &-icon {
-      border-radius: 40px;
-      padding: 10px 25px;
-      background-color: gray;
-      margin-right: 10px;
-      color: white;
-    }
-    &-input {
-      width: 100%;
+    &-flex {
+      display: flex;
+      align-items: center;
+      border-radius: 30px;
       background-color: rgb(70, 69, 69);
-      padding: 0 5px;
-      color: white;
-      border: none;
-      outline: none;
+      &-icon {
+        border-radius: 40px;
+        padding: 10px 25px;
+        background-color: gray;
+        margin: 5px 10px 5px 5px;
+        color: white;
+      }
+      &-input {
+        background-color: rgb(70, 69, 69);
+        padding: 0 5px;
+        color: white;
+        border: none;
+        outline: none;
+      }
+      &-eye {
+        position: relative;
+        cursor: pointer;
+        margin-right: 10px;
+        width: 25px;
+        color: white;
+      }
     }
-    &-eye {
-      position: relative;
-      cursor: pointer;
-      margin-right: 10px;
-      width: 25px;
-      color: white;
+    &-error {
+      color: red;
+      transform: translateX(20px);
     }
   }
   &-signin {
@@ -141,9 +187,23 @@ export default {
     text-align: center;
     border-radius: 50px;
     padding: 5px;
+    margin: 15px 0;
     &:active {
       background-image: linear-gradient(135deg, gray, white, gray);
     }
   }
+  &-signup {
+    text-align: center;
+    color: rgb(70, 69, 69);
+    display: block;
+  }
+}
+.error {
+  border: red 1px solid;
+}
+i{
+  width: 20px;
+  height: 20px;
+  text-align: center
 }
 </style>
