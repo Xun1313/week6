@@ -68,44 +68,31 @@ export default {
     signin() {
       this.$validator.validate().then(validate => {
         if (validate) {
-          let respond = '';
           this.isLoading = true;
           this.$http
             .post(`${process.env.VUE_APP_api}/users/signin`, {
               ...this.account,
             })
             .then(res => {
-              respond = res;
               clearTimeout(this.count);
               this.count = setTimeout(() => {
+                if (res.data.success) {
+                  this.$bus.$emit('refreshSignin');
+                  this.$router.push('/');
+                } else {
+                  this.error = true;
+                }
                 this.isLoading = false;
               }, 0);
-            })
-            .then(() => {
-              if (respond.data.success) {
-                this.$bus.$emit('refreshSignin');
-                this.$router.push('/');
-              } else {
-                this.error = true;
-              }
             });
         }
       });
     },
-    signout() {
-      this.$http.post(`${process.env.VUE_APP_api}/users/signout`).then(res => {
-        console.log(res);
-      });
-    },
-    
     deleteFavorite() {
       this.$http.delete(`${process.env.VUE_APP_api}/favorite/-LmcHMVJzVF35Zg25qm4`).then(res => {
         console.log(res);
       });
     },
-  },
-  mounted() {
-    console.log(this.$refs);
   },
   beforeDestroy() {
     clearTimeout(this.count);
@@ -201,9 +188,9 @@ export default {
 .error {
   border: red 1px solid;
 }
-i{
+i {
   width: 20px;
   height: 20px;
-  text-align: center
+  text-align: center;
 }
 </style>

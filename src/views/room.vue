@@ -100,6 +100,8 @@ export default {
       roomId: '',
       orderInfo: {
         date: [],
+        name:'',
+        tel:''
       },
       zoomPic: '',
       switchPic: [0, 1, 2],
@@ -160,11 +162,13 @@ export default {
         .getAttribute("content");
         console.log(token); */
       this.$http
-        .post(`${process.env.VUE_APP_api}/room/${this.roomId}`, {
+        .post(`${process.env.VUE_APP_api}/purchase`, {
           ...this.orderInfo,
+          id:this.roomId
         })
         .then(res => {
           //彈跳視窗
+          console.log(res);
           this.orderWindow();
         });
     },
@@ -186,7 +190,8 @@ export default {
     routeRoom(val) {
       this.roomId = val;
       this.$refs.dark.classList.remove('dark');
-      this.$refs['nav-switch'].checked = false;
+      this.$router.push(`/room/${val}`);
+      //this.$refs['nav-switch'].checked = false;
       /* this.$router.push(`/room/${val}`)
       .then(() => {
           location.reload();
@@ -278,6 +283,10 @@ export default {
         this.$set(this.roomKind, e.name, e.id);
       });
     });
+    this.$bus.$on('refreshRoom', roomId => {
+      this.roomId=roomId
+      this.updateRoom()
+    });
     /* this.$http.get('https://challenge.thef2e.com/api/thef2e2019/stage6/room/3Elqe8kfMxdZv5xFLV4OUeN6jhmxIvQSTyj4eTgIowfIRvF4rerA2Nuegzc2Rgwu',{
       headers:{
         Authorization:'Bearer 90jD9OF3s2JA5WZuRfcHTkHpCwAqMVv3C8m3j2J8VbhcRj7Lpn1wbNrWJZ9N',
@@ -289,13 +298,7 @@ export default {
   },
   watch: {
     $route(now) {
-      console.log(now);
       this.roomId = now.params.id;
-      this.updateRoom();
-    },
-    roomId(val) {
-      console.log(val);
-      this.$router.push(`/room/${val}`);
       this.updateRoom();
     },
   },

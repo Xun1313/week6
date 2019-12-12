@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     collectionToggle(){
-      this.$http.post(`${process.env.VUE_APP_api}/favorite`,{
+      this.$http.post(`${process.env.VUE_APP_api}/buyRecord/favorite`,{
         id:this.roomId
       }).then(res=>{
         console.log(res);
@@ -65,9 +65,9 @@ export default {
         })
         .then(() => {
           this.sendInfo.date = [];
-          setTimeout(() => {
+          /* setTimeout(() => {
             this.$validator.reset();
-          }, 3000);
+          }, 3000); */
         });
     },
   },

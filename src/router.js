@@ -6,6 +6,10 @@ Vue.use(Router);
 export default new Router({
   routes: [
     {
+      path: '*',
+      redirect: '/',
+    },
+    {
       path: '/',
       name: 'nav',
       component: () => import(/* webpackChunkName: "nav" */ './views/nav.vue'),
@@ -21,19 +25,28 @@ export default new Router({
           component: () => import(/* webpackChunkName: "room" */ './views/room.vue'),
         },
         {
-          path: 'buy-record/:id',
+          path: 'buy-record/:item',
           name: 'buy-record',
           component: () => import(/* webpackChunkName: "buy-record" */ './views/buy-record.vue'),
+          //meta: { requiresAuth: true },
         },
         {
           path: '/login',
           name: 'login',
           component: () => import(/* webpackChunkName: "login" */ './views/login.vue'),
+          //meta: { requiresAuth: true },
         },
         {
           path: '/signup',
           name: 'signup',
           component: () => import(/* webpackChunkName: "signup" */ './views/signup.vue'),
+         // meta: { requiresAuth: true },
+        },
+        {
+          path: '/dashboard',
+          name: 'dashboard',
+          component: () => import(/* webpackChunkName: "dashboard" */ './views/dashboard.vue'),
+          meta: { requiresAuth: true },
         },
       ],
     },

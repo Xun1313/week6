@@ -58,7 +58,7 @@
       </div>
 
       <template v-if="error.switch">
-        <div class="login-item-error" v-for="(item, index) in error.message" :key="item.param">{{item.msg||item}}</div>
+        <div class="login-item-error" v-for="item in error.message" :key="item.param">{{ item.msg || item }}</div>
       </template>
 
       <div class="login-signup" @click="signup()">立即註冊</div>
@@ -80,11 +80,6 @@
   &:active {
     background-image: linear-gradient(135deg, gray, white, gray);
   }
-}
-i {
-  width: 20px;
-  height: 20px;
-  text-align: center;
 }
 </style>
 
@@ -120,37 +115,33 @@ export default {
     signup() {
       this.$validator.validate().then(validate => {
         if (validate) {
-          let respond = '';
           this.isLoading = true;
           this.$http
             .post(`${process.env.VUE_APP_api}/users/signup`, {
               ...this.account,
             })
             .then(res => {
-              respond = res;
               clearTimeout(this.count);
               this.count = setTimeout(() => {
+                console.log(res);
+                if (res.data.success) {
+                  this.$router.push('/login');
+                } else {
+                  this.error.switch = true;
+                  this.error.message = typeof res.data.message === 'string' ? ['此帳號已被申辦'] : res.data.message;
+                }
                 this.isLoading = false;
               }, 0);
-            })
-            .then(() => {
-              console.log(respond);
-              if (respond.data.success) {
-                this.$router.push('/login');
-              } else {
-                this.error.switch = true;
-                this.error.message =typeof respond.data.message==='string'?['此帳號已被申辦']:respond.data.message
-              }
             });
         }
       });
     },
   },
   computed: {
-    errorHandler(){
-      return
-      this.error.message
-    }
+    errorHandler() {
+      return;
+      this.error.message;
+    },
   },
   components: {
     Loading,
