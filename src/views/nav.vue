@@ -1,6 +1,5 @@
 <template>
   <div>
-    <loading :active.sync="isLoading"></loading>
     <input type="checkbox" id="nav-switch" ref="nav-switch" />
     <div class="nav">
       <label class="nav-bar" for="nav-switch">
@@ -10,16 +9,16 @@
         <div class="menu-item" v-for="(item, value) in roomKind" :key="item" @click="routeRoom(item)">{{ value }}</div>
       </div>
       <router-link to="/" class="nav-title">WHITE INN</router-link>
-      <ul class="nav-menu">
-        <li class="nav-menu-item" @click="buyRecordHandler('favorite')">
-          <i class="fas fa-heart"></i>
+      <nav class="nav-menu">
+        <router-link class="nav-menu-item" to="/favorite">
+          <i class="fas fa-heart nav-menu-item-heart"></i>
           <span>收藏</span>
-        </li>
-        <li class="nav-menu-item" @click="buyRecordHandler('purchase')">
-          <i class="fas fa-list"></i>
+        </router-link>
+        <router-link class="nav-menu-item" to="/purchase">
+          <i class="fas fa-list nav-menu-item-list"></i>
           <span>購買清單</span>
-        </li>
-        <li class="nav-menu-item">
+        </router-link>
+        <a class="nav-menu-item">
           <router-link to="/login" v-if="!account.name">未登入</router-link>
 
           <label class="nav-menu-item-name" for="dashboard-confirm" v-if="account.name">
@@ -34,8 +33,8 @@
             <div class="dashboard-account dashboard-item" @click="modifyDashboard()">管理你的帳戶</div>
             <div class="dashboard-signout dashboard-item" @click="signout()">登出</div>
           </div>
-        </li>
-      </ul>
+        </a>
+      </nav>
     </div>
     <router-view></router-view>
     <div class="light" ref="dark"></div>
@@ -43,15 +42,11 @@
 </template>
 
 <script>
-import Loading from 'vue-loading-overlay';
-import 'vue-loading-overlay/dist/vue-loading.css';
 export default {
   data() {
     return {
-      isLoading: false,
       roomKind: {},
       account: {},
-      count: '',
     };
   },
   methods: {
@@ -61,9 +56,6 @@ export default {
     },
     barHandler() {
       this.$refs.dark.classList.toggle('dark');
-    },
-    buyRecordHandler(id) {
-      this.$router.push(`/buy-record/${id}`);
     },
     routeRoom(val) {
       this.roomId = val;
@@ -82,15 +74,12 @@ export default {
       });
     },
     signout() {
-      this.isLoading = true;
+      this.$bus.$emit('isLoading', true);
       this.$http.post(`${process.env.VUE_APP_api}/users/signout`).then(() => {
-        clearTimeout(this.count);
-        this.count = setTimeout(() => {
-          this.$route.path==='/'?'':this.$router.push('/');
-          this.isSignin();
-          this.$refs['dashboard-confirm'].checked = false;
-          this.isLoading = false;
-        }, 0);
+        this.$route.path === '/' ? '' : this.$router.push('/');
+        this.isSignin();
+        this.$refs['dashboard-confirm'].checked = false;
+        this.$bus.$emit('isLoading', false);
       });
     },
   },
@@ -110,15 +99,15 @@ export default {
     this.$bus.$on('refreshSignin', () => {
       this.isSignin();
     });
+    this.$bus.$on('isLoading', isLoading => {
+      this.isLoading = isLoading;
+    });
   },
   watch: {
     $route(now) {
       //this.roomId = now.params.id;
-      this.$emit('refreshRoom',now.params.id)
+      this.$emit('refreshRoom', now.params.id);
     },
-  },
-  components: {
-    Loading,
   },
 };
 </script>
@@ -163,11 +152,19 @@ export default {
       @include phone {
         font-size: 16px;
       }
+      color: black;
+      text-decoration: none;
       margin-left: 10px;
       list-style: none;
       cursor: pointer;
       display: flex;
       align-items: center;
+      &-heart{
+        color: red
+      }
+      &-list{
+        color: brown
+      }
       a {
         text-decoration: none;
         color: black;
@@ -260,7 +257,7 @@ export default {
   }
   &:checked ~ .nav .menu {
     z-index: 35;
-    left: 10%;
+    left: 37px;
     //transform: translateY(170px);
     //transform: translateY(123px);
   }
@@ -301,5 +298,12 @@ export default {
   width: 100%;
   height: 100%;
   z-index: 30;
+}
+i {
+  width: 25px;
+  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
 }
 </style>

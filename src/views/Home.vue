@@ -48,6 +48,7 @@ export default {
   mounted() {
     //let token = document.head.querySelector('meta[name="csrf-token"]');
     //window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+    this.$bus.$emit('isLoading', true);
     this.$http
       .get(`${process.env.VUE_APP_api}/rooms`, {
         /* headers: {
@@ -57,6 +58,7 @@ export default {
       .then(res => {
         //axios.defaults.headers.common['X-CSRF-TOKEN'] = res.data.csrfToken
         this.allRooms = res.data.item;
+        this.$bus.$emit('isLoading', false);
       });
   },
 };

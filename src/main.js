@@ -4,7 +4,7 @@ import router from './router';
 import './assets/bootstrap/bootstrap.css';
 import axios from 'axios';
 axios.defaults.withCredentials = true;
-//axios.defaults.headers.post['Content-Type'] = 'application/json';
+axios.defaults.headers.post['Content-Type'] = 'application/json';
 import VueAxios from 'vue-axios';
 
 import VueI18n from 'vue-i18n';
@@ -31,16 +31,16 @@ new Vue({
   render: h => h(App),
 }).$mount('#app');
 
-/* router.beforeEach((to, from, next) => {
+router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth) {
     axios.get(`${process.env.VUE_APP_api}/users/isSignin`).then(res => {
       if (res.data.success) {
         to.path === '/login' || to.path === '/signup' ? next({ path: '/' }) : next();
       } else {
-        to.path === '/dashboard' || to.name === 'buy-record' ? next({ path: '/' }) : next();
+        to.path === '/dashboard' || to.path === '/favorite' || to.path === '/purchase' ? next({ path: '/login' }) : next();
       }
     });
   } else {
     next();
   }
-}); */
+});

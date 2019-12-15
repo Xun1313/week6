@@ -1,6 +1,5 @@
 <template>
   <div class="bg-login">
-    <loading :active.sync="isLoading"></loading>
     <div class="login">
       <i class="fas fa-user-alt login-icon"></i>
       <div class="login-title">MEMBER REGISTER</div>
@@ -84,14 +83,10 @@
 </style>
 
 <script>
-import Loading from 'vue-loading-overlay';
-import 'vue-loading-overlay/dist/vue-loading.css';
 export default {
   data() {
     return {
       message: 'The email address is already in use by another account.',
-      count: '',
-      isLoading: false,
       error: {
         switch: false,
         message: [],
@@ -115,23 +110,19 @@ export default {
     signup() {
       this.$validator.validate().then(validate => {
         if (validate) {
-          this.isLoading = true;
+          this.$bus.$emit('isLoading', true);
           this.$http
             .post(`${process.env.VUE_APP_api}/users/signup`, {
               ...this.account,
             })
             .then(res => {
-              clearTimeout(this.count);
-              this.count = setTimeout(() => {
-                console.log(res);
-                if (res.data.success) {
-                  this.$router.push('/login');
-                } else {
-                  this.error.switch = true;
-                  this.error.message = typeof res.data.message === 'string' ? ['此帳號已被申辦'] : res.data.message;
-                }
-                this.isLoading = false;
-              }, 0);
+              if (res.data.success) {
+                this.$router.push('/login');
+              } else {
+                this.error.switch = true;
+                this.error.message = typeof res.data.message === 'string' ? ['此帳號已被申辦'] : res.data.message;
+              }
+              this.$bus.$emit('isLoading', false);
             });
         }
       });
@@ -142,9 +133,6 @@ export default {
       return;
       this.error.message;
     },
-  },
-  components: {
-    Loading,
   },
 };
 </script>

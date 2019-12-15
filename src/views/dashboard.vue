@@ -1,6 +1,5 @@
 <template>
   <div class="bg-login">
-    <loading :active.sync="isLoading"></loading>
     <div class="login">
       <i class="fas fa-user-alt login-icon"></i>
       <div class="login-title">MEMBER UPDATE</div>
@@ -29,7 +28,7 @@
         <div class="upload-region" :class="{ 'upload-region-error': errors.has('image') }">
           <input type="file" class="upload-region-file" @change="fileHandler($event)" ref="upload-region-file" v-validate="'image'" data-vv-as="圖片" name="image" />
           <i class="fas fa-cloud-upload-alt"></i>
-          <div class="upload-region-describe">{{file}}</div>
+          <div class="upload-region-describe">{{ file }}</div>
         </div>
         <div class="login-item-error" v-if="errors.has('image')">必須上傳圖片檔</div>
         <img :src="account.img" alt="" class="upload-img" />
@@ -42,14 +41,10 @@
 </template>
 
 <script>
-import Loading from 'vue-loading-overlay';
-import 'vue-loading-overlay/dist/vue-loading.css';
 export default {
   data() {
     return {
-      file:'click here to choose image!',
-      count: '',
-      isLoading: false,
+      file: 'click here to choose image!',
       account: {
         img: '',
         phone: '',
@@ -61,9 +56,12 @@ export default {
     updateUser() {
       this.$validator.validate().then(validate => {
         if (validate) {
-          this.isLoading = true;
+          this.$bus.$emit('isLoading', true);
           const formdata = new FormData();
-          formdata.append('userpic', this.$refs['upload-region-file'].files[0]);
+          const file = this.$refs['upload-region-file'].files[0];
+          file ? formdata.append('userpic', file) : '';
+          //formdata.append('userpic', this.$refs['upload-region-file'].files[0]);
+          //裡面沒有值,我就不發請求了
           formdata.append('phone', this.account.phone);
           formdata.append('name', this.account.name);
           this.$http
@@ -73,25 +71,24 @@ export default {
               },
             })
             .then(res => {
-              clearTimeout(this.count);
-              this.count = setTimeout(() => {
-                if (res.data.success) {
-                  this.$bus.$emit('refreshSignin');
-                  this.$router.push('/');
-                }
-                this.isLoading = false;
-              }, 0);
+              if (res.data.success) {
+                this.$bus.$emit('refreshSignin');
+                this.$router.push('/');
+              }
+              this.$bus.$emit('isLoading', false);
             });
         }
       });
     },
     fileHandler(e) {
-      this.file=e.currentTarget.value
-      const Fr = new FileReader();
-      Fr.readAsDataURL(e.currentTarget.files[0]);
-      Fr.onload = FrEvent => {
-        this.account.img = FrEvent.currentTarget.result;
-      };
+      if (e.currentTarget.value) {
+        this.file = e.currentTarget.value;
+        const Fr = new FileReader();
+        Fr.readAsDataURL(e.currentTarget.files[0]);
+        Fr.onload = FrEvent => {
+          this.account.img = FrEvent.currentTarget.result;
+        };
+      }
     },
   },
   mounted() {
@@ -106,9 +103,6 @@ export default {
     this.$refs.upload.addEventListener('dragleave', e => {
       this.$refs.upload.classList.remove('upload-drag');
     }); */
-  },
-  components: {
-    Loading,
   },
 };
 </script>

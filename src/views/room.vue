@@ -48,7 +48,7 @@
             </div>
           </div>
 
-          <datePicker @toggleOrder="toggleOrder" :roomId="roomId"></datePicker>
+          <datePicker @toggleOrder="toggleOrder" @cartHandler="cartHandler" :roomId="roomId"></datePicker>
         </div>
 
         <div class="info-footer row">
@@ -72,19 +72,26 @@
         <div class="order-all-title">{{ roomInfo.name }}</div>
         <div class="order-all-item">
           <div class="order-all-item-sign">入住</div>
-          <div class="order-all-item-date">{{ orderInfo.date[0] }}星期{{ changeDay(0) }}</div>
-          <div class="order-all-item-time">({{ roomInfo.checkInAndOut.checkInEarly }}起)</div>
+          <div class="order-all-item-date">{{ calculate.firstDate }}星期{{ calculate.firstDay }}</div>
+          <div class="order-all-item-time">({{ calculate.checkInEarly }}起)</div>
         </div>
         <div class="order-all-item">
           <div class="order-all-item-sign">退房</div>
-          <div class="order-all-item-date">{{ orderInfo.date[orderInfo.date.length - 1] }}星期{{ changeDay(orderInfo.date.length - 1) }}</div>
-          <div class="order-all-item-time">({{ roomInfo.checkInAndOut.checkOut }}前)</div>
+          <div class="order-all-item-date">{{ calculate.lastDate }}星期{{ calculate.lastDay }}</div>
+          <div class="order-all-item-time">({{ calculate.checkOut }}前)</div>
         </div>
-        <div class="order-all-sum">{{ orderInfo.date.length }}晚/{{ price }}元</div>
+        <div class="order-all-sum">{{ calculate.days }}晚/{{ calculate.sum }}元</div>
         <div class="order-all-confirm" @click="orderHandler()">確定</div>
         <div class="order-all-cancel" @click="toggleOrder()">
           <i class="fas fa-times"></i>
         </div>
+      </div>
+    </div>
+
+    <div class="cart none" ref="cart">
+      <div class="cart-container">
+        <div class="cart-container-word">商品已加入收藏!</div>
+        <div class="cart-container-confirm" @click="cartHandler()">確定</div>
       </div>
     </div>
   </div>
@@ -100,8 +107,8 @@ export default {
       roomId: '',
       orderInfo: {
         date: [],
-        name:'',
-        tel:''
+        name: '',
+        tel: '',
       },
       zoomPic: '',
       switchPic: [0, 1, 2],
@@ -119,14 +126,6 @@ export default {
         電話: '',
         wifi: '',
       },
-      /* roomKind: {
-        "Single Room":'',
-        "Deluxe Single Room":'',
-        "Double Room":'',
-        "Deluxe Double Room":'',
-        "Twin Room":'',
-        "Deluxe Twin Room":''
-      }, */
       roomKind: {},
       roomInfo: {
         checkInAndOut: {},
@@ -135,6 +134,7 @@ export default {
         },
         imageUrl: [],
       },
+      calculate: {},
     };
   },
   methods: {
@@ -150,41 +150,63 @@ export default {
     },
     zoomHandler() {
       this.zoomPic = this.roomInfo.imageUrl[this.switchPic[0]];
-      this.$refs.zoom.classList.toggle('none');
-      this.$refs.dark.classList.toggle('dark');
-    },
-    barHandler() {
-      this.$refs.dark.classList.toggle('dark');
+      this.toggleWindow('zoom')
     },
     orderHandler() {
       /* var token = document
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
         console.log(token); */
+      this.$bus.$emit('isLoading', true);
       this.$http
         .post(`${process.env.VUE_APP_api}/purchase`, {
           ...this.orderInfo,
-          id:this.roomId
+          id: this.roomId,
         })
         .then(res => {
           //彈跳視窗
-          console.log(res);
-          this.orderWindow();
+          res.data.success ? '' : this.$router.push('/login');
+          this.toggleWindow('order');
+          this.$bus.$emit('isLoading', false);
         });
     },
     toggleOrder(val) {
       //初始化訂單資料
       if (val) {
         this.orderInfo = val;
+        //差異天數
+        const diff = moment(this.orderInfo.date[1]).diff(moment(this.orderInfo.date[0]), 'days');
+        //初始天
+        let firstDay = this.orderInfo.date[0];
+        //所有星期
+        let days = [this.orderInfo.date[0]];
+        for (let i = 0; i < diff; i++) {
+          const result = moment(firstDay)
+            .add(1, 'd')
+            .format('YYYY-MM-DD');
+          days.push(result);
+          firstDay = result;
+        }
+        this.orderInfo.date = days;
+        const { holidayPrice, normalDayPrice } = this.roomInfo;
+        this.$http
+          .post(`${process.env.VUE_APP_api}/purchase/calculate`, {
+            date: this.orderInfo.date,
+            checkInAndOut: this.roomInfo.checkInAndOut,
+            price: { holidayPrice, normalDayPrice },
+          })
+          .then(res => {
+            this.calculate = res.data;
+          });
       } else {
         this.orderInfo = {};
         this.$set(this.orderInfo, 'date', []);
       }
       //彈跳視窗
-      this.orderWindow();
+      this.toggleWindow('order');
     },
-    orderWindow() {
-      this.$refs.order.classList.toggle('none');
+    toggleWindow(dom) {
+      this.$refs[dom].classList.toggle('none');
       this.$refs.dark.classList.toggle('dark');
     },
     routeRoom(val) {
@@ -199,6 +221,7 @@ export default {
         .catch(err => {}); */
     },
     updateRoom() {
+      this.$bus.$emit('isLoading', true);
       this.$http
         .get(`${process.env.VUE_APP_api}/room/${this.roomId}`, {
           /* headers: {
@@ -212,67 +235,12 @@ export default {
             this.roomDevice[key] = Object.values(res.data.room[0].amenities)[sum];
             sum++;
           }
+          this.$bus.$emit('isLoading', false);
         });
     },
-    changeDay(val) {
-      switch (new Date(this.orderInfo.date[val]).getDay()) {
-        case 0:
-          return '日';
-          break;
-        case 1:
-          return '一';
-          break;
-        case 2:
-          return '二';
-          break;
-        case 3:
-          return '三';
-          break;
-        case 4:
-          return '四';
-          break;
-        case 5:
-          return '五';
-          break;
-        case 6:
-          return '六';
-          break;
-        default:
-          break;
-      }
-    },
-  },
-  computed: {
-    price() {
-      //差異天數
-      const diff = moment(this.orderInfo.date[1]).diff(moment(this.orderInfo.date[0]), 'days');
-      //初始天
-      let firstDay = this.orderInfo.date[0];
-      //所有星期
-      let days = [this.orderInfo.date[0]];
-      for (let i = 0; i < diff; i++) {
-        const result = moment(firstDay)
-          .add(1, 'd')
-          .format('YYYY-MM-DD');
-        days.push(result);
-        firstDay = result;
-      }
-      this.orderInfo.date = days;
-      //所有的價格
-      let all = [];
-      days.forEach((e, i) => {
-        const day = new Date(days[i]).getDay();
-        if (day >= 1 && day <= 4) {
-          all.push(this.roomInfo.normalDayPrice);
-        } else {
-          all.push(this.roomInfo.holidayPrice);
-        }
-      });
-      const sum = all.reduce((prev, next) => {
-        return prev + next;
-      }, 0);
-      return sum;
-    },
+    cartHandler(){
+      this.toggleWindow('cart')
+    }
   },
   mounted() {
     //let token = document.head.querySelector('meta[name="csrf-token"]');
@@ -284,8 +252,8 @@ export default {
       });
     });
     this.$bus.$on('refreshRoom', roomId => {
-      this.roomId=roomId
-      this.updateRoom()
+      this.roomId = roomId;
+      this.updateRoom();
     });
     /* this.$http.get('https://challenge.thef2e.com/api/thef2e2019/stage6/room/3Elqe8kfMxdZv5xFLV4OUeN6jhmxIvQSTyj4eTgIowfIRvF4rerA2Nuegzc2Rgwu',{
       headers:{
@@ -372,16 +340,6 @@ export default {
     cursor: pointer;
   }
 } */
-#nav-switch {
-  display: none;
-  &:checked ~ .menu {
-    z-index: 35;
-    transform: translateY(105px);
-  }
-  &:checked ~ .nav {
-    z-index: 35;
-  }
-}
 
 .all {
   padding: 0;
@@ -701,6 +659,54 @@ export default {
       background-color: rgb(134, 78, 78);
       padding: 10px 20px;
       margin-bottom: 20px;
+      cursor: pointer;
+      transition: 0.5s all;
+      &:hover {
+        background-color: darken(rgb(134, 78, 78), 15%);
+        color: darken(white, 15%);
+      }
+    }
+  }
+}
+.cart {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  margin: auto;
+  z-index: 30;
+  transition: 0.5s all;
+  opacity: 1;
+  /* height: 0;
+  width: 50%;
+  padding-bottom: 20%;
+  @include lapTopHigh {
+    width: 35%;
+    padding-bottom: 5%;
+  } */
+  &-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    /* position: absolute;
+    width: 100%;
+    height: 100%; */
+    width: 250px;
+    padding: 20px;
+    font-size: 16px;
+    @include pad {
+      font-size: 20px;
+    }
+    /* @include lapTopHigh {
+      padding: 80px;
+    } */
+    &-confirm {
+      color: white;
+      background-color: rgb(134, 78, 78);
+      padding: 5px 15px;
+      margin-top: 20px;
       cursor: pointer;
       transition: 0.5s all;
       &:hover {

@@ -35,7 +35,7 @@
 
 <script>
 export default {
-  props:['roomId'],
+  props: ['roomId'],
   data() {
     return {
       sendInfo: {
@@ -46,12 +46,16 @@ export default {
     };
   },
   methods: {
-    collectionToggle(){
-      this.$http.post(`${process.env.VUE_APP_api}/buyRecord/favorite`,{
-        id:this.roomId
-      }).then(res=>{
-        console.log(res);
-      })
+    collectionToggle() {
+      this.$bus.$emit('isLoading', true);
+      this.$http
+        .post(`${process.env.VUE_APP_api}/favorite`, {
+          id: this.roomId,
+        })
+        .then(res => {
+          res.data.success ? this.$emit('cartHandler') : this.$router.push('/login');
+          this.$bus.$emit('isLoading', false)
+        });
     },
     toggleOrder() {
       this.$validator
@@ -182,9 +186,9 @@ export default {
       font-size: 16px;
       cursor: pointer;
       margin-left: auto;
-      transition: .5s all;
-      &:hover{
-        color: lighten(rgb(31, 30, 30), 15%)
+      transition: 0.5s all;
+      &:hover {
+        color: lighten(rgb(31, 30, 30), 15%);
       }
     }
     &-order {

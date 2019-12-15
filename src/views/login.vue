@@ -1,6 +1,5 @@
 <template>
   <div class="bg-login">
-    <loading :active.sync="isLoading"></loading>
     <div class="login">
       <i class="fas fa-user-alt login-icon"></i>
       <div class="login-title">MEMBER LOGIN</div>
@@ -34,16 +33,10 @@
 </template>
 
 <script>
-//import Vue from 'vue';
-import Loading from 'vue-loading-overlay';
-import 'vue-loading-overlay/dist/vue-loading.css';
-//Vue.use(Loading);
 export default {
   data() {
     return {
-      count: '',
       error: false,
-      isLoading: false,
       account: {
         email: '',
         password: '',
@@ -68,22 +61,19 @@ export default {
     signin() {
       this.$validator.validate().then(validate => {
         if (validate) {
-          this.isLoading = true;
+          this.$bus.$emit('isLoading', true);
           this.$http
             .post(`${process.env.VUE_APP_api}/users/signin`, {
               ...this.account,
             })
             .then(res => {
-              clearTimeout(this.count);
-              this.count = setTimeout(() => {
-                if (res.data.success) {
-                  this.$bus.$emit('refreshSignin');
-                  this.$router.push('/');
-                } else {
-                  this.error = true;
-                }
-                this.isLoading = false;
-              }, 0);
+              if (res.data.success) {
+                this.$bus.$emit('refreshSignin');
+                this.$router.push('/');
+              } else {
+                this.error = true;
+              }
+              this.$bus.$emit('isLoading', false);
             });
         }
       });
@@ -96,9 +86,6 @@ export default {
   },
   beforeDestroy() {
     clearTimeout(this.count);
-  },
-  components: {
-    Loading,
   },
 };
 </script>
