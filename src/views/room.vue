@@ -2,8 +2,8 @@
   <div class="room">
     <div class="nav">
       <div class="nav-group">
-        <template v-for="(item, value) in roomKind">
-          <div class="nav-group-item" v-if="value !== roomInfo.name" @click="routeRoom(item)">{{ value }}</div>
+        <template v-for="(item, index) in roomKind">
+          <div class="nav-group-item" v-if="item.id !== roomInfo.id" @click="routeRoom(item.id)">{{ item.name }}</div>
         </template>
       </div>
     </div>
@@ -59,6 +59,26 @@
         </div>
       </div>
     </div>
+
+    <div class="container">
+      <div class="home-title">其他房型</div>
+      <div class="home-all">
+        <template v-for="(item, index) in roomKind">
+          <div class="home-all-item item" v-if="item.id !== roomId && item.GuestMin === roomInfo.descriptionShort.GuestMin">
+            <div class="item-group">
+              <img :src="item.imageUrl" class="item-group-pic" />
+              <div class="item-group-more">
+                <div class="item-group-more-word" @click="roomHandler(item.id)">See More</div>
+              </div>
+            </div>
+            <div class="item-title">{{ item.name }}</div>
+            <div class="item-normal">平日$ {{ item.normalDayPrice }}</div>
+            <div class="item-holiday">假日$ {{ item.holidayPrice }}</div>
+          </div>
+        </template>
+      </div>
+    </div>
+
     <div class="zoom none" ref="zoom">
       <div class="zoom-pic" :style="`background-image:url(${zoomPic})`"></div>
       <div class="zoom-cancel" @click="zoomHandler()">
@@ -126,7 +146,7 @@ export default {
         電話: '',
         wifi: '',
       },
-      roomKind: {},
+      roomKind: [],
       roomInfo: {
         checkInAndOut: {},
         descriptionShort: {
@@ -135,6 +155,7 @@ export default {
         imageUrl: [],
       },
       calculate: {},
+      otherKind: [],
     };
   },
   methods: {
@@ -150,7 +171,7 @@ export default {
     },
     zoomHandler() {
       this.zoomPic = this.roomInfo.imageUrl[this.switchPic[0]];
-      this.toggleWindow('zoom')
+      this.toggleWindow('zoom');
     },
     orderHandler() {
       /* var token = document
@@ -238,17 +259,25 @@ export default {
           this.$bus.$emit('isLoading', false);
         });
     },
-    cartHandler(){
-      this.toggleWindow('cart')
-    }
+    roomHandler(id) {
+      this.$router.push(`/room/${id}`);
+    },
+    cartHandler() {
+      this.toggleWindow('cart');
+    },
   },
   mounted() {
     //let token = document.head.querySelector('meta[name="csrf-token"]');
     this.roomId = this.$route.params.id;
     this.updateRoom();
-    this.$http.get(`${process.env.VUE_APP_api}/rooms`, {}).then(res => {
+    this.$http.get(`${process.env.VUE_APP_api}/rooms`).then(res => {
+      console.log(res.data);
       res.data.item.forEach(e => {
-        this.$set(this.roomKind, e.name, e.id);
+        this.roomKind.push({
+          id: e.id,
+          ...e['rooms-detail'],
+          GuestMin: e['room-detail'].descriptionShort.GuestMin,
+        });
       });
     });
     this.$bus.$on('refreshRoom', roomId => {
@@ -526,7 +555,7 @@ export default {
 }
 .none {
   opacity: 0 !important;
-  z-index: 10 !important;
+  z-index: -1 !important;
 }
 .light {
   background-color: rgba(255, 255, 255, 1);
@@ -672,7 +701,7 @@ export default {
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   margin: auto;
   z-index: 30;
   transition: 0.5s all;
@@ -712,6 +741,60 @@ export default {
       &:hover {
         background-color: darken(rgb(134, 78, 78), 15%);
         color: darken(white, 15%);
+      }
+    }
+  }
+}
+.home-title {
+}
+.home-all {
+  @include lapTop {
+    display: flex;
+  }
+  align-items: center;
+  //width: 90%;
+  /* padding: 0 50px;
+  margin: auto; */
+  .item {
+    color: rgba(20, 5, 5, 0.5);
+    padding-left: 1px;
+    padding-right: 1px;
+    margin-bottom: 20px;
+    /* @include lapTop {
+        transform: translateY(-70px);
+      } */
+    &-group {
+      position: relative;
+      &:hover > .item-group-more {
+        background-color: rgba(0, 0, 0, 0.5);
+        height: 100%;
+      }
+      &-pic {
+        @include lapTop {
+          width: 250px;
+        }
+        width: 100%;
+        height: auto;
+      }
+      &-more {
+        background-color: rgba(0, 0, 0, 0);
+        color: white;
+        font-weight: bold;
+        position: absolute;
+        left: 0px;
+        top: 0;
+        width: 100%;
+        //height: 100%;
+        height: 0;
+        overflow: hidden;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        transition: 0.5s all;
+        &-word {
+          padding: 5px;
+          cursor: pointer;
+        }
       }
     }
   }

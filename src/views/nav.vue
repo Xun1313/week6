@@ -6,17 +6,17 @@
         <i class="fas fa-bars" @click="barHandler()"></i>
       </label>
       <div class="menu">
-        <div class="menu-item" v-for="(item, value) in roomKind" :key="item" @click="routeRoom(item)">{{ value }}</div>
+        <div class="menu-item" v-for="item in roomKind" :key="item.id" @click="routeRoom(item.id)">{{ item.name }}</div>
       </div>
       <router-link to="/" class="nav-title">WHITE INN</router-link>
       <nav class="nav-menu">
         <router-link class="nav-menu-item" to="/favorite">
           <i class="fas fa-heart nav-menu-item-heart"></i>
-          <span>收藏</span>
+          <!-- <span>收藏</span> -->
         </router-link>
         <router-link class="nav-menu-item" to="/purchase">
           <i class="fas fa-list nav-menu-item-list"></i>
-          <span>購買清單</span>
+          <!-- <span>購買清單</span> -->
         </router-link>
         <a class="nav-menu-item">
           <router-link to="/login" v-if="!account.name">未登入</router-link>
@@ -45,7 +45,7 @@
 export default {
   data() {
     return {
-      roomKind: {},
+      roomKind: [],
       account: {},
     };
   },
@@ -93,7 +93,10 @@ export default {
       })
       .then(res => {
         res.data.item.forEach(e => {
-          this.$set(this.roomKind, e.name, e.id);
+          this.roomKind.push({
+            id: e.id,
+            name:e['rooms-detail'].name,
+          });
         });
       });
     this.$bus.$on('refreshSignin', () => {
@@ -115,7 +118,7 @@ export default {
 <style lang="scss" scoped>
 @import '../assets/_mixin.scss';
 @import '../assets/_grid.scss';
-@import url('https://fonts.googleapis.com/css?family=Indie+Flower&display=swap');
+//@import url('https://fonts.googleapis.com/css?family=Indie+Flower&display=swap');
 .nav {
   //background-image: linear-gradient(135deg,white,gray,white);
   background-color: rgba(187, 184, 184, 0.158);
@@ -126,15 +129,21 @@ export default {
   &-title {
     text-decoration: none;
     color: black;
-    font-family: 'Indie Flower', cursive;
+    //font-family: 'Indie Flower', cursive;
     font-size: 28px;
     margin-left: 10px;
+    @include lapTop {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
   }
   &-bar {
     display: block;
     text-align: right;
     margin: 0 10px;
-    @include lapTopHigh {
+    @include lapTop {
       display: none;
     }
     i {
@@ -147,6 +156,9 @@ export default {
     margin-left: auto;
     margin-bottom: 0;
     position: relative;
+    @include lapTop {
+      align-self: flex-start;
+    }
     //justify-content: flex-end;
     &-item {
       @include phone {
@@ -159,11 +171,11 @@ export default {
       cursor: pointer;
       display: flex;
       align-items: center;
-      &-heart{
-        color: red
+      &-heart {
+        color: red;
       }
-      &-list{
-        color: brown
+      &-list {
+        color: brown;
       }
       a {
         text-decoration: none;
@@ -193,7 +205,7 @@ export default {
         padding: 50px;
         opacity: 0;
         position: absolute;
-        z-index: 0;
+        z-index: -1;
         top: 40px;
         right: 5px;
         border: 0px solid gray;
