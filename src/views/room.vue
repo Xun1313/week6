@@ -61,12 +61,12 @@
     </div>
 
     <div class="container">
-      <div class="home-title">其他房型</div>
-      <div class="home-all">
+      <div class="home-title">其他相關房型</div>
+      <div class="home-all row">
         <template v-for="(item, index) in roomKind">
-          <div class="home-all-item item" v-if="item.id !== roomId && item.GuestMin === roomInfo.descriptionShort.GuestMin">
+          <div class="home-all-item item col-12 col-md-4" v-if="item.id !== roomId && item.GuestMin === roomInfo.descriptionShort.GuestMin">
             <div class="item-group">
-              <img :src="item.imageUrl" class="item-group-pic" />
+              <img :src="item.imageUrl" class="item-group-pic" @click="roomHandler(item.id)"/>
               <div class="item-group-more">
                 <div class="item-group-more-word" @click="roomHandler(item.id)">See More</div>
               </div>
@@ -308,6 +308,7 @@ export default {
 <style lang="scss" scoped>
 @import '../assets/_mixin.scss';
 @import '../assets/_grid.scss';
+@import '../assets/_variable.scss';
 @import url('https://fonts.googleapis.com/css?family=Indie+Flower&display=swap');
 /* .room{
   min-height: 100vh;
@@ -462,12 +463,14 @@ export default {
     }
     margin-bottom: 15px;
     &-title {
+      color: $important;
       font-size: 30px;
       margin-bottom: 10px;
     }
     &-price {
       margin-bottom: 10px;
       &-day {
+        color: $important;
         font-weight: bold;
         font-size: 16px;
       }
@@ -485,17 +488,20 @@ export default {
         text-indent: 8%;
         margin: 0 auto 15px auto;
         font-size: 16px;
+        color: $word;
       }
       &-content {
+        opacity: 0.6;
         font-size: 16px;
       }
     }
   }
   &-footer {
+    opacity: 0.6;
     font-size: 16px;
     margin: 20px 0;
     padding: 10px;
-    border-top: 1px solid black;
+    border-top: 1px solid rgba(0, 0, 0, 6);
     &-item {
       display: flex;
       align-items: center;
@@ -685,13 +691,13 @@ export default {
     }
     &-confirm {
       color: white;
-      background-color: rgb(134, 78, 78);
+      background-color:$important;
       padding: 10px 20px;
       margin-bottom: 20px;
       cursor: pointer;
       transition: 0.5s all;
       &:hover {
-        background-color: darken(rgb(134, 78, 78), 15%);
+        background-color: darken($important,15%);
         color: darken(white, 15%);
       }
     }
@@ -733,36 +739,45 @@ export default {
     } */
     &-confirm {
       color: white;
-      background-color: rgb(134, 78, 78);
+      background-color: $important;
       padding: 5px 15px;
       margin-top: 20px;
       cursor: pointer;
       transition: 0.5s all;
       &:hover {
-        background-color: darken(rgb(134, 78, 78), 15%);
+        background-color: darken($important, 15%);
         color: darken(white, 15%);
       }
     }
   }
 }
 .home-title {
+  color: $important;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.6);
+  padding: 10px 0;
+  margin-bottom: 20px;
 }
 .home-all {
-  @include lapTop {
+  /* @include lapTop {
     display: flex;
-  }
-  align-items: center;
+  } */
+  //align-items: center;
   //width: 90%;
   /* padding: 0 50px;
   margin: auto; */
   .item {
     color: rgba(20, 5, 5, 0.5);
-    padding-left: 1px;
-    padding-right: 1px;
     margin-bottom: 20px;
     /* @include lapTop {
-        transform: translateY(-70px);
-      } */
+      margin-right: 15px;
+    } */
+    &-title {
+      color: $word;
+    }
+    &-normal,
+    &-holiday {
+      opacity: 0.6;
+    }
     &-group {
       position: relative;
       &:hover > .item-group-more {
@@ -770,9 +785,10 @@ export default {
         height: 100%;
       }
       &-pic {
-        @include lapTop {
+        cursor: pointer;
+        /* @include lapTop {
           width: 250px;
-        }
+        } */
         width: 100%;
         height: auto;
       }

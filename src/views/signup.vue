@@ -69,16 +69,22 @@
 @import '../assets/login.scss';
 .login-signup {
   text-decoration: none;
-  background-image: linear-gradient(135deg, white, gray, white);
-  //transition: .5s all;
+  background-color: #464545;
+  color: white;
+  transition: 0.5s all;
   cursor: pointer;
   text-align: center;
+  width: 100%;
   border-radius: 50px;
   padding: 5px;
-  margin: 15px 0;
-  &:active {
-    background-image: linear-gradient(135deg, gray, white, gray);
+  margin: 15px auto;
+  &:hover {
+    background-color: white;
+    color: black;
   }
+  /* &:active {
+    background-image: linear-gradient(135deg, gray, white, gray);
+  } */
 }
 </style>
 

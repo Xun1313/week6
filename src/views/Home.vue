@@ -62,7 +62,7 @@
         <div class="swiper-wrapper">
           <div class="swiper-slide" v-for="(item, index) in allRooms" :key="item.id + index">
             <div class="home-suggest" @click="roomHandler(item.id)">
-              <div class="home-suggest-pic" :style="`background-image:url(${item['room-detail'].imageUrl[1]})`"></div>
+              <div class="home-suggest-pic" :style="`background-image:url(${item['room-detail'].imageUrl[1]})`" @click="roomHandler(item.id)"></div>
               <div class="home-suggest-name">{{ item['rooms-detail'].name }}</div>
             </div>
           </div>
@@ -71,8 +71,9 @@
         <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div>
       </div>
-
-      <div class="home-title">精選單人房</div>
+    </div>
+    <div class="container">
+      <div class="home-title-other">精選單人房</div>
       <div class="home-all row">
         <template v-for="item in allRooms">
           <div class="home-all-item item col-12 col-md-6" v-if="item['room-detail'].descriptionShort.GuestMin === 1">
@@ -89,7 +90,7 @@
         </template>
       </div>
 
-      <div class="home-title">精選雙人房</div>
+      <div class="home-title-other">精選雙人房</div>
       <div class="home-all row">
         <template v-for="item in allRooms">
           <div class="home-all-item item col-12 col-md-6" v-if="item['room-detail'].descriptionShort.GuestMin === 2">
@@ -179,6 +180,7 @@ export default {
 <style lang="scss" scoped>
 @import '../assets/_grid.scss';
 @import '../assets/_mixin.scss';
+@import '../assets/_variable.scss';
 /* @import url('https://fonts.googleapis.com/css?family=Indie+Flower&display=swap'); */
 .home {
   margin: auto;
@@ -196,15 +198,32 @@ export default {
     width: 100%;
     height: 200px;
     margin: 50px 0 20px 0;
+    position: relative;
   }
   &-title {
     //font-family: 'Indie Flower', cursive;
+    color: $important;
     display: flex;
     justify-content: center;
-    font-size: 56px;
     align-items: center;
+    font-size: 40px;
     width: 100%;
     height: 100%;
+    /* &::before{
+      content: '';
+      width: 300px;
+      outline: 1px solid black;
+    } */
+  }
+  &-title-other {
+    color: $important;
+    font-size: 20px;
+    margin-top: 60px;
+    text-align: center;
+    margin: 60px auto 20px auto;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.6);
+    width: 250px;
+    padding: 10px 0;
   }
   &-header {
     @include lapTop {
@@ -216,8 +235,10 @@ export default {
       display: flex;
       flex-direction: column;
       align-items: center;
+      margin-top: 25px;
       &-word {
-        margin-bottom: 15px;
+        margin-bottom: 10px;
+        color: $important;
       }
       &-pic {
         height: auto;
@@ -250,6 +271,10 @@ export default {
             &-name {
               margin-bottom: 20px;
             }
+            &-word {
+              font-size: 16px;
+              opacity: 0.6;
+            }
           }
         }
       }
@@ -261,6 +286,9 @@ export default {
       @extend %bg;
       width: 230px;
       height: 200px;
+    }
+    &-name {
+      color: $word;
     }
     /* &-pic {
       width: 230px;
@@ -289,9 +317,8 @@ export default {
     padding: 0 50px;
     margin: auto;
     .item {
-      color: rgba(20, 5, 5, 0.5);
-      padding-left: 1px;
-      padding-right: 1px;
+      /* padding-left: 1px;
+      padding-right: 1px; */
       margin-bottom: 20px;
       /* @include lapTop {
         transform: translateY(-70px);
@@ -302,9 +329,13 @@ export default {
           background-color: rgba(0, 0, 0, 0.5);
           height: 100%;
         }
+        &-title {
+          color: $important;
+        }
         &-pic {
           width: 100%;
           height: auto;
+          cursor: pointer;
         }
         &-more {
           background-color: rgba(0, 0, 0, 0);
@@ -326,6 +357,10 @@ export default {
             cursor: pointer;
           }
         }
+      }
+      &-normal,
+      &-holiday {
+        opacity: .6;
       }
     }
   }
@@ -384,5 +419,8 @@ body {
   -ms-flex-align: center;
   -webkit-align-items: center;
   align-items: center;
+}
+.swiper-button-next,.swiper-button-prev{
+  color: $important
 }
 </style>

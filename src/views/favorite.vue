@@ -1,6 +1,8 @@
 <template>
-  <table class="table table-striped">
-    <!-- <thead>
+  <div>
+    <div class="title">收藏</div>
+    <table class="table table-striped">
+      <!-- <thead>
       <tr>
         <th></th>
         <th>房型</th>
@@ -8,45 +10,46 @@
         <th>價格</th>
       </tr>
     </thead> -->
-    <tbody v-if="rooms.length > 0">
-      <tr class="item" v-for="item in rooms" :key="item.name" @click="routeRoom(item.id)">
-        <td class="item-img">
-          <div class="item-img-container">
-            <div class="item-img-container-bg" :style="`background-image:url(${item.imageUrl})`"></div>
-          </div>
-        </td>
-        <td class="item-all">
-          <div class="all">
-            <div class="all-primary">{{ item.name }}</div>
-            <div class="all-secondary">
-              <div class="all-secondary-description">{{ item.description }}</div>
-              <div class="all-secondary-detail">
-                <div class="all-secondary-detail-cart" @click="deleteCollection($event, item.id)">
-                  <i class="fas fa-ban"></i>
-                  <span>取消收藏</span>
-                </div>
-                <div>
-                  <div class="all-secondary-detail-number">
-                    <i class="fas fa-male icon" v-for="guest in item.guest" :key="guest + item.name"></i>
-                    <div class="people">x{{ item.guest }}</div>
+      <tbody v-if="rooms.length > 0">
+        <tr class="item" v-for="item in rooms" :key="item.name" @click="routeRoom(item.id)">
+          <td class="item-img">
+            <div class="item-img-container">
+              <div class="item-img-container-bg" :style="`background-image:url(${item.imageUrl})`"></div>
+            </div>
+          </td>
+          <td class="item-all">
+            <div class="all">
+              <div class="all-primary">{{ item.name }}</div>
+              <div class="all-secondary">
+                <div class="all-secondary-description">{{ item.description }}</div>
+                <div class="all-secondary-detail">
+                  <div class="all-secondary-detail-cart" @click="deleteCollection($event, item.id)">
+                    <i class="fas fa-ban"></i>
+                    <span>取消收藏</span>
                   </div>
-                  <div class="all-secondary-detail-price">
-                    <div class="two">平日:${{ item.normalDayPrice }}</div>
-                    <div class="two">假日:${{ item.holidayPrice }}</div>
+                  <div>
+                    <div class="all-secondary-detail-number">
+                      <i class="fas fa-male icon" v-for="guest in item.guest" :key="guest + item.name"></i>
+                      <div class="people">x{{ item.guest }}</div>
+                    </div>
+                    <div class="all-secondary-detail-price">
+                      <div class="two">平日:${{ item.normalDayPrice }}</div>
+                      <div class="two">假日:${{ item.holidayPrice }}</div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-    <tbody v-else>
-      <tr>
-        <td class="empty">尚無收藏</td>
-      </tr>
-    </tbody>
-  </table>
+          </td>
+        </tr>
+      </tbody>
+      <tbody v-else>
+        <tr>
+          <td class="empty">尚無收藏</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <script>
@@ -92,9 +95,18 @@ export default {
 <style lang="scss" scoped>
 @import '../assets/_mixin.scss';
 @import '../assets/_grid.scss';
+@import '../assets/_variable.scss';
+.title {
+  color: $important;
+  margin: 30px auto 0 auto;
+  text-align: center;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.6);
+  width: 250px;
+}
 .table {
   width: 95%;
-  margin-top: 30px!important;
+  margin-top: 20px !important;
   @include lapTop {
     width: 80%;
   }
@@ -142,7 +154,7 @@ export default {
       text-align: left;
       text-indent: 10%;
       margin: 15px 5px;
-      opacity: 0.8;
+      opacity: 0.6;
     }
     &-detail {
       display: flex;
@@ -166,7 +178,7 @@ export default {
         align-items: center;
         justify-content: flex-end;
         .icon {
-          color: gray;
+          color: $important;
           font-size: 40px;
           margin-right: 10px;
         }

@@ -1,41 +1,43 @@
 <template>
   <div class="bg-login">
-    <div class="login">
-      <i class="fas fa-user-alt login-icon"></i>
-      <div class="login-title">MEMBER UPDATE</div>
+    <div class="opacity-login">
+      <div class="login">
+        <i class="fas fa-user-alt login-icon"></i>
+        <div class="login-title">MEMBER UPDATE</div>
 
-      <div class="login-item">
-        <div class="login-item-flex" :class="{ error: errors.has('phone') }">
-          <div class="login-item-flex-icon">
-            <i class="fas fa-mobile-alt"></i>
+        <div class="login-item">
+          <div class="login-item-flex" :class="{ error: errors.has('phone') }">
+            <div class="login-item-flex-icon">
+              <i class="fas fa-mobile-alt"></i>
+            </div>
+            <input type="text" class="login-item-flex-input" placeholder="Phone" v-model="account.phone" v-validate="'required|numeric'" data-vv-as="電話號碼" name="phone" />
           </div>
-          <input type="text" class="login-item-flex-input" placeholder="Phone" v-model="account.phone" v-validate="'required|numeric'" data-vv-as="電話號碼" name="phone" />
+          <div class="login-item-error" v-if="errors.has('phone')">電話號碼必須為數字<!-- {{errors.first('password')}} --></div>
         </div>
-        <div class="login-item-error" v-if="errors.has('phone')">電話號碼必須為數字<!-- {{errors.first('password')}} --></div>
-      </div>
 
-      <div class="login-item">
-        <div class="login-item-flex" :class="{ error: errors.has('name') }">
-          <div class="login-item-flex-icon">
-            <i class="fas fa-file-signature"></i>
+        <div class="login-item">
+          <div class="login-item-flex" :class="{ error: errors.has('name') }">
+            <div class="login-item-flex-icon">
+              <i class="fas fa-file-signature"></i>
+            </div>
+            <input type="text" class="login-item-flex-input" placeholder="Name" v-model="account.name" v-validate="'required'" data-vv-as="名字" name="name" />
           </div>
-          <input type="text" class="login-item-flex-input" placeholder="Name" v-model="account.name" v-validate="'required'" data-vv-as="名字" name="name" />
+          <div class="login-item-error" v-if="errors.has('name')">名字為必填<!-- {{errors.first('password')}} --></div>
         </div>
-        <div class="login-item-error" v-if="errors.has('name')">名字為必填<!-- {{errors.first('password')}} --></div>
-      </div>
 
-      <div class="upload" ref="upload">
-        <div class="upload-region" :class="{ 'upload-region-error': errors.has('image') }">
-          <input type="file" class="upload-region-file" @change="fileHandler($event)" ref="upload-region-file" v-validate="'image'" data-vv-as="圖片" name="image" />
-          <i class="fas fa-cloud-upload-alt"></i>
-          <div class="upload-region-describe">{{ file }}</div>
+        <div class="upload" ref="upload">
+          <div class="upload-region" :class="{ 'upload-region-error': errors.has('image') }">
+            <input type="file" class="upload-region-file" @change="fileHandler($event)" ref="upload-region-file" v-validate="'image'" data-vv-as="圖片" name="image" />
+            <i class="fas fa-cloud-upload-alt"></i>
+            <div class="upload-region-describe">{{ file }}</div>
+          </div>
+          <div class="login-item-error" v-if="errors.has('image')">必須上傳圖片檔</div>
+          <img :src="account.img" alt="" class="upload-img" />
         </div>
-        <div class="login-item-error" v-if="errors.has('image')">必須上傳圖片檔</div>
-        <img :src="account.img" alt="" class="upload-img" />
-      </div>
 
-      <div class="login-update" @click="updateUser()">確認修改</div>
-      <!-- <img :src="base64" alt="" /> -->
+        <div class="login-update" @click="updateUser()">確認修改</div>
+        <!-- <img :src="base64" alt="" /> -->
+      </div>
     </div>
   </div>
 </template>
@@ -109,10 +111,14 @@ export default {
 
 <style lang="scss" scoped>
 @import '../assets/login.scss';
+@import '../assets/_variable.scss';
+.bg-login {
+  background-image: url('../assets/dashboard.jpg');
+}
 .upload {
   &-region {
     border: 3px dashed darken(gray, 15%);
-    background-color: gray;
+    background-color: #464545;
     position: relative;
     padding: 15px;
     > * {
@@ -137,6 +143,10 @@ export default {
       border: 6px dashed darken(gray, 15%);
     }
     &-describe {
+      color: white;
+    }
+    i {
+      color: white;
     }
   }
   &-img {
@@ -148,16 +158,21 @@ export default {
 }
 .login-update {
   text-decoration: none;
-  background-image: linear-gradient(135deg, white, gray, white);
-  //transition: .5s all;
+  background-color: #464545;
+  color: white;
+  transition: 0.5s all;
   cursor: pointer;
   text-align: center;
   border-radius: 50px;
   padding: 5px;
   margin: 15px 0;
-  &:active {
-    background-image: linear-gradient(135deg, gray, white, gray);
+  &:hover {
+    background-color: white;
+    color: black;
   }
+  /* &:active {
+    background-image: linear-gradient(135deg, gray, white, gray);
+  } */
 }
 .upload-region-error {
   border: 3px dashed red;

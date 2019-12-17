@@ -1,6 +1,8 @@
 <template>
-  <table class="table table-striped">
-    <!-- <thead>
+  <div>
+    <div class="title">購買紀錄</div>
+    <table class="table table-striped">
+      <!-- <thead>
       <tr>
         <th></th>
         <th>房型</th>
@@ -8,39 +10,40 @@
         <th>價格</th>
       </tr>
     </thead> -->
-    <tbody v-if="purchase.length > 0">
-      <tr class="item" v-for="(item, index) in purchase" :key="item.room.id + index">
-        <td class="item-img">
-          <div class="item-img-container">
-            <div class="item-img-container-bg" :style="`background-image:url(${item.room['rooms-detail'].imageUrl})`"></div>
-          </div>
-        </td>
-        <td class="item-all">
-          <div class="all">
-            <div class="all-primary">{{ item.room['rooms-detail'].name }}</div>
-            <div class="all-secondary">
-              <div class="all-secondary-item">
-                <div class="all-secondary-item-sign">入住</div>
-                <div class="all-secondary-item-date">{{ item.user.firstDate }}星期{{ item.user.firstDay }}</div>
-                <div class="all-secondary-item-time">({{ item.user.checkInEarly }}起)</div>
-              </div>
-              <div class="all-secondary-item">
-                <div class="all-secondary-item-sign">退房</div>
-                <div class="all-secondary-item-date">{{ item.user.lastDate }}星期{{ item.user.lastDay }}</div>
-                <div class="all-secondary-item-time">({{ item.user.checkOut }}前)</div>
-              </div>
-              <div class="all-secondary-sum">{{ item.user.days }}晚/{{ item.user.sum }}元</div>
+      <tbody v-if="purchase.length > 0">
+        <tr class="item" v-for="(item, index) in purchase" :key="item.room.id + index">
+          <td class="item-img">
+            <div class="item-img-container">
+              <div class="item-img-container-bg" :style="`background-image:url(${item.room['rooms-detail'].imageUrl})`"></div>
             </div>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-    <tbody v-else>
-      <tr>
-        <td class="empty">尚無購買紀錄</td>
-      </tr>
-    </tbody>
-  </table>
+          </td>
+          <td class="item-all">
+            <div class="all">
+              <div class="all-primary">{{ item.room['rooms-detail'].name }}</div>
+              <div class="all-secondary">
+                <div class="all-secondary-item">
+                  <div class="all-secondary-item-sign">入住</div>
+                  <div class="all-secondary-item-date">{{ item.user.firstDate }}星期{{ item.user.firstDay }}</div>
+                  <div class="all-secondary-item-time">({{ item.user.checkInEarly }}起)</div>
+                </div>
+                <div class="all-secondary-item">
+                  <div class="all-secondary-item-sign">退房</div>
+                  <div class="all-secondary-item-date">{{ item.user.lastDate }}星期{{ item.user.lastDay }}</div>
+                  <div class="all-secondary-item-time">({{ item.user.checkOut }}前)</div>
+                </div>
+                <div class="all-secondary-sum">{{ item.user.days }}晚/{{ item.user.sum }}元</div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+      <tbody v-else>
+        <tr>
+          <td class="empty">尚無購買紀錄</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <script>
@@ -66,6 +69,15 @@ export default {
 <style lang="scss" scoped>
 @import '../assets/_mixin.scss';
 @import '../assets/_grid.scss';
+@import '../assets/_variable.scss';
+.title {
+  color: $important;
+  margin: 30px auto 0 auto;
+  text-align: center;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.6);
+  width: 250px;
+}
 .table {
   width: 95%;
   margin-top: 30px !important;

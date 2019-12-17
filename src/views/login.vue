@@ -1,33 +1,35 @@
 <template>
   <div class="bg-login">
-    <div class="login">
-      <i class="fas fa-user-alt login-icon"></i>
-      <div class="login-title">MEMBER LOGIN</div>
+    <div class="opacity-login">
+      <div class="login">
+        <i class="fas fa-user-alt login-icon"></i>
+        <div class="login-title">MEMBER LOGIN</div>
 
-      <div class="login-item">
-        <div class="login-item-flex" :class="{ error: errors.has('email') }">
-          <div class="login-item-flex-icon">
-            <i class="far fa-envelope"></i>
+        <div class="login-item">
+          <div class="login-item-flex" :class="{ error: errors.has('email') }">
+            <div class="login-item-flex-icon">
+              <i class="far fa-envelope"></i>
+            </div>
+            <input type="email" class="login-item-flex-input" placeholder="Email ID" v-model="account.email" v-validate="'required|email'" data-vv-as="電子郵件" name="email" />
           </div>
-          <input type="email" class="login-item-flex-input" placeholder="Email ID" v-model="account.email" v-validate="'required|email'" data-vv-as="電子郵件" name="email" />
+          <div class="login-item-error" v-if="errors.has('email')">不符合email格式<!-- {{errors.first('email')}} --></div>
         </div>
-        <div class="login-item-error" v-if="errors.has('email')">不符合email格式<!-- {{errors.first('email')}} --></div>
-      </div>
 
-      <div class="login-item">
-        <div class="login-item-flex" :class="{ error: errors.has('password') }">
-          <div class="login-item-flex-icon">
-            <i class="fas fa-lock"></i>
+        <div class="login-item">
+          <div class="login-item-flex" :class="{ error: errors.has('password') }">
+            <div class="login-item-flex-icon">
+              <i class="fas fa-lock"></i>
+            </div>
+            <input type="password" class="login-item-flex-input" placeholder="Password" ref="password" v-model="account.password" v-validate="'required'" data-vv-as="密碼" name="password" />
+            <i class="far fa-eye login-item-flex-eye" :class="[eye ? 'fa-eye' : 'fa-eye-slash']" @click="eyeHandler()"></i>
           </div>
-          <input type="password" class="login-item-flex-input" placeholder="Password" ref="password" v-model="account.password" v-validate="'required'" data-vv-as="密碼" name="password" />
-          <i class="far fa-eye login-item-flex-eye" :class="[eye ? 'fa-eye' : 'fa-eye-slash']" @click="eyeHandler()"></i>
+          <div class="login-item-error" v-if="errors.has('password')">密碼為必填<!-- {{errors.first('password')}} --></div>
         </div>
-        <div class="login-item-error" v-if="errors.has('password')">密碼為必填<!-- {{errors.first('password')}} --></div>
-      </div>
 
-      <div class="login-item-error" v-if="error">帳號或密碼有誤</div>
-      <div class="login-signin" @click="signin()">SIGN IN</div>
-      <router-link to="/signup" class="login-signup">立即註冊</router-link>
+        <div class="login-item-error" v-if="error">帳號或密碼有誤</div>
+        <div class="login-signin" @click="signin()">SIGN IN</div>
+        <router-link to="/signup" class="login-signup">立即註冊</router-link>
+      </div>
     </div>
   </div>
 </template>
@@ -92,19 +94,27 @@ export default {
 
 <style lang="scss" scoped>
 @import '../assets/_grid.scss';
+@import '../assets/_variable.scss';
+@import '../assets/_mixin.scss';
 .bg-login {
   //background-image: linear-gradient(135deg,white,gray,white);
-  background-color: rgb(209, 206, 206);
+  background-image: url('../assets/login.jpg');
+  width: 100%;
+  @extend %bg;
   min-height: 90vh;
   display: flex;
   justify-content: center;
 }
+.opacity-login {
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.3);
+}
 .login {
   width: 90%;
-  @include pad {
-    width: auto;
+  @include lapTop {
+    width: 500px;
   }
-  background-color: gray;
+  background-color: rgba(55, 55, 55, 0.8);
   border-radius: 2%;
   margin: 30px auto;
   padding: 35px;
@@ -114,10 +124,12 @@ export default {
     display: block;
     width: 100%;
     margin-bottom: 5px;
+    color: white;
   }
   &-title {
     text-align: center;
     margin-bottom: 15px;
+    color: white;
   }
   &-item {
     padding: 5px;
@@ -155,21 +167,28 @@ export default {
     }
   }
   &-signin {
-    background-image: linear-gradient(135deg, white, gray, white);
-    //transition: .5s all;
+    background-color: #464545;
+    color: white;
+    transition: 0.5s all;
     cursor: pointer;
     text-align: center;
     border-radius: 50px;
     padding: 5px;
     margin: 15px 0;
-    &:active {
-      background-image: linear-gradient(135deg, gray, white, gray);
+    &:hover {
+      background-color: white;
+      color: black;
     }
+    /* &:active {
+      background-image: linear-gradient(135deg, gray, white, gray);
+    } */
   }
   &-signup {
     text-align: center;
-    color: rgb(70, 69, 69);
     display: block;
+    width: 100px;
+    color: white;
+    margin: auto;
   }
 }
 .error {

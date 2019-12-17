@@ -15,12 +15,12 @@
         <i class="far fa-calendar-times"></i>
         <input type="text" class="date-groups-check-input check-in" v-validate="'required'" placeholder="Check in" name="date" data-vv-as="日期" readonly />
       </div>
-      <div class="date-groups-check" :class="{ 'is-invalid': errors.has('date') }">
+      <div class="date-groups-check" :class="{ 'is-invalid': errors.has('date2') }">
         <i class="far fa-calendar-times"></i>
-        <input type="text" class="date-groups-check-input check-out" placeholder="Check out" readonly />
+        <input type="text" class="date-groups-check-input check-out" v-validate="'required'" placeholder="Check out" name="date2" data-vv-as="日期" readonly />
       </div>
     </div>
-    <p class="invalid-word">{{ errors.first('date') }}</p>
+    <p class="invalid-word">{{ errors.first('date')||errors.first('date2') }}</p>
     <input type="hidden" class="check-in-info" ref="check-in-info" />
     <input type="hidden" class="check-out-info" ref="check-out-info" />
     <div class="date-nav">
@@ -128,6 +128,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../assets/_variable.scss';
 .invalid-word {
   color: red;
   font-size: 16px;
@@ -183,12 +184,13 @@ export default {
     display: flex;
     align-items: flex-end;
     &-cart {
+      color: $important;
       font-size: 16px;
       cursor: pointer;
       margin-left: auto;
       transition: 0.5s all;
       &:hover {
-        color: lighten(rgb(31, 30, 30), 15%);
+        color: darken($important, 10%)
       }
     }
     &-order {
@@ -197,13 +199,13 @@ export default {
       padding: 10px 20px;
       width: 80px;
       text-align: center;
-      background-color: gray;
+      background-color: $word;
       color: white;
       cursor: pointer;
       transition: 0.5s all;
       &:hover {
-        background-color: darken(gray, 10%);
-        color: darken(white, 10%);
+        background-color: white;
+        color: black;
       }
     }
   }

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <loading :active.sync="isLoading" :opacity="1"></loading>
     <input type="checkbox" id="nav-switch" ref="nav-switch" />
     <div class="nav">
       <label class="nav-bar" for="nav-switch">
@@ -10,20 +11,21 @@
       </div>
       <router-link to="/" class="nav-title">WHITE INN</router-link>
       <nav class="nav-menu">
-        <router-link class="nav-menu-item" to="/favorite">
-          <i class="fas fa-heart nav-menu-item-heart"></i>
+        <router-link class="nav-menu-item" to="/favorite" data-toggle="tooltip" data-placement="bottom" title="收藏">
+          <i class="fas fa-shopping-cart nav-menu-item-cart"></i>
           <!-- <span>收藏</span> -->
         </router-link>
-        <router-link class="nav-menu-item" to="/purchase">
+        <router-link class="nav-menu-item" to="/purchase" data-toggle="tooltip" data-placement="bottom" title="購買紀錄">
           <i class="fas fa-list nav-menu-item-list"></i>
           <!-- <span>購買清單</span> -->
         </router-link>
         <a class="nav-menu-item">
-          <router-link to="/login" v-if="!account.name">未登入</router-link>
-
+          <router-link to="/login" class="account-name" v-if="!account.name" data-toggle="tooltip" data-placement="bottom" title="登入會員">
+            <i class="fas fa-user"></i>
+          </router-link>
           <label class="nav-menu-item-name" for="dashboard-confirm" v-if="account.name">
             <img :src="account.img" alt="" class="icon" />
-            <div>{{ account.name }}</div>
+            <div class="account-name">{{ account.name }}</div>
           </label>
           <input type="checkbox" id="dashboard-confirm" ref="dashboard-confirm" />
           <div class="dashboard">
@@ -42,11 +44,16 @@
 </template>
 
 <script>
+// Import component
+import Loading from 'vue-loading-overlay';
+// Import stylesheet
+import 'vue-loading-overlay/dist/vue-loading.css';
 export default {
   data() {
     return {
       roomKind: [],
       account: {},
+      isLoading: false,
     };
   },
   methods: {
@@ -95,7 +102,7 @@ export default {
         res.data.item.forEach(e => {
           this.roomKind.push({
             id: e.id,
-            name:e['rooms-detail'].name,
+            name: e['rooms-detail'].name,
           });
         });
       });
@@ -112,27 +119,32 @@ export default {
       this.$emit('refreshRoom', now.params.id);
     },
   },
+  components: {
+    Loading,
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 @import '../assets/_mixin.scss';
 @import '../assets/_grid.scss';
+@import '../assets/_variable.scss';
 //@import url('https://fonts.googleapis.com/css?family=Indie+Flower&display=swap');
 .nav {
   //background-image: linear-gradient(135deg,white,gray,white);
-  background-color: rgba(187, 184, 184, 0.158);
+  background-color: $other;
   height: 10vh;
   position: relative;
   display: flex;
   align-items: center;
   &-title {
     text-decoration: none;
-    color: black;
+    color: $important;
     //font-family: 'Indie Flower', cursive;
     font-size: 28px;
     margin-left: 10px;
     @include lapTop {
+      font-size: 40px;
       position: absolute;
       left: 50%;
       top: 50%;
@@ -171,15 +183,14 @@ export default {
       cursor: pointer;
       display: flex;
       align-items: center;
-      &-heart {
+      /* &-heart {
         color: red;
       }
       &-list {
         color: brown;
-      }
+      } */
       a {
         text-decoration: none;
-        color: black;
       }
       &-name {
         margin: 0;
@@ -191,6 +202,9 @@ export default {
           border-radius: 50%;
           margin-right: 5px;
         }
+      }
+      .account-name {
+        color: $important;
       }
       #dashboard-confirm {
         display: none;
@@ -292,7 +306,7 @@ export default {
   &-item {
     border-bottom: 1px white solid;
     padding: 10px;
-    color: white;
+    color: $important;
     cursor: pointer;
   }
 }
@@ -317,5 +331,6 @@ i {
   display: flex;
   justify-content: center;
   align-items: flex-end;
+  color: $important;
 }
 </style>
