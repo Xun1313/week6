@@ -72,8 +72,26 @@
         <div class="swiper-button-prev"></div>
       </div>
     </div>
+
     <div class="container">
-      <div class="home-title-other">精選單人房</div>
+      <div class="home-title-other">選擇房型</div>
+      <div class="home-scroll">
+        <div class="home-scroll-single" @click="scrollRoom('single')">
+          <div class="home-scroll-item">
+            <div class="single-bg"></div>
+            <div class="single-word">Single</div>
+          </div>
+        </div>
+        <div class="home-scroll-double" @click="scrollRoom('double')">
+          <div class="home-scroll-item">
+            <div class="double-bg"></div>
+            <div class="double-word">Double</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="home-title-other" ref="single">精選單人房</div>
       <div class="home-all row">
         <template v-for="item in allRooms">
           <div class="home-all-item item col-12 col-md-6" v-if="item['room-detail'].descriptionShort.GuestMin === 1">
@@ -90,7 +108,7 @@
         </template>
       </div>
 
-      <div class="home-title-other">精選雙人房</div>
+      <div class="home-title-other" ref="double">精選雙人房</div>
       <div class="home-all row">
         <template v-for="item in allRooms">
           <div class="home-all-item item col-12 col-md-6" v-if="item['room-detail'].descriptionShort.GuestMin === 2">
@@ -139,6 +157,14 @@ export default {
     roomHandler(id) {
       this.$router.push(`/room/${id}`);
     },
+    scrollRoom(val){
+      //window.scrollTo(0,this.$refs[val].offsetTop)
+      window.scrollTo({
+        top:this.$refs[val].offsetTop,
+        behavior:'smooth'
+      })
+
+    }
   },
   mounted() {
     //let token = document.head.querySelector('meta[name="csrf-token"]');
@@ -311,7 +337,75 @@ export default {
       cursor: pointer;
     }
   } */
-
+  &-scroll {
+    display: flex;
+    align-items: center;
+    border-radius: 50px;
+    width: 200px;
+    margin: 0 auto 30px;
+    overflow: hidden;
+    border: 2px solid $important;
+    justify-content: center;
+    height: 55px;
+    box-shadow: 0px 0px 10px 0px grey;
+    &-item {
+      font-weight: bold;
+      cursor: pointer;
+      position: relative;
+      .single-bg {
+        position: absolute;
+        transform: rotate(10deg);
+        padding: 75px;
+        top: -100%;
+        left: -92%;
+        z-index: 5;
+        transition: 0.5s all;
+      }
+      .single-word {
+        margin: 0 10px;
+        color: $important;
+        transition: 0.5s all;
+        position: relative;
+        z-index: 10;
+      }
+      .double-bg {
+        position: absolute;
+        color: $important;
+        text-align: right;
+        background-color: $important;
+        transform: rotate(10deg);
+        padding: 75px;
+        top: -50%;
+        left: 0;
+        z-index: 5;
+        transition: 0.5s all;
+      }
+      .double-word {
+        margin: 0 10px;
+        position: relative;
+        left: 10px;
+        z-index: 10;
+        transition: 0.5s all;
+        color: white;
+      }
+    }
+    &-single {
+      &:hover .single-bg {
+        background-color: $important;
+      }
+      &:hover .single-word {
+        color: white;
+      }
+    }
+    &-double {
+      &:hover .double-bg {
+        background-color: white;
+      }
+      &:hover .double-word {
+        color: $important;
+      }
+    }
+  }
   &-all {
     //width: 90%;
     padding: 0 50px;
@@ -360,7 +454,7 @@ export default {
       }
       &-normal,
       &-holiday {
-        opacity: .6;
+        opacity: 0.6;
       }
     }
   }
@@ -420,7 +514,8 @@ body {
   -webkit-align-items: center;
   align-items: center;
 }
-.swiper-button-next,.swiper-button-prev{
-  color: $important
+.swiper-button-next,
+.swiper-button-prev {
+  color: $important;
 }
 </style>
