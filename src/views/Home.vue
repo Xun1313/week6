@@ -157,14 +157,13 @@ export default {
     roomHandler(id) {
       this.$router.push(`/room/${id}`);
     },
-    scrollRoom(val){
+    scrollRoom(val) {
       //window.scrollTo(0,this.$refs[val].offsetTop)
       window.scrollTo({
-        top:this.$refs[val].offsetTop,
-        behavior:'smooth'
-      })
-
-    }
+        top: this.$refs[val].offsetTop,
+        behavior: 'smooth',
+      });
+    },
   },
   mounted() {
     //let token = document.head.querySelector('meta[name="csrf-token"]');
@@ -180,25 +179,25 @@ export default {
         //axios.defaults.headers.common['X-CSRF-TOKEN'] = res.data.csrfToken
         this.allRooms = res.data.item;
         this.$bus.$emit('isLoading', false);
-      });
-    window.onload = () => {
-      var swiper = new Swiper('.swiper-container', {
-        loop: true,
-        slidesPerView: 1,
-        speed: 200,
-        breakpoints: {
-          // when window width is >= 480px
-          768: {
-            slidesPerView: 3,
-            spaceBetween: 30,
+      })
+      .then(() => {
+        var swiper = new Swiper('.swiper-container', {
+          loop: true,
+          slidesPerView: 1,
+          speed: 200,
+          breakpoints: {
+            // when window width is >= 480px
+            768: {
+              slidesPerView: 3,
+              spaceBetween: 30,
+            },
           },
-        },
-        navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
-        },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
       });
-    };
   },
 };
 </script>
@@ -347,7 +346,7 @@ export default {
     border: 2px solid $important;
     justify-content: center;
     height: 55px;
-    box-shadow: 0px 0px 10px 0px grey;
+    box-shadow: 0px 0px 5px 5px grey;
     &-item {
       font-weight: bold;
       cursor: pointer;
