@@ -167,12 +167,11 @@ export default {
   &-menu {
     display: flex;
     align-items: center;
-    margin-left: auto;
-    margin-bottom: 0;
+    margin: 0 10px 0 auto;
     position: relative;
-    @include lapTop {
+    /* @include lapTop {
       align-self: flex-start;
-    }
+    } */
     //justify-content: flex-end;
     &-item {
       @include phone {
