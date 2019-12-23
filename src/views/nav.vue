@@ -23,13 +23,15 @@
           <router-link to="/login" class="account-name" v-if="!account.name" data-toggle="tooltip" data-placement="bottom" title="登入會員">
             <i class="fas fa-user"></i>
           </router-link>
-          <label class="nav-menu-item-name" for="dashboard-confirm" v-if="account.name">
-            <img :src="account.img" alt="" class="icon" />
+          <label class="nav-menu-item-name" for="dashboard-confirm" v-else>
+            <img :src="account.img" alt="" class="icon" v-if="account.img" />
+            <i class="fas fa-user" v-else></i>
             <div class="account-name">{{ account.name }}</div>
           </label>
           <input type="checkbox" id="dashboard-confirm" ref="dashboard-confirm" />
           <div class="dashboard">
-            <div :style="`background-image:url(${account.img})`" class="dashboard-pic dashboard-item" alt=""></div>
+            <div :style="`background-image:url(${account.img})`" class="dashboard-pic dashboard-item" alt="" v-if="account.img"></div>
+            <i class="fas fa-user dashboard-item dashboard-icon" v-else></i>
             <div class="dashboard-name dashboard-item">{{ account.name }}</div>
             <div class="dashboard-email dashboard-item">{{ account.email }}</div>
             <div class="dashboard-account dashboard-item" @click="modifyDashboard()">管理你的帳戶</div>
@@ -72,7 +74,7 @@ export default {
     },
     isSignin() {
       this.$http.get(`${process.env.VUE_APP_api}/users/isSignin`).then(res => {
-        //console.log(res);
+        console.log(res.data.img);
         if (res.data.success) {
           this.account = res.data;
         } else {
@@ -178,7 +180,7 @@ export default {
       }
       color: black;
       text-decoration: none;
-      margin-left: 10px;
+      margin-left: 15px;
       list-style: none;
       cursor: pointer;
       display: flex;
@@ -231,6 +233,10 @@ export default {
           border-radius: 50%;
           width: 100px;
           height: 100px;
+        }
+        &-icon {
+          font-size: 30px !important;
+          color: $important !important;
         }
         &-name {
           color: black;
@@ -326,8 +332,7 @@ export default {
   z-index: 30;
 }
 i {
-  width: 25px;
-  height: 25px;
+  font-size: 22px;
   display: flex;
   justify-content: center;
   align-items: flex-end;
