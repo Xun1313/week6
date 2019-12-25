@@ -178,7 +178,6 @@ export default {
       .then(res => {
         //axios.defaults.headers.common['X-CSRF-TOKEN'] = res.data.csrfToken
         this.allRooms = res.data.item;
-        this.$bus.$emit('isLoading', false);
       })
       .then(() => {
         var swiper = new Swiper('.swiper-container', {
@@ -197,6 +196,7 @@ export default {
             prevEl: '.swiper-button-prev',
           },
         });
+        this.$bus.$emit('isLoading', false);
       });
   },
 };
