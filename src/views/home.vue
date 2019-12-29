@@ -1,62 +1,10 @@
 <template>
   <div class="home">
-    <!-- <div class="home-title">WHITE INN</div> -->
-    <!-- <div class="bg-light"> -->
-    <div class="container">
-      <div class="home-header">
-        <div class="home-header-display">
-          <div class="home-header-display-word">挑選屬於你的房間類型</div>
-          <img src="../assets/home.jpg" class="home-header-display-pic" alt="" />
-        </div>
-        <div class="home-header-display">
-          <div class="home-header-display-word">顧客評論</div>
-
-          <div class="home-header-display-scroll scroll">
-            <div class="scroll-flex">
-              <img src="../assets/scroll/anmol-seth-hDbCjHNdF48-unsplash.jpg" alt="" class="scroll-flex-pic" />
-              <div class="scroll-flex-people">
-                <div class="scroll-flex-people-name">蔡小姐</div>
-                <div class="scroll-flex-people-word">房型空間大的很驚艷，Spa設施場地夠大</div>
-              </div>
-            </div>
-
-            <div class="scroll-flex">
-              <img src="../assets/scroll/daniil-vnoutchkov-U1IHfPUYyPE-unsplash.jpg" alt="" class="scroll-flex-pic" />
-              <div class="scroll-flex-people">
-                <div class="scroll-flex-people-name">周小姐</div>
-                <div class="scroll-flex-people-word">溫泉湯池也算舒適，早餐樣式足夠豐富</div>
-              </div>
-            </div>
-
-            <div class="scroll-flex">
-              <img src="../assets/scroll/hello-lightbulb-yB6WFHbkX40-unsplash.jpg" alt="" class="scroll-flex-pic" />
-              <div class="scroll-flex-people">
-                <div class="scroll-flex-people-name">蔣先生</div>
-                <div class="scroll-flex-people-word">房間裝潢很棒 窗簾拉開看到的風景很美</div>
-              </div>
-            </div>
-
-            <div class="scroll-flex">
-              <img src="../assets/scroll/manuel-moreno-DGa0LQ0yDPc-unsplash.jpg" alt="" class="scroll-flex-pic" />
-              <div class="scroll-flex-people">
-                <div class="scroll-flex-people-name">顏先生</div>
-                <div class="scroll-flex-people-word">讓人可以很放鬆的地方</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
+    <banner/>
     <div class="recommend">
       <div class="home-title">精選推薦</div>
     </div>
-    <!-- <div class="home-suggest">
-      <div class="home-suggest-item" v-for="(item, index) in allRooms" :key="item.id + index">
-        <img :src="item['room-detail'].imageUrl[1]" alt="" class="home-suggest-item-pic" />
-        <div class="home-suggest-item-name">132</div>
-      </div>
-    </div> -->
+
     <div class="container">
       <div class="swiper-container">
         <div class="swiper-wrapper">
@@ -76,29 +24,29 @@
     <div class="container">
       <div class="home-title-other">選擇房型</div>
       <div class="home-scroll">
-        <div class="home-scroll-single" @click="scrollRoom('single')">
+        <a href="#" class="home-scroll-single" @click="scrollRoom($event, 'single')">
           <div class="home-scroll-item">
             <div class="single-bg"></div>
             <div class="single-word">Single</div>
           </div>
-        </div>
-        <div class="home-scroll-double" @click="scrollRoom('double')">
+        </a>
+        <a href="#" class="home-scroll-double" @click="scrollRoom($event, 'double')">
           <div class="home-scroll-item">
             <div class="double-bg"></div>
             <div class="double-word">Double</div>
           </div>
-        </div>
+        </a>
       </div>
     </div>
     <div class="container">
       <div class="home-title-other" ref="single">精選單人房</div>
       <div class="home-all row">
         <template v-for="item in allRooms">
-          <div class="home-all-item item col-12 col-md-6" v-if="item['room-detail'].descriptionShort.GuestMin === 1">
-            <div class="item-group">
+          <div class="home-all-item item col-md-6" v-if="item['room-detail'].descriptionShort.GuestMin === 1">
+            <div class="item-group" @click="roomHandler(item.id)">
               <img :src="item['rooms-detail'].imageUrl" class="item-group-pic" />
               <div class="item-group-more">
-                <div class="item-group-more-word" @click="roomHandler(item.id)">See More</div>
+                <div class="item-group-more-word">See More</div>
               </div>
             </div>
             <div class="item-title">{{ item['rooms-detail'].name }}</div>
@@ -111,11 +59,11 @@
       <div class="home-title-other" ref="double">精選雙人房</div>
       <div class="home-all row">
         <template v-for="item in allRooms">
-          <div class="home-all-item item col-12 col-md-6" v-if="item['room-detail'].descriptionShort.GuestMin === 2">
-            <div class="item-group">
+          <div class="home-all-item item col-md-6" v-if="item['room-detail'].descriptionShort.GuestMin === 2">
+            <div class="item-group" @click="roomHandler(item.id)">
               <img :src="item['rooms-detail'].imageUrl" class="item-group-pic" />
               <div class="item-group-more">
-                <div class="item-group-more-word" @click="roomHandler(item.id)">See More</div>
+                <div class="item-group-more-word">See More</div>
               </div>
             </div>
             <div class="item-title">{{ item['rooms-detail'].name }}</div>
@@ -123,6 +71,41 @@
             <div class="item-holiday">$ {{ item['rooms-detail'].holidayPrice }}</div>
           </div>
         </template>
+      </div>
+
+      <div class="home-title-other">顧客評論</div>
+      <div class="scroll">
+        <div class="scroll-flex">
+          <img src="../assets/scroll/anmol-seth-hDbCjHNdF48-unsplash.jpg" alt="" class="scroll-flex-pic" />
+          <div class="scroll-flex-people">
+            <div class="scroll-flex-people-name">蔡小姐</div>
+            <div class="scroll-flex-people-word">房型空間大的很驚艷，Spa設施場地夠大</div>
+          </div>
+        </div>
+
+        <div class="scroll-flex">
+          <img src="../assets/scroll/daniil-vnoutchkov-U1IHfPUYyPE-unsplash.jpg" alt="" class="scroll-flex-pic" />
+          <div class="scroll-flex-people">
+            <div class="scroll-flex-people-name">周小姐</div>
+            <div class="scroll-flex-people-word">溫泉湯池也算舒適，早餐樣式足夠豐富</div>
+          </div>
+        </div>
+
+        <div class="scroll-flex">
+          <img src="../assets/scroll/hello-lightbulb-yB6WFHbkX40-unsplash.jpg" alt="" class="scroll-flex-pic" />
+          <div class="scroll-flex-people">
+            <div class="scroll-flex-people-name">蔣先生</div>
+            <div class="scroll-flex-people-word">房間裝潢很棒 窗簾拉開看到的風景很美</div>
+          </div>
+        </div>
+
+        <div class="scroll-flex">
+          <img src="../assets/scroll/manuel-moreno-DGa0LQ0yDPc-unsplash.jpg" alt="" class="scroll-flex-pic" />
+          <div class="scroll-flex-people">
+            <div class="scroll-flex-people-name">顏先生</div>
+            <div class="scroll-flex-people-word">讓人可以很放鬆的地方</div>
+          </div>
+        </div>
       </div>
 
       <div class="home-info">
@@ -147,6 +130,7 @@
 <script>
 import 'swiper/css/swiper.min.css';
 import Swiper from 'swiper';
+import banner from '../components/banner';
 export default {
   data() {
     return {
@@ -157,7 +141,8 @@ export default {
     roomHandler(id) {
       this.$router.push(`/room/${id}`);
     },
-    scrollRoom(val) {
+    scrollRoom(e, val) {
+      e.preventDefault();
       //window.scrollTo(0,this.$refs[val].offsetTop)
       window.scrollTo({
         top: this.$refs[val].offsetTop,
@@ -198,6 +183,9 @@ export default {
         });
         this.$bus.$emit('isLoading', false);
       });
+  },
+  components: {
+    banner,
   },
 };
 </script>
@@ -250,7 +238,13 @@ export default {
     width: 250px;
     padding: 10px 0;
   }
-  &-header {
+  .test {
+    background-image: url('../assets/home2.jpg');
+    @extend %bg;
+    width: 100%;
+    height: 500px;
+  }
+  /* &-header {
     @include lapTop {
       display: flex;
     }
@@ -271,40 +265,9 @@ export default {
         @include lapTop {
           width: 500px;
         }
-        /* @extend %bg;
-        background-image: url('../assets/home.jpg'); */
-        /* width: 350px;
-        height: 350px; */
-      }
-      .scroll {
-        //width: 500px;
-        height: 333.33px;
-        overflow-y: scroll;
-        padding: 15px;
-        &-flex {
-          display: flex;
-          margin-bottom: 15px;
-          &-pic {
-            width: 150px;
-            @include lapTop {
-              width: 230px;
-            }
-            height: auto;
-          }
-          &-people {
-            padding: 15px;
-            &-name {
-              margin-bottom: 20px;
-            }
-            &-word {
-              font-size: 16px;
-              opacity: 0.6;
-            }
-          }
-        }
       }
     }
-  }
+  } */
   &-suggest {
     cursor: pointer;
     &-pic {
@@ -346,7 +309,7 @@ export default {
     border: 2px solid $important;
     justify-content: center;
     height: 55px;
-    box-shadow: 0px 0px 5px 5px grey;
+    box-shadow: 0px 0px 10px 1px grey;
     &-item {
       font-weight: bold;
       cursor: pointer;
@@ -389,6 +352,7 @@ export default {
       }
     }
     &-single {
+      text-decoration: none;
       &:hover .single-bg {
         background-color: $important;
       }
@@ -397,6 +361,7 @@ export default {
       }
     }
     &-double {
+      text-decoration: none;
       &:hover .double-bg {
         background-color: white;
       }
@@ -407,11 +372,12 @@ export default {
   }
   &-all {
     //width: 90%;
-    padding: 0 50px;
+    //padding: 0 50px;
     margin: auto;
     .item {
-      /* padding-left: 1px;
-      padding-right: 1px; */
+      @include lapTopHigh {
+        padding: 0 80px;
+      }
       margin-bottom: 20px;
       /* @include lapTop {
         transform: translateY(-70px);
@@ -444,10 +410,10 @@ export default {
           justify-content: center;
           align-items: center;
           display: flex;
+          cursor: pointer;
           transition: 0.5s all;
           &-word {
             padding: 5px;
-            cursor: pointer;
           }
         }
       }
@@ -461,7 +427,6 @@ export default {
     width: 100%;
     padding: 0 20px;
     @include lapTop {
-      width: 75%;
       margin: auto;
       display: flex;
       justify-content: space-around;
@@ -474,6 +439,40 @@ export default {
       margin-bottom: 10px;
       .content {
         margin-left: 5px;
+      }
+    }
+  }
+}
+.scroll {
+  width: 100%;
+  @include lapTop {
+    width: 700px;
+  }
+  height: 30vh;
+  margin: 0 auto 30px;
+  overflow-y: scroll;
+  padding: 15px;
+  box-shadow: 0px 0px 10px 1px grey;
+  &-flex {
+    display: flex;
+    margin-bottom: 15px;
+    &-pic {
+      width: 150px;
+      @include lapTop {
+        width: 230px;
+      }
+      height: auto;
+    }
+    &-people {
+      padding: 15px;
+      &-name {
+        margin-bottom: 20px;
+      }
+      &-word {
+        font-size: 16px;
+        opacity: 0.6;
+        z-index: -1;
+        position: relative;
       }
     }
   }

@@ -27,7 +27,7 @@
         </div>
 
         <div class="login-item-error" v-if="error">帳號或密碼有誤</div>
-        <div class="login-signin" @click="signin()">SIGN IN</div>
+        <button type="button" class="login-signin" @click="signin()">SIGN IN</button>
         <router-link to="/signup" class="login-signup">立即註冊</router-link>
       </div>
     </div>
@@ -97,7 +97,7 @@ export default {
 @import '../assets/_variable.scss';
 @import '../assets/_mixin.scss';
 .bg-login {
-  //background-image: linear-gradient(135deg,white,gray,white);
+  //background-image: linear-gradient(135deg,#{$important},white);
   background-image: url('../assets/login.jpg');
   width: 100%;
   @extend %bg;
@@ -175,6 +175,9 @@ export default {
     border-radius: 50px;
     padding: 5px;
     margin: 15px 0;
+    display: block;
+    width: 100%;
+    outline: none;
     &:hover {
       background-color: white;
       color: black;

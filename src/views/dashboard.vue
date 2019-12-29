@@ -35,7 +35,7 @@
           <img :src="account.img" alt="" class="upload-img" />
         </div>
 
-        <div class="login-update" @click="updateUser()">確認修改</div>
+        <button type="button" class="login-update" @click="updateUser()">確認修改</button>
         <!-- <img :src="base64" alt="" /> -->
       </div>
     </div>
@@ -94,10 +94,12 @@ export default {
     },
   },
   mounted() {
+    this.$bus.$emit('isLoading', true);
     this.$http.get(`${process.env.VUE_APP_api}/users/isSignin`).then(res => {
       if (res.data.success) {
         this.account = res.data;
       }
+      this.$bus.$emit('isLoading', false);
     });
     /* this.$refs.upload.addEventListener('dragenter', e => {
       this.$refs.upload.classList.add('upload-drag');
@@ -118,7 +120,7 @@ export default {
 .upload {
   &-region {
     border: 3px dashed darken(gray, 15%);
-    background-color: #464545;
+    //background-color: #464545;
     position: relative;
     padding: 15px;
     > * {
@@ -166,6 +168,9 @@ export default {
   border-radius: 50px;
   padding: 5px;
   margin: 15px 0;
+  display: block;
+  width: 100%;
+  outline: none;
   &:hover {
     background-color: white;
     color: black;

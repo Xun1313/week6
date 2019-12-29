@@ -85,6 +85,7 @@ export default {
     width: 80%;
   }
   margin: auto;
+  margin-bottom: 50px
 }
 .item {
   &-img {

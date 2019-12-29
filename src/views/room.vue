@@ -64,11 +64,11 @@
       <div class="home-title">其他相關房型</div>
       <div class="home-all row">
         <template v-for="(item, index) in roomKind">
-          <div class="home-all-item item col-12 col-md-4" v-if="item.id !== roomId && item.GuestMin === roomInfo.descriptionShort.GuestMin">
-            <div class="item-group">
-              <img :src="item.imageUrl" class="item-group-pic" @click="roomHandler(item.id)"/>
+          <div class="home-all-item item col-md-4" v-if="item.id !== roomId && item.GuestMin === roomInfo.descriptionShort.GuestMin">
+            <div class="item-group" @click="roomHandler(item.id)">
+              <img :src="item.imageUrl" class="item-group-pic" />
               <div class="item-group-more">
-                <div class="item-group-more-word" @click="roomHandler(item.id)">See More</div>
+                <div class="item-group-more-word">See More</div>
               </div>
             </div>
             <div class="item-title">{{ item.name }}</div>
@@ -101,7 +101,7 @@
           <div class="order-all-item-time">({{ calculate.checkOut }}前)</div>
         </div>
         <div class="order-all-sum">{{ calculate.days }}晚/{{ calculate.sum }}元</div>
-        <div class="order-all-confirm" @click="orderHandler()">確定</div>
+        <button type="button" class="order-all-confirm" @click="orderHandler()">確定</button>
         <div class="order-all-cancel" @click="toggleOrder()">
           <i class="fas fa-times"></i>
         </div>
@@ -111,7 +111,7 @@
     <div class="cart none" ref="cart">
       <div class="cart-container">
         <div class="cart-container-word">商品已加入收藏!</div>
-        <div class="cart-container-confirm" @click="cartHandler()">確定</div>
+        <button type="button" class="cart-container-confirm" @click="cartHandler()">確定</button>
       </div>
     </div>
   </div>
@@ -194,6 +194,7 @@ export default {
     toggleOrder(val) {
       //初始化訂單資料
       if (val) {
+        this.$bus.$emit('isLoading', true);
         this.orderInfo = val;
         //差異天數
         const diff = moment(this.orderInfo.date[1]).diff(moment(this.orderInfo.date[0]), 'days');
@@ -218,8 +219,10 @@ export default {
           })
           .then(res => {
             this.calculate = res.data;
+            this.$bus.$emit('isLoading', false);
           });
       } else {
+        this.calculate = {};
         this.orderInfo = {};
         this.$set(this.orderInfo, 'date', []);
       }
@@ -690,15 +693,16 @@ export default {
       text-align: right;
     }
     &-confirm {
+      outline: none;
       color: white;
-      background-color:$important;
+      background-color: $important;
       padding: 10px 20px;
       margin-bottom: 20px;
       cursor: pointer;
       transition: 0.5s all;
       &:hover {
-        background-color: darken($important,15%);
-        color: darken(white, 15%);
+        background-color: white;
+        color: $important;
       }
     }
   }
@@ -738,6 +742,7 @@ export default {
       padding: 80px;
     } */
     &-confirm {
+      outline: none;
       color: white;
       background-color: $important;
       padding: 5px 15px;
@@ -745,8 +750,8 @@ export default {
       cursor: pointer;
       transition: 0.5s all;
       &:hover {
-        background-color: darken($important, 15%);
-        color: darken(white, 15%);
+        background-color: white;
+        color: $important;
       }
     }
   }
@@ -766,11 +771,11 @@ export default {
   /* padding: 0 50px;
   margin: auto; */
   .item {
+    @include lapTopHigh {
+      padding-right: 80px;
+    }
     color: rgba(20, 5, 5, 0.5);
     margin-bottom: 20px;
-    /* @include lapTop {
-      margin-right: 15px;
-    } */
     &-title {
       color: $word;
     }
@@ -806,10 +811,10 @@ export default {
         justify-content: center;
         align-items: center;
         display: flex;
+        cursor: pointer;
         transition: 0.5s all;
         &-word {
           padding: 5px;
-          cursor: pointer;
         }
       }
     }

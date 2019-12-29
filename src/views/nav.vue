@@ -3,29 +3,32 @@
     <loading :active.sync="isLoading" :opacity="1"></loading>
     <input type="checkbox" id="nav-switch" ref="nav-switch" />
     <div class="nav">
-      <label class="nav-bar" for="nav-switch">
-        <i class="fas fa-bars" @click="barHandler()"></i>
-      </label>
-      <div class="menu">
-        <div class="menu-item" v-for="item in roomKind" :key="item.id" @click="routeRoom(item.id)">{{ item.name }}</div>
+      <div class="group">
+        <label class="nav-bar" for="nav-switch">
+          <i class="fas fa-bars" @click="barHandler()"></i>
+        </label>
+        <div class="menu">
+          <div class="menu-item" v-for="item in roomKind" :key="item.id" @click="routeRoom(item.id)">{{ item.name }}</div>
+        </div>
+        <router-link to="/" class="nav-title">WHITE INN</router-link>
       </div>
-      <router-link to="/" class="nav-title">WHITE INN</router-link>
       <nav class="nav-menu">
         <router-link class="nav-menu-item" to="/favorite" data-toggle="tooltip" data-placement="bottom" title="收藏">
-          <i class="fas fa-shopping-cart nav-menu-item-cart"></i>
-          <!-- <span>收藏</span> -->
+          <i class="fas fa-shopping-cart nav-menu-item-icon"></i>
+          <span>收藏</span>
         </router-link>
         <router-link class="nav-menu-item" to="/purchase" data-toggle="tooltip" data-placement="bottom" title="購買紀錄">
-          <i class="fas fa-list nav-menu-item-list"></i>
-          <!-- <span>購買清單</span> -->
+          <i class="fas fa-list nav-menu-item-icon"></i>
+          <span>購買清單</span>
         </router-link>
         <a class="nav-menu-item">
           <router-link to="/login" class="account-name" v-if="!account.name" data-toggle="tooltip" data-placement="bottom" title="登入會員">
-            <i class="fas fa-user"></i>
+            <i class="fas fa-user nav-menu-item-icon"></i>
+            <span>會員</span>
           </router-link>
           <label class="nav-menu-item-name" for="dashboard-confirm" v-else>
             <img :src="account.img" alt="" class="icon" v-if="account.img" />
-            <i class="fas fa-user" v-else></i>
+            <i class="fas fa-user nav-menu-item-icon" v-else></i>
             <div class="account-name">{{ account.name }}</div>
           </label>
           <input type="checkbox" id="dashboard-confirm" ref="dashboard-confirm" />
@@ -40,6 +43,36 @@
         </a>
       </nav>
     </div>
+    <!-- <nav class="nav-menu phone-menu">
+      <router-link class="nav-menu-item" to="/favorite" data-toggle="tooltip" data-placement="bottom" title="收藏">
+        <i class="fas fa-shopping-cart nav-menu-item-icon"></i>
+        <span>收藏</span>
+      </router-link>
+      <router-link class="nav-menu-item" to="/purchase" data-toggle="tooltip" data-placement="bottom" title="購買紀錄">
+        <i class="fas fa-list nav-menu-item-icon"></i>
+        <span>購買清單</span>
+      </router-link>
+      <a class="nav-menu-item">
+        <router-link to="/login" class="account-name" v-if="!account.name" data-toggle="tooltip" data-placement="bottom" title="登入會員">
+          <i class="fas fa-user nav-menu-item-icon"></i>
+          <span>會員</span>
+        </router-link>
+        <label class="nav-menu-item-name" for="dashboard-confirm" v-else>
+          <img :src="account.img" alt="" class="icon" v-if="account.img" />
+          <i class="fas fa-user" v-else></i>
+          <div class="account-name">{{ account.name }}</div>
+        </label>
+        <input type="checkbox" id="dashboard-confirm" ref="dashboard-confirm" />
+        <div class="dashboard">
+          <div :style="`background-image:url(${account.img})`" class="dashboard-pic dashboard-item" alt="" v-if="account.img"></div>
+          <i class="fas fa-user dashboard-item dashboard-icon" v-else></i>
+          <div class="dashboard-name dashboard-item">{{ account.name }}</div>
+          <div class="dashboard-email dashboard-item">{{ account.email }}</div>
+          <div class="dashboard-account dashboard-item" @click="modifyDashboard()">管理你的帳戶</div>
+          <div class="dashboard-signout dashboard-item" @click="signout()">登出</div>
+        </div>
+      </a>
+    </nav> -->
     <router-view></router-view>
     <div class="light" ref="dark"></div>
   </div>
@@ -132,20 +165,37 @@ export default {
 @import '../assets/_grid.scss';
 @import '../assets/_variable.scss';
 //@import url('https://fonts.googleapis.com/css?family=Indie+Flower&display=swap');
+/* .phone-menu {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: $other;
+  padding-bottom: 10px;
+  @include lapTop {
+    display: none;
+  }
+} */
+.group {
+  display: flex;
+  align-items: center;
+}
 .nav {
   //background-image: linear-gradient(135deg,white,gray,white);
   background-color: $other;
-  height: 10vh;
+  //height: 10vh;
   position: relative;
-  display: flex;
+  display: block;
+  @include lapTopHigh {
+    display: flex;
+    padding: 20px 0;
+  }
   align-items: center;
   &-title {
     text-decoration: none;
     color: $important;
-    //font-family: 'Indie Flower', cursive;
     font-size: 28px;
     margin-left: 10px;
-    @include lapTop {
+    @include lapTopHigh {
       font-size: 40px;
       position: absolute;
       left: 50%;
@@ -157,7 +207,7 @@ export default {
     display: block;
     text-align: right;
     margin: 0 10px;
-    @include lapTop {
+    @include lapTopHigh {
       display: none;
     }
     i {
@@ -167,36 +217,54 @@ export default {
   &-menu {
     display: flex;
     align-items: center;
-    margin: 0 10px 0 auto;
     position: relative;
-    /* @include lapTop {
-      align-self: flex-start;
-    } */
-    //justify-content: flex-end;
+    padding: 10px 0;
+    justify-content: space-around;
+    @include lapTopHigh {
+      justify-content: flex-start;
+      padding: 0;
+      margin: 0 10px 0 auto;
+    }
     &-item {
       @include phone {
         font-size: 16px;
       }
-      color: black;
+      color: $important;
       text-decoration: none;
-      margin-left: 15px;
       list-style: none;
       cursor: pointer;
       display: flex;
       align-items: center;
-      /* &-heart {
-        color: red;
+      transition: 0.5s all;
+      & ~ & {
+        margin-left: 15px;
       }
-      &-list {
-        color: brown;
-      } */
+      &:hover {
+        color: lighten($important, 15%);
+      }
+      &:hover &-icon {
+        color: lighten($important, 15%);
+      }
       a {
         text-decoration: none;
+      }
+      &-icon {
+        margin-right: 5px;
+        font-size: 22px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        color: $important;
+        transition: 0.5s all;
+      }
+      span {
+        font-size: 20px;
       }
       &-name {
         margin: 0;
         display: flex;
         align-items: center;
+        cursor: pointer;
         .icon {
           width: 30px;
           height: 30px;
@@ -206,19 +274,22 @@ export default {
       }
       .account-name {
         color: $important;
+        display: flex;
+        align-items: center;
+        &:hover {
+          color: lighten($important, 15%);
+        }
       }
       #dashboard-confirm {
         display: none;
         &:checked ~ .dashboard {
-          opacity: 1;
+          display: block;
           z-index: 30;
         }
       }
       .dashboard {
-        transition: 0.5s all;
-        cursor: default;
         padding: 50px;
-        opacity: 0;
+        display: none;
         position: absolute;
         z-index: -1;
         top: 40px;
@@ -236,6 +307,7 @@ export default {
         &-icon {
           font-size: 30px !important;
           color: $important !important;
+          display: block;
         }
         &-name {
           color: black;
@@ -330,11 +402,11 @@ export default {
   height: 100%;
   z-index: 30;
 }
-i {
+/* i {
   font-size: 22px;
   display: flex;
   justify-content: center;
   align-items: flex-end;
   color: $important;
-}
+} */
 </style>

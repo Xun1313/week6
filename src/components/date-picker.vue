@@ -20,15 +20,15 @@
         <input type="text" class="date-groups-check-input check-out" v-validate="'required'" placeholder="Check out" name="date2" data-vv-as="日期" readonly />
       </div>
     </div>
-    <p class="invalid-word">{{ errors.first('date')||errors.first('date2') }}</p>
+    <p class="invalid-word">{{ errors.first('date') || errors.first('date2') }}</p>
     <input type="hidden" class="check-in-info" ref="check-in-info" />
     <input type="hidden" class="check-out-info" ref="check-out-info" />
     <div class="date-nav">
-      <div class="date-nav-cart" @click="collectionToggle()">
+      <a href="#" class="date-nav-cart" @click="collectionToggle($event)">
         <i class="fas fa-cart-plus"></i>
         加入購物車
-      </div>
-      <div class="date-nav-order" @click="toggleOrder()">預約</div>
+      </a>
+      <button type="button" class="date-nav-order" @click="toggleOrder()">預約</button>
     </div>
   </div>
 </template>
@@ -46,7 +46,8 @@ export default {
     };
   },
   methods: {
-    collectionToggle() {
+    collectionToggle(e) {
+      e.preventDefault();
       this.$bus.$emit('isLoading', true);
       this.$http
         .post(`${process.env.VUE_APP_api}/favorite`, {
@@ -54,7 +55,7 @@ export default {
         })
         .then(res => {
           res.data.success ? this.$emit('cartHandler') : this.$router.push('/login');
-          this.$bus.$emit('isLoading', false)
+          this.$bus.$emit('isLoading', false);
         });
     },
     toggleOrder() {
@@ -132,7 +133,7 @@ export default {
 .invalid-word {
   color: red;
   font-size: 16px;
-  margin-bottom: 5px;
+  margin-bottom: 20px;
 }
 .is-invalid {
   outline: red 1px solid !important;
@@ -190,22 +191,21 @@ export default {
       margin-left: auto;
       transition: 0.5s all;
       &:hover {
-        color: darken($important, 10%)
+        color: darken($important, 10%);
       }
     }
     &-order {
+      outline: none;
       margin-left: 10px;
-      outline: 1px black solid;
-      padding: 10px 20px;
       width: 80px;
       text-align: center;
-      background-color: $word;
-      color: white;
+      background-color: $important;
+      color: $other;
       cursor: pointer;
       transition: 0.5s all;
       &:hover {
         background-color: white;
-        color: black;
+        color: $important;
       }
     }
   }

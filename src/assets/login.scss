@@ -1,8 +1,8 @@
 @import './_grid.scss';
 @import './_mixin.scss';
+@import './variable';
 .bg-login {
-  //background-image: linear-gradient(135deg,white,gray,white);
-  background-image: url('../assets/login.jpg');
+  //background-image: linear-gradient(135deg, #{$important}, white);
   width: 100%;
   @extend %bg;
   min-height: 90vh;
