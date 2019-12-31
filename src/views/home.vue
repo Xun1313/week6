@@ -1,8 +1,10 @@
 <template>
   <div class="home">
-    <banner/>
-    <div class="recommend">
-      <div class="home-title">精選推薦</div>
+    <banner />
+    <div class="container">
+      <div class="recommend">
+        <div class="home-title">精選推薦</div>
+      </div>
     </div>
 
     <div class="container">
@@ -42,7 +44,7 @@
       <div class="home-title-other" ref="single">精選單人房</div>
       <div class="home-all row">
         <template v-for="item in allRooms">
-          <div class="home-all-item item col-md-6" v-if="item['room-detail'].descriptionShort.GuestMin === 1">
+          <div class="home-all-item item col-md-6" v-if="item['room-detail'].descriptionShort.GuestMin === 1" :key='item.id'>
             <div class="item-group" @click="roomHandler(item.id)">
               <img :src="item['rooms-detail'].imageUrl" class="item-group-pic" />
               <div class="item-group-more">
@@ -59,7 +61,7 @@
       <div class="home-title-other" ref="double">精選雙人房</div>
       <div class="home-all row">
         <template v-for="item in allRooms">
-          <div class="home-all-item item col-md-6" v-if="item['room-detail'].descriptionShort.GuestMin === 2">
+          <div class="home-all-item item col-md-6" v-if="item['room-detail'].descriptionShort.GuestMin === 2" :key="item.id">
             <div class="item-group" @click="roomHandler(item.id)">
               <img :src="item['rooms-detail'].imageUrl" class="item-group-pic" />
               <div class="item-group-more">
@@ -168,7 +170,8 @@ export default {
         var swiper = new Swiper('.swiper-container', {
           loop: true,
           slidesPerView: 1,
-          speed: 200,
+          speed: 400,
+          autoplay: true,
           breakpoints: {
             // when window width is >= 480px
             768: {
@@ -270,10 +273,17 @@ export default {
   } */
   &-suggest {
     cursor: pointer;
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 67%;
     &-pic {
       @extend %bg;
-      width: 230px;
-      height: 200px;
+      /* width: 230px;
+      height: 200px; */
+      width: 100%;
+      height: 100%;
+      position: absolute;
     }
     &-name {
       color: $word;
@@ -309,7 +319,6 @@ export default {
     border: 2px solid $important;
     justify-content: center;
     height: 55px;
-    box-shadow: 0px 0px 10px 1px grey;
     &-item {
       font-weight: bold;
       cursor: pointer;
@@ -375,13 +384,19 @@ export default {
     //padding: 0 50px;
     margin: auto;
     .item {
-      @include lapTopHigh {
+      /* @include lapTopHigh {
         padding: 0 80px;
-      }
-      margin-bottom: 20px;
-      /* @include lapTop {
-        transform: translateY(-70px);
       } */
+      padding: 0;
+      margin-bottom: 20px;
+      @include lapTop {
+        &:nth-child(odd) {
+          padding-right: 20px;
+        }
+        &:nth-child(even) {
+          padding-left: 20px;
+        }
+      }
       &-group {
         position: relative;
         &:hover > .item-group-more {
@@ -451,8 +466,6 @@ export default {
   height: 30vh;
   margin: 0 auto 30px;
   overflow-y: scroll;
-  padding: 15px;
-  box-shadow: 0px 0px 10px 1px grey;
   &-flex {
     display: flex;
     margin-bottom: 15px;

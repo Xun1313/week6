@@ -1,5 +1,5 @@
 <template>
-  <div class="room">
+  <div class="container">
     <div class="nav">
       <div class="nav-group">
         <template v-for="(item, index) in roomKind">
@@ -60,23 +60,21 @@
       </div>
     </div>
 
-    <div class="container">
-      <div class="home-title">其他相關房型</div>
-      <div class="home-all row">
-        <template v-for="(item, index) in roomKind">
-          <div class="home-all-item item col-md-4" v-if="item.id !== roomId && item.GuestMin === roomInfo.descriptionShort.GuestMin">
-            <div class="item-group" @click="roomHandler(item.id)">
-              <img :src="item.imageUrl" class="item-group-pic" />
-              <div class="item-group-more">
-                <div class="item-group-more-word">See More</div>
-              </div>
+    <div class="home-title">其他相關房型</div>
+    <div class="home-all row">
+      <template v-for="(item, index) in roomKind">
+        <div class="home-all-item item col-md-4" v-if="item.id !== roomId && item.GuestMin === roomInfo.descriptionShort.GuestMin">
+          <div class="item-group" @click="roomHandler(item.id)">
+            <img :src="item.imageUrl" class="item-group-pic" />
+            <div class="item-group-more">
+              <div class="item-group-more-word">See More</div>
             </div>
-            <div class="item-title">{{ item.name }}</div>
-            <div class="item-normal">平日$ {{ item.normalDayPrice }}</div>
-            <div class="item-holiday">假日$ {{ item.holidayPrice }}</div>
           </div>
-        </template>
-      </div>
+          <div class="item-title">{{ item.name }}</div>
+          <div class="item-normal">平日$ {{ item.normalDayPrice }}</div>
+          <div class="item-holiday">假日$ {{ item.holidayPrice }}</div>
+        </div>
+      </template>
     </div>
 
     <div class="zoom none" ref="zoom">
@@ -320,8 +318,6 @@ export default {
   position: relative;
   z-index: 25;
   width: 100%;
-  //background-color: #f0f0f0;
-  padding: 10px 50px;
   &-group {
     display: none;
     @include lapTopHigh {
@@ -382,7 +378,6 @@ export default {
   z-index: 15;
   @include lapTopHigh {
     display: flex;
-    padding: 0 50px; //固定內縮的尺寸
     //transform: translateY(25%);
   }
 }
@@ -453,9 +448,10 @@ export default {
   }
 }
 .info {
-  padding: 0 30px;
   width: 100%;
+  padding: 0;
   @include lapTopHigh {
+    padding: 0 0 0 30px;
     width: 150%;
   }
   &-header {
@@ -696,14 +692,13 @@ export default {
       outline: none;
       color: white;
       background-color: $important;
-      padding: 10px 20px;
+      padding: 5px 20px;
       margin-bottom: 20px;
-      cursor: pointer;
-      transition: 0.5s all;
+      /* transition: 0.5s all;
       &:hover {
         background-color: white;
         color: $important;
-      }
+      } */
     }
   }
 }
@@ -745,14 +740,13 @@ export default {
       outline: none;
       color: white;
       background-color: $important;
-      padding: 5px 15px;
+      padding: 5px 20px;
       margin-top: 20px;
-      cursor: pointer;
-      transition: 0.5s all;
+      /* transition: 0.5s all;
       &:hover {
         background-color: white;
         color: $important;
-      }
+      } */
     }
   }
 }
@@ -771,9 +765,6 @@ export default {
   /* padding: 0 50px;
   margin: auto; */
   .item {
-    @include lapTopHigh {
-      padding-right: 80px;
-    }
     color: rgba(20, 5, 5, 0.5);
     margin-bottom: 20px;
     &-title {

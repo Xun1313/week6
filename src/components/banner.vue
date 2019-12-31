@@ -20,7 +20,7 @@
         </div>
       </div>
       <div class="swiper-pagination"></div>
-      <a href="#" class="start" @click="scrollBanner($event)"></a>
+      <!-- <a href="#" class="start" @click="scrollBanner($event)"></a> -->
       <!-- <div class="swiper-button-next"></div>
     <div class="swiper-button-prev"></div> -->
     </div>
@@ -31,7 +31,7 @@
 import 'swiper/css/swiper.min.css';
 import Swiper from 'swiper';
 export default {
-  methods: {
+  /* methods: {
     scrollBanner(e){
       e.preventDefault();
       window.scrollTo({
@@ -39,7 +39,7 @@ export default {
         behavior:'smooth'
       })
     }
-  },
+  }, */
   mounted() {
     this.$bus.$emit('isLoading', true);
     var swiper = new Swiper('.swiper-container1', {

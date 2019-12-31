@@ -5,6 +5,7 @@
         <i class="fas fa-user-alt login-icon"></i>
         <div class="login-title">MEMBER UPDATE</div>
 
+        <div class="login-name">手機號碼</div>
         <div class="login-item">
           <div class="login-item-flex" :class="{ error: errors.has('phone') }">
             <div class="login-item-flex-icon">
@@ -14,7 +15,7 @@
           </div>
           <div class="login-item-error" v-if="errors.has('phone')">電話號碼必須為數字<!-- {{errors.first('password')}} --></div>
         </div>
-
+        <div class="login-name">姓名</div>
         <div class="login-item">
           <div class="login-item-flex" :class="{ error: errors.has('name') }">
             <div class="login-item-flex-icon">
@@ -24,7 +25,7 @@
           </div>
           <div class="login-item-error" v-if="errors.has('name')">名字為必填<!-- {{errors.first('password')}} --></div>
         </div>
-
+        <div class="login-name">照片上傳區</div>
         <div class="upload" ref="upload">
           <div class="upload-region" :class="{ 'upload-region-error': errors.has('image') }">
             <input type="file" class="upload-region-file" @change="fileHandler($event)" ref="upload-region-file" v-validate="'image'" data-vv-as="圖片" name="image" />

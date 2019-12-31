@@ -4,7 +4,7 @@
       <div class="login">
         <i class="fas fa-user-alt login-icon"></i>
         <div class="login-title">MEMBER REGISTER</div>
-
+        <div class="login-name">email</div>
         <div class="login-item">
           <div class="login-item-flex" :class="{ error: errors.has('email') }">
             <div class="login-item-flex-icon">
@@ -14,7 +14,7 @@
           </div>
           <div class="login-item-error" v-if="errors.has('email')">不符合email格式<!-- {{errors.first('email')}} --></div>
         </div>
-
+        <div class="login-name">密碼</div>
         <div class="login-item">
           <div class="login-item-flex" :class="{ error: errors.has('password') }">
             <div class="login-item-flex-icon">
@@ -25,7 +25,7 @@
           </div>
           <div class="login-item-error" v-if="errors.has('password')">密碼為必填<!-- {{errors.first('password')}} --></div>
         </div>
-
+        <div class="login-name">確認密碼</div>
         <div class="login-item">
           <div class="login-item-flex" :class="{ error: errors.has('password-again') }">
             <div class="login-item-flex-icon">
@@ -36,7 +36,7 @@
           </div>
           <div class="login-item-error" v-if="errors.has('password-again')">密碼為必填<!-- {{errors.first('password')}} --></div>
         </div>
-
+        <div class="login-name">手機號碼</div>
         <div class="login-item">
           <div class="login-item-flex" :class="{ error: errors.has('phone') }">
             <div class="login-item-flex-icon">
@@ -46,7 +46,7 @@
           </div>
           <div class="login-item-error" v-if="errors.has('phone')">電話號碼必須為數字<!-- {{errors.first('password')}} --></div>
         </div>
-
+        <div class="login-name">姓名</div>
         <div class="login-item">
           <div class="login-item-flex" :class="{ error: errors.has('name') }">
             <div class="login-item-flex-icon">
@@ -61,7 +61,7 @@
           <div class="login-item-error" v-for="item in error.message" :key="item.param">{{ item.msg || item }}</div>
         </template>
 
-        <button type="button" class="login-signup" @click="signup()">立即註冊</button>
+        <button type="button" class="login-register" @click="signup()">立即註冊</button>
       </div>
     </div>
   </div>
@@ -72,7 +72,7 @@
 .bg-login {
   background-image: url('../assets/signup.jpg');
 }
-.login-signup {
+.login-register {
   text-decoration: none;
   background-color: #464545;
   color: white;

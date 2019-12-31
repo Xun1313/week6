@@ -4,77 +4,65 @@
     <input type="checkbox" id="nav-switch" ref="nav-switch" />
     <div class="nav">
       <div class="group">
-        <label class="nav-bar" for="nav-switch">
+        <!-- <label class="nav-bar" for="nav-switch">
           <i class="fas fa-bars" @click="barHandler()"></i>
         </label>
         <div class="menu">
           <div class="menu-item" v-for="item in roomKind" :key="item.id" @click="routeRoom(item.id)">{{ item.name }}</div>
-        </div>
+        </div> -->
         <router-link to="/" class="nav-title">WHITE INN</router-link>
       </div>
       <nav class="nav-menu">
-        <router-link class="nav-menu-item" to="/favorite" data-toggle="tooltip" data-placement="bottom" title="收藏">
+        <!-- <router-link class="nav-menu-item" to="/favorite" data-toggle="tooltip" data-placement="bottom" title="收藏">
           <i class="fas fa-shopping-cart nav-menu-item-icon"></i>
           <span>收藏</span>
         </router-link>
         <router-link class="nav-menu-item" to="/purchase" data-toggle="tooltip" data-placement="bottom" title="購買紀錄">
           <i class="fas fa-list nav-menu-item-icon"></i>
           <span>購買清單</span>
-        </router-link>
+        </router-link> -->
+        <a href="#" class="nav-menu-item">
+          <label for="room" class="room-label close">所有房型</label>
+          <input type="checkbox" id="room" class="close" ref="room" />
+          <div class="room">
+            <a href="#" class="room-item" v-for="item in roomKind" :key="item.id" @click="routeRoom(item.id)">
+              <div class="room-item-pic" :style="`background-image:url(${item.pic})`"></div>
+              <div class="room-item-name">{{ item.name }}</div>
+            </a>
+          </div>
+        </a>
         <a class="nav-menu-item">
           <router-link to="/login" class="account-name" v-if="!account.name" data-toggle="tooltip" data-placement="bottom" title="登入會員">
             <i class="fas fa-user nav-menu-item-icon"></i>
             <span>會員</span>
           </router-link>
           <label class="nav-menu-item-name" for="dashboard-confirm" v-else>
-            <img :src="account.img" alt="" class="icon" v-if="account.img" />
-            <i class="fas fa-user nav-menu-item-icon" v-else></i>
-            <div class="account-name">{{ account.name }}</div>
+            <img :src="account.img" alt="" class="icon off" v-if="account.img" />
+            <i class="fas fa-user nav-menu-item-icon off" v-else></i>
+            <div class="account-name off">{{ account.name }}</div>
           </label>
-          <input type="checkbox" id="dashboard-confirm" ref="dashboard-confirm" />
+          <input type="checkbox" id="dashboard-confirm" class="off" ref="dashboard-confirm" />
           <div class="dashboard">
-            <div :style="`background-image:url(${account.img})`" class="dashboard-pic dashboard-item" alt="" v-if="account.img"></div>
-            <i class="fas fa-user dashboard-item dashboard-icon" v-else></i>
-            <div class="dashboard-name dashboard-item">{{ account.name }}</div>
-            <div class="dashboard-email dashboard-item">{{ account.email }}</div>
-            <div class="dashboard-account dashboard-item" @click="modifyDashboard()">管理你的帳戶</div>
-            <div class="dashboard-signout dashboard-item" @click="signout()">登出</div>
+            <div :style="`background-image:url(${account.img})`" class="dashboard-pic dashboard-account" alt="" v-if="account.img"></div>
+            <i class="fas fa-user dashboard-account dashboard-icon" v-else></i>
+            <div class="dashboard-account">{{ account.name }}</div>
+            <div class="dashboard-account dashboard-email">{{ account.email }}</div>
+            <a href="#" class="dashboard-item" @click="modifyDashboard()">管理你的帳戶</a>
+            <router-link class="dashboard-item" to="/favorite">
+              <i class="fas fa-shopping-cart"></i>
+              <span>收藏</span>
+            </router-link>
+            <router-link class="dashboard-item" to="/purchase">
+              <i class="fas fa-list"></i>
+              <span>購買清單</span>
+            </router-link>
+            <a href="#" class="dashboard-signout dashboard-item" @click="signout()">登出</a>
           </div>
         </a>
       </nav>
     </div>
-    <!-- <nav class="nav-menu phone-menu">
-      <router-link class="nav-menu-item" to="/favorite" data-toggle="tooltip" data-placement="bottom" title="收藏">
-        <i class="fas fa-shopping-cart nav-menu-item-icon"></i>
-        <span>收藏</span>
-      </router-link>
-      <router-link class="nav-menu-item" to="/purchase" data-toggle="tooltip" data-placement="bottom" title="購買紀錄">
-        <i class="fas fa-list nav-menu-item-icon"></i>
-        <span>購買清單</span>
-      </router-link>
-      <a class="nav-menu-item">
-        <router-link to="/login" class="account-name" v-if="!account.name" data-toggle="tooltip" data-placement="bottom" title="登入會員">
-          <i class="fas fa-user nav-menu-item-icon"></i>
-          <span>會員</span>
-        </router-link>
-        <label class="nav-menu-item-name" for="dashboard-confirm" v-else>
-          <img :src="account.img" alt="" class="icon" v-if="account.img" />
-          <i class="fas fa-user" v-else></i>
-          <div class="account-name">{{ account.name }}</div>
-        </label>
-        <input type="checkbox" id="dashboard-confirm" ref="dashboard-confirm" />
-        <div class="dashboard">
-          <div :style="`background-image:url(${account.img})`" class="dashboard-pic dashboard-item" alt="" v-if="account.img"></div>
-          <i class="fas fa-user dashboard-item dashboard-icon" v-else></i>
-          <div class="dashboard-name dashboard-item">{{ account.name }}</div>
-          <div class="dashboard-email dashboard-item">{{ account.email }}</div>
-          <div class="dashboard-account dashboard-item" @click="modifyDashboard()">管理你的帳戶</div>
-          <div class="dashboard-signout dashboard-item" @click="signout()">登出</div>
-        </div>
-      </a>
-    </nav> -->
     <router-view></router-view>
-    <div class="light" ref="dark"></div>
+    <div class="light" ref="dark" @click="accountHandler()"></div>
   </div>
 </template>
 
@@ -99,15 +87,18 @@ export default {
     barHandler() {
       this.$refs.dark.classList.toggle('dark');
     },
-    routeRoom(val) {
+    /* routeRoom(val) {
       this.roomId = val;
       this.$refs.dark.classList.remove('dark');
       this.$refs['nav-switch'].checked = false;
       this.$router.push(`/room/${val}`);
+    }, */
+    routeRoom(val) {
+      this.$refs.room.checked = false;
+      this.$router.push(`/room/${val}`);
     },
     isSignin() {
       this.$http.get(`${process.env.VUE_APP_api}/users/isSignin`).then(res => {
-        console.log(res.data.img);
         if (res.data.success) {
           this.account = res.data;
         } else {
@@ -137,7 +128,8 @@ export default {
         res.data.item.forEach(e => {
           this.roomKind.push({
             id: e.id,
-            name: e['rooms-detail'].name,
+            name: e['rooms-detail'].name.split(' Room')[0],
+            pic: e['rooms-detail'].imageUrl,
           });
         });
       });
@@ -146,6 +138,14 @@ export default {
     });
     this.$bus.$on('isLoading', isLoading => {
       this.isLoading = isLoading;
+    });
+    document.querySelector('body').addEventListener('click', e => {
+      if (!e.target.className.includes('off')) {
+        this.$refs['dashboard-confirm'].checked && !e.target.className.includes('dashboard') ? (this.$refs['dashboard-confirm'].checked = false) : '';
+      }
+      if (!e.target.className.includes('close')) {
+        this.$refs.room.checked && !e.target.className.includes('room') ? (this.$refs.room.checked = false) : '';
+      }
     });
   },
   watch: {
@@ -235,9 +235,15 @@ export default {
       cursor: pointer;
       display: flex;
       align-items: center;
+      outline: none;
+      border: none;
+      background-color: rgba(255, 255, 255, 0);
       transition: 0.5s all;
+      position: relative;
       & ~ & {
-        margin-left: 15px;
+        @include lapTopHigh {
+          margin-left: 5px;
+        }
       }
       &:hover {
         color: lighten($important, 15%);
@@ -257,9 +263,9 @@ export default {
         color: $important;
         transition: 0.5s all;
       }
-      span {
+      /* span {
         font-size: 20px;
-      }
+      } */
       &-name {
         margin: 0;
         display: flex;
@@ -288,7 +294,7 @@ export default {
         }
       }
       .dashboard {
-        padding: 50px;
+        padding: 25px 40px;
         display: none;
         position: absolute;
         z-index: -1;
@@ -298,6 +304,7 @@ export default {
         box-shadow: 0px 0px 10px 0px gray;
         border-radius: 5%;
         background-color: white;
+        cursor: auto;
         &-pic {
           @extend %bg;
           border-radius: 50%;
@@ -311,42 +318,43 @@ export default {
         }
         &-name {
           color: black;
+          /* &:hover{
+            background-color: white;
+          } */
         }
         &-item {
+          display: block;
           color: gray;
           text-align: center;
-          margin: 0 auto;
+          margin: 0 auto 5px;
+          padding: 5px;
           font-size: 16px;
+          white-space: nowrap;
+          &:hover {
+            background-color: rgb(240, 239, 239);
+          }
+          &:active {
+            background-color: darken(rgb(240, 239, 239), 15%);
+            box-shadow: 0px 0px 10px 0px rgb(240, 239, 239);
+          }
+          span {
+            margin-left: 5px;
+          }
         }
         &-email {
-          margin-bottom: 10px;
+          margin-bottom: 15px;
         }
         &-account {
-          cursor: pointer;
+          display: block;
+          color: gray;
+          text-align: center;
+          font-size: 16px;
           white-space: nowrap;
-          border-radius: 50px;
-          border: rgb(240, 239, 239) 1px solid;
-          padding: 5px 10px;
-          margin-bottom: 40px;
-          &:hover {
-            background-color: rgb(240, 239, 239);
-          }
-          &:active {
-            background-color: darken(rgb(240, 239, 239), 15%);
-            box-shadow: 0px 0px 10px 0px rgb(240, 239, 239);
-          }
         }
         &-signout {
-          cursor: pointer;
+          margin-top: 15px;
           padding: 5px 10px;
           border: rgb(240, 239, 239) 1px solid;
-          &:hover {
-            background-color: rgb(240, 239, 239);
-          }
-          &:active {
-            background-color: darken(rgb(240, 239, 239), 15%);
-            box-shadow: 0px 0px 10px 0px rgb(240, 239, 239);
-          }
         }
       }
     }
@@ -387,6 +395,57 @@ export default {
     cursor: pointer;
   }
 }
+
+#room {
+  display: none;
+  &:checked ~ .room {
+    display: block;
+    z-index: 30;
+  }
+}
+.room {
+  z-index: -1;
+  background-color: white;
+  position: absolute;
+  display: none;
+  top: 37px;
+  @include lapTopHigh {
+    left: -65px;
+  }
+  left: -35px;
+  box-shadow: 0px 0px 10px 0px gray;
+  border-radius: 5%;
+  &-item {
+    display: flex;
+    align-items: center;
+    padding: 5px 15px;
+    width: 200px;
+    color: $important;
+    &:first-child {
+      border-radius: 10px 10px 0 0;
+    }
+    &:last-child {
+      border-radius: 0 0 10px 10px;
+    }
+    &:hover {
+      background-color: rgb(240, 239, 239);
+    }
+    &:active {
+      background-color: darken(rgb(240, 239, 239), 15%);
+    }
+    &-pic {
+      @extend %bg;
+      margin-right: 5px;
+      border-radius: 50%;
+      width: 25px;
+      height: 25px;
+    }
+  }
+  &-label {
+    margin: 0;
+    cursor: pointer;
+  }
+}
 .dark {
   background-color: rgba(32, 28, 28, 0.7);
   @include lapTopHigh {
@@ -402,11 +461,4 @@ export default {
   height: 100%;
   z-index: 30;
 }
-/* i {
-  font-size: 22px;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  color: $important;
-} */
 </style>

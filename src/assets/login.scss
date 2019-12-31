@@ -22,6 +22,11 @@
   border-radius: 2%;
   margin: 30px auto;
   padding: 35px;
+  &-name {
+    color: white;
+    font-size: 20px;
+    margin-left: 20px;
+  }
   &-icon {
     text-align: center;
     font-size: 26px;
@@ -70,7 +75,7 @@
       transform: translateX(20px);
     }
   }
-  &-signin {
+  &-login {
     background-color: #464545;
     color: white;
     transition: 0.5s all;
@@ -79,15 +84,15 @@
     border-radius: 50px;
     padding: 5px;
     margin: 15px 0;
+    display: block;
+    width: 100%;
+    outline: none;
     &:hover {
       background-color: white;
       color: black;
     }
-    /* &:active {
-      background-image: linear-gradient(135deg, gray, white, gray);
-    } */
   }
-  &-signup {
+  &-register {
     text-align: center;
     display: block;
     width: 100px;

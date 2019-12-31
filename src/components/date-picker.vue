@@ -1,15 +1,20 @@
 <template>
   <div class="date">
+    <div class="date-title">姓名</div>
     <div class="date-group" :class="{ 'is-invalid': errors.has('name') }">
       <i class="date-group-icon fas fa-user-alt"></i>
       <input type="text" class="date-group-input" v-validate="'required'" placeholder="Name" name="name" data-vv-as="名字" v-model="sendInfo.name" />
     </div>
     <p class="invalid-word">{{ errors.first('name') }}</p>
+
+    <div class="date-title">電話號碼</div>
     <div class="date-group" :class="{ 'is-invalid': errors.has('tel') }">
       <i class="date-group-icon fas fa-phone-alt"></i>
       <input type="tel" class="date-group-input" v-validate="'required|numeric'" placeholder="Phone" data-vv-as="電話號碼" name="tel" v-model="sendInfo.tel" />
     </div>
     <p class="invalid-word">{{ errors.first('tel') }}</p>
+
+    <div class="date-title">日期</div>
     <div class="date-groups input-daterange outline-none">
       <div class="date-groups-check" :class="{ 'is-invalid': errors.has('date') }">
         <i class="far fa-calendar-times"></i>
@@ -141,6 +146,10 @@ export default {
 .date {
   flex-grow: 1;
   width: 100%;
+  &-title{
+    font-size: 16px;
+    //color: $important;
+  }
   &-group {
     display: flex;
     align-items: center;
@@ -201,12 +210,11 @@ export default {
       text-align: center;
       background-color: $important;
       color: $other;
-      cursor: pointer;
-      transition: 0.5s all;
+      /* transition: 0.5s all;
       &:hover {
         background-color: white;
         color: $important;
-      }
+      } */
     }
   }
 }
