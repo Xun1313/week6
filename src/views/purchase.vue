@@ -11,27 +11,48 @@
       </tr>
     </thead> -->
       <tbody v-if="purchase.length > 0">
-        <tr class="item" v-for="(item, index) in purchase" :key="item.room.id + index">
+        <tr
+          class="item"
+          v-for="(item, index) in purchase"
+          :key="item.room.id + index"
+        >
           <td class="item-img">
             <div class="item-img-container">
-              <div class="item-img-container-bg" :style="`background-image:url(${item.room['rooms-detail'].imageUrl})`"></div>
+              <div
+                class="item-img-container-bg"
+                :style="
+                  `background-image:url(${item.room['rooms-detail'].imageUrl})`
+                "
+              ></div>
             </div>
           </td>
           <td class="item-all">
             <div class="all">
-              <div class="all-primary">{{ item.room['rooms-detail'].name }}</div>
+              <div class="all-primary">
+                {{ item.room['rooms-detail'].name }}
+              </div>
               <div class="all-secondary">
                 <div class="all-secondary-item">
                   <div class="all-secondary-item-sign">入住</div>
-                  <div class="all-secondary-item-date">{{ item.user.firstDate }}星期{{ item.user.firstDay }}</div>
-                  <div class="all-secondary-item-time">({{ item.user.checkInEarly }}起)</div>
+                  <div class="all-secondary-item-date">
+                    {{ item.user.firstDate }}星期{{ item.user.firstDay }}
+                  </div>
+                  <div class="all-secondary-item-time">
+                    ({{ item.user.checkInEarly }}起)
+                  </div>
                 </div>
                 <div class="all-secondary-item">
                   <div class="all-secondary-item-sign">退房</div>
-                  <div class="all-secondary-item-date">{{ item.user.lastDate }}星期{{ item.user.lastDay }}</div>
-                  <div class="all-secondary-item-time">({{ item.user.checkOut }}前)</div>
+                  <div class="all-secondary-item-date">
+                    {{ item.user.lastDate }}星期{{ item.user.lastDay }}
+                  </div>
+                  <div class="all-secondary-item-time">
+                    ({{ item.user.checkOut }}前)
+                  </div>
                 </div>
-                <div class="all-secondary-sum">{{ item.user.days }}晚/{{ item.user.sum }}元</div>
+                <div class="all-secondary-sum">
+                  {{ item.user.days }}晚/{{ item.user.sum }}元
+                </div>
               </div>
             </div>
           </td>
@@ -50,20 +71,20 @@
 export default {
   data() {
     return {
-      purchase: [],
-    };
+      purchase: []
+    }
   },
   methods: {
-    updateData() {},
+    updateData() {}
   },
   mounted() {
-    this.$bus.$emit('isLoading', true);
+    this.$bus.$emit('isLoading', true)
     this.$http.get(`${process.env.VUE_APP_api}/purchase`).then(res => {
-      res.data.success ? (this.purchase = res.data.purchase) : '';
-      this.$bus.$emit('isLoading', false);
-    });
-  },
-};
+      res.data.success ? (this.purchase = res.data.purchase) : ''
+      this.$bus.$emit('isLoading', false)
+    })
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -85,7 +106,7 @@ export default {
     width: 80%;
   }
   margin: auto;
-  margin-bottom: 50px
+  margin-bottom: 50px;
 }
 .item {
   &-img {

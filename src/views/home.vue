@@ -10,10 +10,22 @@
     <div class="container">
       <div class="swiper-container">
         <div class="swiper-wrapper">
-          <div class="swiper-slide" v-for="(item, index) in allRooms" :key="item.id + index">
+          <div
+            class="swiper-slide"
+            v-for="(item, index) in allRooms"
+            :key="item.id + index"
+          >
             <div class="home-suggest" @click="roomHandler(item.id)">
-              <div class="home-suggest-pic" :style="`background-image:url(${item['room-detail'].imageUrl[1]})`" @click="roomHandler(item.id)"></div>
-              <div class="home-suggest-name">{{ item['rooms-detail'].name }}</div>
+              <div
+                class="home-suggest-pic"
+                :style="
+                  `background-image:url(${item['room-detail'].imageUrl[1]})`
+                "
+                @click="roomHandler(item.id)"
+              ></div>
+            </div>
+            <div class="home-name">
+              {{ item['rooms-detail'].name }}
             </div>
           </div>
         </div>
@@ -22,87 +34,141 @@
         <div class="swiper-button-prev"></div>
       </div>
     </div>
-
     <div class="container">
-      <div class="home-title-other">選擇房型</div>
-      <div class="home-scroll">
-        <a href="#" class="home-scroll-single" @click="scrollRoom($event, 'single')">
-          <div class="home-scroll-item">
-            <div class="single-bg"></div>
-            <div class="single-word">Single</div>
-          </div>
-        </a>
-        <a href="#" class="home-scroll-double" @click="scrollRoom($event, 'double')">
-          <div class="home-scroll-item">
-            <div class="double-bg"></div>
-            <div class="double-word">Double</div>
-          </div>
-        </a>
+      <div class="home-title-other">關於我們</div>
+      <div class="about">
+        <img
+          class="about-pic"
+          src="https://images.unsplash.com/photo-1524063221847-15c7329095d8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=600&q=60"
+          alt=""
+        />
+        <div class="about-word">
+          <p>
+            WHITE
+            INN坐落在美茵河畔法蘭克福市的中心地帶，距離法蘭克福中央火車站只有100米之遙。飯店提供配備了空調以及免費無線網路連接的隔音客房，並設有一間時尚的餐廳。Europa
+            Style酒店的所有客房都擁有舒適的陳設，配有可以收看衛星頻道的平面電視、筆記本電腦保險箱和迷你吧，部分客房設有沏茶/咖啡設施。
+          </p>
+          <p>
+            飯店距離眾多的國際化餐廳、酒吧和夜總會都只有很短的步行路程。著名的Zeil購物區以及Frankfurt
+            Messe Exhibition Grounds展覽中心距離酒店有大約5分鐘車程。
+            Europa酒店每天早晨供應自助早餐。酒店的酒吧供應各種飲品。
+            禮賓處的工作人員可以幫助客人安排遊覽法蘭克福市的行程，24小時前台可以提供行李寄存服務。
+          </p>
+        </div>
       </div>
     </div>
+
     <div class="container">
-      <div class="home-title-other" ref="single">精選單人房</div>
-      <div class="home-all row">
-        <template v-for="item in allRooms">
-          <div class="home-all-item item col-md-6" v-if="item['room-detail'].descriptionShort.GuestMin === 1" :key='item.id'>
-            <div class="item-group" @click="roomHandler(item.id)">
-              <img :src="item['rooms-detail'].imageUrl" class="item-group-pic" />
-              <div class="item-group-more">
-                <div class="item-group-more-word">See More</div>
-              </div>
+      <div class="row group-grid">
+        <div class="col-md-6 group">
+          <div class="group-item">
+            <div class="group-item-bg group-item-bg1"></div>
+            <div class="group-item-content" @click="routeHandler('list')">
+              <div class="group-item-content-title">客房介紹</div>
+              <router-link to="/list" class="group-item-content-more"
+                >了解更多</router-link
+              >
             </div>
-            <div class="item-title">{{ item['rooms-detail'].name }}</div>
-            <div class="item-normal">平日$ {{ item['rooms-detail'].normalDayPrice }}</div>
-            <div class="item-holiday">假日$ {{ item['rooms-detail'].holidayPrice }}</div>
           </div>
-        </template>
-      </div>
-
-      <div class="home-title-other" ref="double">精選雙人房</div>
-      <div class="home-all row">
-        <template v-for="item in allRooms">
-          <div class="home-all-item item col-md-6" v-if="item['room-detail'].descriptionShort.GuestMin === 2" :key="item.id">
-            <div class="item-group" @click="roomHandler(item.id)">
-              <img :src="item['rooms-detail'].imageUrl" class="item-group-pic" />
-              <div class="item-group-more">
-                <div class="item-group-more-word">See More</div>
-              </div>
+        </div>
+        <div class="col-md-6 group">
+          <div class="group-item">
+            <div class="group-item-bg group-item-bg2"></div>
+            <div class="group-item-content" @click="routeHandler('facility')">
+              <div class="group-item-content-title">設施介紹</div>
+              <router-link to="/facility" class="group-item-content-more"
+                >了解更多</router-link
+              >
             </div>
-            <div class="item-title">{{ item['rooms-detail'].name }}</div>
-            <div class="item-normal">$ {{ item['rooms-detail'].normalDayPrice }}</div>
-            <div class="item-holiday">$ {{ item['rooms-detail'].holidayPrice }}</div>
           </div>
-        </template>
+        </div>
+        <div class="col-md-4 group">
+          <div class="group-item">
+            <div class="group-item-bg group-item-bg3"></div>
+            <div class="group-item-content" @click="routeHandler('news')">
+              <div class="group-item-content-title">最新消息</div>
+              <router-link to="/news" class="group-item-content-more"
+                >了解更多</router-link
+              >
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 group">
+          <div class="group-item">
+            <div class="group-item-bg group-item-bg4"></div>
+            <div class="group-item-content" @click="routeHandler('gallery')">
+              <div class="group-item-content-title">照片集錦</div>
+              <router-link to="/gallery" class="group-item-content-more"
+                >了解更多</router-link
+              >
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 group">
+          <div class="group-item">
+            <div class="group-item-bg group-item-bg5"></div>
+            <div class="group-item-content" @click="routeHandler('contact')">
+              <div class="group-item-content-title">聯絡我們</div>
+              <router-link to="/contact" class="group-item-content-more"
+                >了解更多</router-link
+              >
+            </div>
+          </div>
+        </div>
       </div>
+    </div>
 
+    <div class="container">
       <div class="home-title-other">顧客評論</div>
       <div class="scroll">
         <div class="scroll-flex">
-          <img src="../assets/scroll/anmol-seth-hDbCjHNdF48-unsplash.jpg" alt="" class="scroll-flex-pic" />
+          <img
+            src="../assets/scroll/anmol-seth-hDbCjHNdF48-unsplash.jpg"
+            alt=""
+            class="scroll-flex-pic"
+          />
           <div class="scroll-flex-people">
             <div class="scroll-flex-people-name">蔡小姐</div>
-            <div class="scroll-flex-people-word">房型空間大的很驚艷，Spa設施場地夠大</div>
+            <div class="scroll-flex-people-word">
+              飯店裝潢很棒，非常有渡假村的氣息
+            </div>
           </div>
         </div>
 
         <div class="scroll-flex">
-          <img src="../assets/scroll/daniil-vnoutchkov-U1IHfPUYyPE-unsplash.jpg" alt="" class="scroll-flex-pic" />
+          <img
+            src="../assets/scroll/daniil-vnoutchkov-U1IHfPUYyPE-unsplash.jpg"
+            alt=""
+            class="scroll-flex-pic"
+          />
           <div class="scroll-flex-people">
             <div class="scroll-flex-people-name">周小姐</div>
-            <div class="scroll-flex-people-word">溫泉湯池也算舒適，早餐樣式足夠豐富</div>
+            <div class="scroll-flex-people-word">
+              游泳池很寬闊，下次還會再來
+            </div>
           </div>
         </div>
 
         <div class="scroll-flex">
-          <img src="../assets/scroll/hello-lightbulb-yB6WFHbkX40-unsplash.jpg" alt="" class="scroll-flex-pic" />
+          <img
+            src="../assets/scroll/hello-lightbulb-yB6WFHbkX40-unsplash.jpg"
+            alt=""
+            class="scroll-flex-pic"
+          />
           <div class="scroll-flex-people">
             <div class="scroll-flex-people-name">蔣先生</div>
-            <div class="scroll-flex-people-word">房間裝潢很棒 窗簾拉開看到的風景很美</div>
+            <div class="scroll-flex-people-word">
+              房間窗簾拉開看到的風景很美
+            </div>
           </div>
         </div>
 
         <div class="scroll-flex">
-          <img src="../assets/scroll/manuel-moreno-DGa0LQ0yDPc-unsplash.jpg" alt="" class="scroll-flex-pic" />
+          <img
+            src="../assets/scroll/manuel-moreno-DGa0LQ0yDPc-unsplash.jpg"
+            alt=""
+            class="scroll-flex-pic"
+          />
           <div class="scroll-flex-people">
             <div class="scroll-flex-people-name">顏先生</div>
             <div class="scroll-flex-people-word">讓人可以很放鬆的地方</div>
@@ -130,32 +196,35 @@
 </template>
 
 <script>
-import 'swiper/css/swiper.min.css';
-import Swiper from 'swiper';
-import banner from '../components/banner';
+import 'swiper/css/swiper.min.css'
+import Swiper from 'swiper'
+import banner from '../components/banner'
 export default {
   data() {
     return {
-      allRooms: [],
-    };
+      allRooms: []
+    }
   },
   methods: {
     roomHandler(id) {
-      this.$router.push(`/room/${id}`);
+      this.$router.push(`/room/${id}`)
+    },
+    routeHandler(val) {
+      this.$router.push(`/${val}`)
     },
     scrollRoom(e, val) {
-      e.preventDefault();
+      e.preventDefault()
       //window.scrollTo(0,this.$refs[val].offsetTop)
       window.scrollTo({
         top: this.$refs[val].offsetTop,
-        behavior: 'smooth',
-      });
-    },
+        behavior: 'smooth'
+      })
+    }
   },
   mounted() {
     //let token = document.head.querySelector('meta[name="csrf-token"]');
     //window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
-    this.$bus.$emit('isLoading', true);
+    this.$bus.$emit('isLoading', true)
     this.$http
       .get(`${process.env.VUE_APP_api}/rooms`, {
         /* headers: {
@@ -164,10 +233,10 @@ export default {
       })
       .then(res => {
         //axios.defaults.headers.common['X-CSRF-TOKEN'] = res.data.csrfToken
-        this.allRooms = res.data.item;
+        this.allRooms = res.data.item
       })
       .then(() => {
-        var swiper = new Swiper('.swiper-container', {
+        new Swiper('.swiper-container', {
           loop: true,
           slidesPerView: 1,
           speed: 400,
@@ -176,21 +245,21 @@ export default {
             // when window width is >= 480px
             768: {
               slidesPerView: 3,
-              spaceBetween: 30,
-            },
+              spaceBetween: 30
+            }
           },
           navigation: {
             nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-          },
-        });
-        this.$bus.$emit('isLoading', false);
-      });
+            prevEl: '.swiper-button-prev'
+          }
+        })
+        this.$bus.$emit('isLoading', false)
+      })
   },
   components: {
-    banner,
-  },
-};
+    banner
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -285,20 +354,9 @@ export default {
       height: 100%;
       position: absolute;
     }
-    &-name {
-      color: $word;
-    }
-    /* &-pic {
-      width: 230px;
-      height: auto;
-    } */
-    /* display: flex;
-    align-items: center; */
-    /* &-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    } */
+  }
+  &-name {
+    color: $word;
   }
   /* &-menu {
     display: flex;
@@ -309,135 +367,7 @@ export default {
       cursor: pointer;
     }
   } */
-  &-scroll {
-    display: flex;
-    align-items: center;
-    border-radius: 50px;
-    width: 200px;
-    margin: 0 auto 30px;
-    overflow: hidden;
-    border: 2px solid $important;
-    justify-content: center;
-    height: 55px;
-    &-item {
-      font-weight: bold;
-      cursor: pointer;
-      position: relative;
-      .single-bg {
-        position: absolute;
-        transform: rotate(10deg);
-        padding: 75px;
-        top: -100%;
-        left: -92%;
-        z-index: 5;
-        transition: 0.5s all;
-      }
-      .single-word {
-        margin: 0 10px;
-        color: $important;
-        transition: 0.5s all;
-        position: relative;
-        z-index: 10;
-      }
-      .double-bg {
-        position: absolute;
-        color: $important;
-        text-align: right;
-        background-color: $important;
-        transform: rotate(10deg);
-        padding: 75px;
-        top: -50%;
-        left: 0;
-        z-index: 5;
-        transition: 0.5s all;
-      }
-      .double-word {
-        margin: 0 10px;
-        position: relative;
-        left: 10px;
-        z-index: 10;
-        transition: 0.5s all;
-        color: white;
-      }
-    }
-    &-single {
-      text-decoration: none;
-      &:hover .single-bg {
-        background-color: $important;
-      }
-      &:hover .single-word {
-        color: white;
-      }
-    }
-    &-double {
-      text-decoration: none;
-      &:hover .double-bg {
-        background-color: white;
-      }
-      &:hover .double-word {
-        color: $important;
-      }
-    }
-  }
-  &-all {
-    //width: 90%;
-    //padding: 0 50px;
-    margin: auto;
-    .item {
-      /* @include lapTopHigh {
-        padding: 0 80px;
-      } */
-      padding: 0;
-      margin-bottom: 20px;
-      @include lapTop {
-        &:nth-child(odd) {
-          padding-right: 20px;
-        }
-        &:nth-child(even) {
-          padding-left: 20px;
-        }
-      }
-      &-group {
-        position: relative;
-        &:hover > .item-group-more {
-          background-color: rgba(0, 0, 0, 0.5);
-          height: 100%;
-        }
-        &-title {
-          color: $important;
-        }
-        &-pic {
-          width: 100%;
-          height: auto;
-          cursor: pointer;
-        }
-        &-more {
-          background-color: rgba(0, 0, 0, 0);
-          color: white;
-          font-weight: bold;
-          position: absolute;
-          left: 0px;
-          top: 0;
-          width: 100%;
-          //height: 100%;
-          height: 0;
-          overflow: hidden;
-          justify-content: center;
-          align-items: center;
-          display: flex;
-          cursor: pointer;
-          transition: 0.5s all;
-          &-word {
-            padding: 5px;
-          }
-        }
-      }
-      &-normal,
-      &-holiday {
-        opacity: 0.6;
-      }
-    }
-  }
+
   &-info {
     width: 100%;
     padding: 0 20px;
@@ -454,6 +384,104 @@ export default {
       margin-bottom: 10px;
       .content {
         margin-left: 5px;
+      }
+    }
+  }
+}
+.about {
+  margin-bottom: 50px;
+  @include lapTop {
+    display: flex;
+  }
+  &-pic {
+    width: 100%;
+    @include lapTop {
+      width: 400px;
+    }
+    height: auto;
+    box-shadow: 0px 0px 10px 0px grey;
+    border-radius: 10px;
+  }
+  &-word {
+    opacity: 0.7;
+    text-indent: 40px;
+    @include lapTop {
+      padding: 0 20px;
+    }
+    padding: 20px;
+  }
+}
+.group-grid {
+  width: 100%;
+  margin: auto;
+}
+.group {
+  padding: 1px;
+  &-item {
+    width: 100%;
+    height: 0;
+    padding-bottom: 67%;
+    position: relative;
+    &-content {
+      position: absolute;
+      width: 95%;
+      height: 95%;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      cursor: pointer;
+      transition: 0.5s all;
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.7);
+      }
+      &:hover > &-more {
+        bottom: 50px;
+      }
+      &-title {
+        font-size: 30px;
+      }
+      &-more {
+        color: white;
+        position: absolute;
+        bottom: -70px;
+        outline: 1px solid white;
+        padding: 5px;
+        transition: 0.3s all;
+        font-size: 16px;
+        text-decoration: none;
+        &:hover {
+          outline: none;
+          background-color: $important;
+        }
+      }
+    }
+    &-bg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      @extend %bg;
+      &1 {
+        background-image: url('../assets/list.jpg');
+      }
+      &2 {
+        background-image: url('../assets/facility/facility.jpg');
+      }
+      &3 {
+        background-image: url('http://www.theriverside.com.tw/wp-content/uploads/sites/308/2019/09/樂不思鼠-01-1200x750.jpg');
+      }
+      &4 {
+        background-image: url('https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60');
+      }
+      &5 {
+        background-image: url('https://images.unsplash.com/photo-1566454869316-b6cfb093a071?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=600&q=60');
       }
     }
   }
@@ -512,7 +540,7 @@ body {
   font-size: 18px;
   background: #fff;
   /* Center slide text vertically */
-  display: -webkit-box;
+  /* display: -webkit-box;
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex;
@@ -523,7 +551,7 @@ body {
   -webkit-box-align: center;
   -ms-flex-align: center;
   -webkit-align-items: center;
-  align-items: center;
+  align-items: center; */
 }
 .swiper-button-next,
 .swiper-button-prev {

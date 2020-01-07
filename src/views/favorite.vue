@@ -11,25 +11,42 @@
       </tr>
     </thead> -->
       <tbody v-if="rooms.length > 0">
-        <tr class="item" v-for="item in rooms" :key="item.name" @click="routeRoom(item.id)">
+        <tr
+          class="item"
+          v-for="item in rooms"
+          :key="item.name"
+          @click="routeRoom(item.id)"
+        >
           <td class="item-img">
             <div class="item-img-container">
-              <div class="item-img-container-bg" :style="`background-image:url(${item.imageUrl})`"></div>
+              <div
+                class="item-img-container-bg"
+                :style="`background-image:url(${item.imageUrl})`"
+              ></div>
             </div>
           </td>
           <td class="item-all">
             <div class="all">
               <div class="all-primary">{{ item.name }}</div>
               <div class="all-secondary">
-                <div class="all-secondary-description">{{ item.description }}</div>
+                <div class="all-secondary-description">
+                  {{ item.description }}
+                </div>
                 <div class="all-secondary-detail">
-                  <div class="all-secondary-detail-cart" @click="deleteCollection($event, item.id)">
+                  <div
+                    class="all-secondary-detail-cart"
+                    @click="deleteCollection($event, item.id)"
+                  >
                     <i class="fas fa-ban"></i>
                     <span>取消收藏</span>
                   </div>
                   <div>
                     <div class="all-secondary-detail-number">
-                      <i class="fas fa-male icon" v-for="guest in item.guest" :key="guest + item.name"></i>
+                      <i
+                        class="fas fa-male icon"
+                        v-for="guest in item.guest"
+                        :key="guest + item.name"
+                      ></i>
                       <div class="people">x{{ item.guest }}</div>
                     </div>
                     <div class="all-secondary-detail-price">
@@ -56,21 +73,23 @@
 export default {
   data() {
     return {
-      rooms: [],
-    };
+      rooms: []
+    }
   },
   methods: {
     routeRoom(id) {
-      this.$router.push(`/room/${id}`);
+      this.$router.push(`/room/${id}`)
     },
     deleteCollection(e, id) {
-      e.stopPropagation();
-      this.$http.delete(`${process.env.VUE_APP_api}/favorite/${id}`).then(res => {
-        this.getCollection();
-      });
+      e.stopPropagation()
+      this.$http
+        .delete(`${process.env.VUE_APP_api}/favorite/${id}`)
+        .then(() => {
+          this.getCollection()
+        })
     },
     getCollection() {
-      this.$bus.$emit('isLoading', true);
+      this.$bus.$emit('isLoading', true)
       this.$http.get(`${process.env.VUE_APP_api}/favorite`).then(res => {
         if (res.data.success) {
           this.rooms = res.data.rooms.map(e => {
@@ -78,18 +97,18 @@ export default {
               ...e['rooms-detail'],
               id: e.id,
               guest: e['room-detail'].descriptionShort.GuestMin,
-              description: e['room-detail'].description,
-            };
-          });
+              description: e['room-detail'].description
+            }
+          })
         }
-        this.$bus.$emit('isLoading', false);
-      });
-    },
+        this.$bus.$emit('isLoading', false)
+      })
+    }
   },
   mounted() {
-    this.getCollection();
-  },
-};
+    this.getCollection()
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -111,7 +130,7 @@ export default {
     width: 80%;
   }
   margin: auto;
-  margin-bottom: 50px
+  margin-bottom: 50px;
 }
 .item {
   cursor: pointer;

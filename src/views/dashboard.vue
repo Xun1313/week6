@@ -11,9 +11,19 @@
             <div class="login-item-flex-icon">
               <i class="fas fa-mobile-alt"></i>
             </div>
-            <input type="text" class="login-item-flex-input" placeholder="Phone" v-model="account.phone" v-validate="'required|numeric'" data-vv-as="電話號碼" name="phone" />
+            <input
+              type="text"
+              class="login-item-flex-input"
+              placeholder="Phone"
+              v-model="account.phone"
+              v-validate="'required|numeric'"
+              data-vv-as="電話號碼"
+              name="phone"
+            />
           </div>
-          <div class="login-item-error" v-if="errors.has('phone')">電話號碼必須為數字<!-- {{errors.first('password')}} --></div>
+          <div class="login-item-error" v-if="errors.has('phone')">
+            電話號碼必須為數字<!-- {{errors.first('password')}} -->
+          </div>
         </div>
         <div class="login-name">姓名</div>
         <div class="login-item">
@@ -21,22 +31,47 @@
             <div class="login-item-flex-icon">
               <i class="fas fa-file-signature"></i>
             </div>
-            <input type="text" class="login-item-flex-input" placeholder="Name" v-model="account.name" v-validate="'required'" data-vv-as="名字" name="name" />
+            <input
+              type="text"
+              class="login-item-flex-input"
+              placeholder="Name"
+              v-model="account.name"
+              v-validate="'required'"
+              data-vv-as="名字"
+              name="name"
+            />
           </div>
-          <div class="login-item-error" v-if="errors.has('name')">名字為必填<!-- {{errors.first('password')}} --></div>
+          <div class="login-item-error" v-if="errors.has('name')">
+            名字為必填<!-- {{errors.first('password')}} -->
+          </div>
         </div>
         <div class="login-name">照片上傳區</div>
         <div class="upload" ref="upload">
-          <div class="upload-region" :class="{ 'upload-region-error': errors.has('image') }">
-            <input type="file" class="upload-region-file" @change="fileHandler($event)" ref="upload-region-file" v-validate="'image'" data-vv-as="圖片" name="image" />
+          <div
+            class="upload-region"
+            :class="{ 'upload-region-error': errors.has('image') }"
+          >
+            <input
+              type="file"
+              class="upload-region-file"
+              @change="fileHandler($event)"
+              ref="upload-region-file"
+              v-validate="'image'"
+              data-vv-as="圖片"
+              name="image"
+            />
             <i class="fas fa-cloud-upload-alt"></i>
             <div class="upload-region-describe">{{ file }}</div>
           </div>
-          <div class="login-item-error" v-if="errors.has('image')">必須上傳圖片檔</div>
+          <div class="login-item-error" v-if="errors.has('image')">
+            必須上傳圖片檔
+          </div>
           <img :src="account.img" alt="" class="upload-img" />
         </div>
 
-        <button type="button" class="login-update" @click="updateUser()">確認修改</button>
+        <button type="button" class="login-update" @click="updateUser()">
+          確認修改
+        </button>
         <!-- <img :src="base64" alt="" /> -->
       </div>
     </div>
@@ -51,65 +86,65 @@ export default {
       account: {
         img: '',
         phone: '',
-        name: '',
-      },
-    };
+        name: ''
+      }
+    }
   },
   methods: {
     updateUser() {
       this.$validator.validate().then(validate => {
         if (validate) {
-          this.$bus.$emit('isLoading', true);
-          const formdata = new FormData();
-          const file = this.$refs['upload-region-file'].files[0];
-          file ? formdata.append('userpic', file) : '';
+          this.$bus.$emit('isLoading', true)
+          const formdata = new FormData()
+          const file = this.$refs['upload-region-file'].files[0]
+          file ? formdata.append('userpic', file) : ''
           //formdata.append('userpic', this.$refs['upload-region-file'].files[0]);
           //裡面沒有值,我就不發請求了
-          formdata.append('phone', this.account.phone);
-          formdata.append('name', this.account.name);
+          formdata.append('phone', this.account.phone)
+          formdata.append('name', this.account.name)
           this.$http
             .post(`${process.env.VUE_APP_api}/users/update`, formdata, {
               headers: {
-                'Content-type': 'multipart/form-data',
-              },
+                'Content-type': 'multipart/form-data'
+              }
             })
             .then(res => {
               if (res.data.success) {
-                this.$bus.$emit('refreshSignin');
-                this.$router.push('/');
+                this.$bus.$emit('refreshSignin')
+                this.$router.push('/')
               }
-              this.$bus.$emit('isLoading', false);
-            });
+              this.$bus.$emit('isLoading', false)
+            })
         }
-      });
+      })
     },
     fileHandler(e) {
       if (e.currentTarget.value) {
-        this.file = e.currentTarget.value;
-        const Fr = new FileReader();
-        Fr.readAsDataURL(e.currentTarget.files[0]);
+        this.file = e.currentTarget.value
+        const Fr = new FileReader()
+        Fr.readAsDataURL(e.currentTarget.files[0])
         Fr.onload = FrEvent => {
-          this.account.img = FrEvent.currentTarget.result;
-        };
+          this.account.img = FrEvent.currentTarget.result
+        }
       }
-    },
+    }
   },
   mounted() {
-    this.$bus.$emit('isLoading', true);
+    this.$bus.$emit('isLoading', true)
     this.$http.get(`${process.env.VUE_APP_api}/users/isSignin`).then(res => {
       if (res.data.success) {
-        this.account = res.data;
+        this.account = res.data
       }
-      this.$bus.$emit('isLoading', false);
-    });
+      this.$bus.$emit('isLoading', false)
+    })
     /* this.$refs.upload.addEventListener('dragenter', e => {
       this.$refs.upload.classList.add('upload-drag');
     });
     this.$refs.upload.addEventListener('dragleave', e => {
       this.$refs.upload.classList.remove('upload-drag');
     }); */
-  },
-};
+  }
+}
 </script>
 
 <style lang="scss" scoped>

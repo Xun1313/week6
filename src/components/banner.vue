@@ -28,8 +28,8 @@
 </template>
 
 <script>
-import 'swiper/css/swiper.min.css';
-import Swiper from 'swiper';
+import 'swiper/css/swiper.min.css'
+import Swiper from 'swiper'
 export default {
   /* methods: {
     scrollBanner(e){
@@ -41,8 +41,8 @@ export default {
     }
   }, */
   mounted() {
-    this.$bus.$emit('isLoading', true);
-    var swiper = new Swiper('.swiper-container1', {
+    this.$bus.$emit('isLoading', true)
+    new Swiper('.swiper-container1', {
       slidesPerView: 1,
       spaceBetween: 30,
       autoplay: true,
@@ -51,16 +51,16 @@ export default {
       speed: 400,
       pagination: {
         el: '.swiper-pagination',
-        clickable: true,
-      },
+        clickable: true
+      }
       /* navigation: {
         nextEl: '.swiper-button-next',
         prevEl: '.swiper-button-prev',
       }, */
-    });
-    this.$bus.$emit('isLoading', false);
-  },
-};
+    })
+    this.$bus.$emit('isLoading', false)
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -134,8 +134,8 @@ export default {
     color: white;
     display: block;
     animation-name: arrow;
-    animation-duration:1.5s;
-    animation-iteration-count:infinite
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
   }
 }
 @keyframes arrow {

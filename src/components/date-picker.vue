@@ -3,37 +3,83 @@
     <div class="date-title">姓名</div>
     <div class="date-group" :class="{ 'is-invalid': errors.has('name') }">
       <i class="date-group-icon fas fa-user-alt"></i>
-      <input type="text" class="date-group-input" v-validate="'required'" placeholder="Name" name="name" data-vv-as="名字" v-model="sendInfo.name" />
+      <input
+        type="text"
+        class="date-group-input"
+        v-validate="'required'"
+        placeholder="Name"
+        name="name"
+        data-vv-as="名字"
+        v-model="sendInfo.name"
+      />
     </div>
     <p class="invalid-word">{{ errors.first('name') }}</p>
 
     <div class="date-title">電話號碼</div>
     <div class="date-group" :class="{ 'is-invalid': errors.has('tel') }">
       <i class="date-group-icon fas fa-phone-alt"></i>
-      <input type="tel" class="date-group-input" v-validate="'required|numeric'" placeholder="Phone" data-vv-as="電話號碼" name="tel" v-model="sendInfo.tel" />
+      <input
+        type="tel"
+        class="date-group-input"
+        v-validate="'required|numeric'"
+        placeholder="Phone"
+        data-vv-as="電話號碼"
+        name="tel"
+        v-model="sendInfo.tel"
+      />
     </div>
     <p class="invalid-word">{{ errors.first('tel') }}</p>
 
     <div class="date-title">日期</div>
     <div class="date-groups input-daterange outline-none">
-      <div class="date-groups-check" :class="{ 'is-invalid': errors.has('date') }">
+      <div
+        class="date-groups-check"
+        :class="{ 'is-invalid': errors.has('date') }"
+      >
         <i class="far fa-calendar-times"></i>
-        <input type="text" class="date-groups-check-input check-in" v-validate="'required'" placeholder="Check in" name="date" data-vv-as="日期" readonly />
+        <input
+          type="text"
+          class="date-groups-check-input check-in"
+          v-validate="'required'"
+          placeholder="Check in"
+          name="date"
+          data-vv-as="日期"
+          readonly
+        />
       </div>
-      <div class="date-groups-check" :class="{ 'is-invalid': errors.has('date2') }">
+      <div
+        class="date-groups-check"
+        :class="{ 'is-invalid': errors.has('date2') }"
+      >
         <i class="far fa-calendar-times"></i>
-        <input type="text" class="date-groups-check-input check-out" v-validate="'required'" placeholder="Check out" name="date2" data-vv-as="日期" readonly />
+        <input
+          type="text"
+          class="date-groups-check-input check-out"
+          v-validate="'required'"
+          placeholder="Check out"
+          name="date2"
+          data-vv-as="日期"
+          readonly
+        />
       </div>
     </div>
-    <p class="invalid-word">{{ errors.first('date') || errors.first('date2') }}</p>
+    <p class="invalid-word">
+      {{ errors.first('date') || errors.first('date2') }}
+    </p>
     <input type="hidden" class="check-in-info" ref="check-in-info" />
     <input type="hidden" class="check-out-info" ref="check-out-info" />
     <div class="date-nav">
-      <a href="#" class="date-nav-cart" @click="collectionToggle($event)">
+      <button
+        type="button"
+        class="date-nav-cart"
+        @click="collectionToggle($event)"
+      >
         <i class="fas fa-cart-plus"></i>
         加入購物車
-      </a>
-      <button type="button" class="date-nav-order" @click="toggleOrder()">預約</button>
+      </button>
+      <button type="button" class="date-nav-order" @click="toggleOrder()">
+        預約
+      </button>
     </div>
   </div>
 </template>
@@ -46,40 +92,42 @@ export default {
       sendInfo: {
         name: '',
         tel: '',
-        date: [],
-      },
-    };
+        date: []
+      }
+    }
   },
   methods: {
     collectionToggle(e) {
-      e.preventDefault();
-      this.$bus.$emit('isLoading', true);
+      e.preventDefault()
+      this.$bus.$emit('isLoading', true)
       this.$http
         .post(`${process.env.VUE_APP_api}/favorite`, {
-          id: this.roomId,
+          id: this.roomId
         })
         .then(res => {
-          res.data.success ? this.$emit('cartHandler') : this.$router.push('/login');
-          this.$bus.$emit('isLoading', false);
-        });
+          res.data.success
+            ? this.$emit('cartHandler')
+            : this.$router.push('/login')
+          this.$bus.$emit('isLoading', false)
+        })
     },
     toggleOrder() {
       this.$validator
         .validate()
         .then(valid => {
           if (valid) {
-            this.sendInfo.date.push(this.$refs['check-in-info'].value);
-            this.sendInfo.date.push(this.$refs['check-out-info'].value);
-            this.$emit('toggleOrder', { ...this.sendInfo });
+            this.sendInfo.date.push(this.$refs['check-in-info'].value)
+            this.sendInfo.date.push(this.$refs['check-out-info'].value)
+            this.$emit('toggleOrder', { ...this.sendInfo })
           }
         })
         .then(() => {
-          this.sendInfo.date = [];
+          this.sendInfo.date = []
           /* setTimeout(() => {
             this.$validator.reset();
           }, 3000); */
-        });
-    },
+        })
+    }
   },
   mounted() {
     //(1)$("input的父層").datepicker();針對input的父層初始化能夠選 (api在option)
@@ -88,25 +136,59 @@ export default {
 
     //(3)$("input").datepicker("getFormattedDate") 此時操作的datepicker就是return值,option時有format也能接到format後的值 (api在method)
     $.fn.datepicker.dates['en'] = {
-      days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+      days: [
+        'Sunday',
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday'
+      ],
       daysShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
       daysMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-      months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-      monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+      months: [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December'
+      ],
+      monthsShort: [
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec'
+      ],
       today: 'Today',
       clear: 'Clear',
       format: 'yyyy/mm/dd',
       titleFormat: 'yyyy/mm',
-      weekStart: 0,
-    };
+      weekStart: 0
+    }
 
     const datePicker = {
       todayHighlight: true,
       autoclose: true,
       multidateSeparator: '-',
       format: 'yyyy-mm-dd',
-      startDate: new Date(),
-    };
+      startDate: new Date()
+    }
 
     /* $(".date-groups").datepicker({
       ...datePicker
@@ -114,23 +196,23 @@ export default {
 
     $('.check-in').datepicker({
       ...datePicker,
-      startDate: new Date(),
-    });
+      startDate: new Date()
+    })
 
     $('.check-in').on('changeDate', function() {
-      $('.check-in-info').val($(this).datepicker('getFormattedDate'));
-    });
+      $('.check-in-info').val($(this).datepicker('getFormattedDate'))
+    })
 
     $('.check-out').datepicker({
       ...datePicker,
-      startDate: new Date(new Date().setDate(new Date().getDate() + 1)),
-    });
+      startDate: new Date(new Date().setDate(new Date().getDate() + 1))
+    })
 
     $('.check-out').on('changeDate', function() {
-      $('.check-out-info').val($(this).datepicker('getFormattedDate'));
-    });
-  },
-};
+      $('.check-out-info').val($(this).datepicker('getFormattedDate'))
+    })
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -146,7 +228,7 @@ export default {
 .date {
   flex-grow: 1;
   width: 100%;
-  &-title{
+  &-title {
     font-size: 16px;
     //color: $important;
   }
@@ -194,13 +276,17 @@ export default {
     display: flex;
     align-items: flex-end;
     &-cart {
-      color: $important;
+      outline: none;
+      background-color: $important;
+      color: white;
       font-size: 16px;
       cursor: pointer;
       margin-left: auto;
       transition: 0.5s all;
+      padding: 5px 15px;
       &:hover {
-        color: darken($important, 10%);
+        background-color: white;
+        color: $important;
       }
     }
     &-order {
@@ -210,11 +296,12 @@ export default {
       text-align: center;
       background-color: $important;
       color: $other;
-      /* transition: 0.5s all;
+      transition: 0.5s all;
+      padding: 2px 0px;
       &:hover {
         background-color: white;
         color: $important;
-      } */
+      }
     }
   }
 }

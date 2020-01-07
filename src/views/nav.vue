@@ -1,8 +1,8 @@
 <template>
   <div>
     <loading :active.sync="isLoading" :opacity="1"></loading>
-    <input type="checkbox" id="nav-switch" ref="nav-switch" />
-    <div class="nav">
+    <!-- <input type="checkbox" id="nav-switch" ref="nav-switch" /> -->
+    <nav class="nav">
       <div class="group">
         <!-- <label class="nav-bar" for="nav-switch">
           <i class="fas fa-bars" @click="barHandler()"></i>
@@ -10,7 +10,9 @@
         <div class="menu">
           <div class="menu-item" v-for="item in roomKind" :key="item.id" @click="routeRoom(item.id)">{{ item.name }}</div>
         </div> -->
-        <router-link to="/" class="nav-title">WHITE INN</router-link>
+        <header>
+          <router-link to="/" class="nav-title">WHITE INN</router-link>
+        </header>
       </div>
       <nav class="nav-menu">
         <!-- <router-link class="nav-menu-item" to="/favorite" data-toggle="tooltip" data-placement="bottom" title="收藏">
@@ -21,33 +23,69 @@
           <i class="fas fa-list nav-menu-item-icon"></i>
           <span>購買清單</span>
         </router-link> -->
-        <a href="#" class="nav-menu-item">
+        <!-- <a href="#" class="nav-menu-item">
           <label for="room" class="room-label close">所有房型</label>
           <input type="checkbox" id="room" class="close" ref="room" />
-          <div class="room">
-            <a href="#" class="room-item" v-for="item in roomKind" :key="item.id" @click="routeRoom(item.id)">
-              <div class="room-item-pic" :style="`background-image:url(${item.pic})`"></div>
+          <nav class="room">
+            <a
+              href="#"
+              class="room-item"
+              v-for="item in roomKind"
+              :key="item.id"
+              @click="routeRoom(item.id)"
+            >
+              <div
+                class="room-item-pic"
+                :style="`background-image:url(${item.pic})`"
+              ></div>
               <div class="room-item-name">{{ item.name }}</div>
             </a>
-          </div>
-        </a>
+          </nav>
+        </a> -->
         <a class="nav-menu-item">
-          <router-link to="/login" class="account-name" v-if="!account.name" data-toggle="tooltip" data-placement="bottom" title="登入會員">
+          <router-link
+            to="/login"
+            class="account-name"
+            v-if="!account.name"
+            data-toggle="tooltip"
+            data-placement="bottom"
+            title="登入會員"
+          >
             <i class="fas fa-user nav-menu-item-icon"></i>
             <span>會員</span>
           </router-link>
           <label class="nav-menu-item-name" for="dashboard-confirm" v-else>
-            <img :src="account.img" alt="" class="icon off" v-if="account.img" />
+            <img
+              :src="account.img"
+              alt=""
+              class="icon off"
+              v-if="account.img"
+            />
             <i class="fas fa-user nav-menu-item-icon off" v-else></i>
             <div class="account-name off">{{ account.name }}</div>
           </label>
-          <input type="checkbox" id="dashboard-confirm" class="off" ref="dashboard-confirm" />
-          <div class="dashboard">
-            <div :style="`background-image:url(${account.img})`" class="dashboard-pic dashboard-account" alt="" v-if="account.img"></div>
+          <input
+            type="checkbox"
+            id="dashboard-confirm"
+            class="off"
+            ref="dashboard-confirm"
+          />
+          <nav class="dashboard">
+            <div
+              :style="`background-image:url(${account.img})`"
+              class="dashboard-pic dashboard-account"
+              alt=""
+              v-if="account.img"
+            ></div>
             <i class="fas fa-user dashboard-account dashboard-icon" v-else></i>
             <div class="dashboard-account">{{ account.name }}</div>
-            <div class="dashboard-account dashboard-email">{{ account.email }}</div>
-            <a href="#" class="dashboard-item" @click="modifyDashboard()">管理你的帳戶</a>
+            <div class="dashboard-account dashboard-email">
+              {{ account.email }}
+            </div>
+            <a href="#" class="dashboard-item" @click="modifyDashboard()">
+              <i class="fas fa-user-circle"></i>
+              <span>管理帳戶</span>
+            </a>
             <router-link class="dashboard-item" to="/favorite">
               <i class="fas fa-shopping-cart"></i>
               <span>收藏</span>
@@ -56,36 +94,41 @@
               <i class="fas fa-list"></i>
               <span>購買清單</span>
             </router-link>
-            <a href="#" class="dashboard-signout dashboard-item" @click="signout()">登出</a>
-          </div>
+            <a
+              href="#"
+              class="dashboard-signout dashboard-item"
+              @click="signout()"
+              >登出</a
+            >
+          </nav>
         </a>
       </nav>
-    </div>
+    </nav>
     <router-view></router-view>
-    <div class="light" ref="dark" @click="accountHandler()"></div>
+    <div class="light" ref="dark"></div>
   </div>
 </template>
 
 <script>
 // Import component
-import Loading from 'vue-loading-overlay';
+import Loading from 'vue-loading-overlay'
 // Import stylesheet
-import 'vue-loading-overlay/dist/vue-loading.css';
+import 'vue-loading-overlay/dist/vue-loading.css'
 export default {
   data() {
     return {
       roomKind: [],
       account: {},
-      isLoading: false,
-    };
+      isLoading: false
+    }
   },
   methods: {
     modifyDashboard() {
-      this.$refs['dashboard-confirm'].checked = false;
-      this.$router.push('/dashboard');
+      this.$refs['dashboard-confirm'].checked = false
+      this.$router.push('/dashboard')
     },
     barHandler() {
-      this.$refs.dark.classList.toggle('dark');
+      this.$refs.dark.classList.toggle('dark')
     },
     /* routeRoom(val) {
       this.roomId = val;
@@ -93,31 +136,31 @@ export default {
       this.$refs['nav-switch'].checked = false;
       this.$router.push(`/room/${val}`);
     }, */
-    routeRoom(val) {
-      this.$refs.room.checked = false;
-      this.$router.push(`/room/${val}`);
-    },
+    /* routeRoom(val) {
+      this.$refs.room.checked = false
+      this.$router.push(`/room/${val}`)
+    }, */
     isSignin() {
       this.$http.get(`${process.env.VUE_APP_api}/users/isSignin`).then(res => {
         if (res.data.success) {
-          this.account = res.data;
+          this.account = res.data
         } else {
-          this.account = {};
+          this.account = {}
         }
-      });
+      })
     },
     signout() {
-      this.$bus.$emit('isLoading', true);
+      this.$bus.$emit('isLoading', true)
       this.$http.post(`${process.env.VUE_APP_api}/users/signout`).then(() => {
-        this.$route.path === '/' ? '' : this.$router.push('/');
-        this.isSignin();
-        this.$refs['dashboard-confirm'].checked = false;
-        this.$bus.$emit('isLoading', false);
-      });
-    },
+        this.$route.path === '/' ? '' : this.$router.push('/')
+        this.isSignin()
+        this.$refs['dashboard-confirm'].checked = false
+        this.$bus.$emit('isLoading', false)
+      })
+    }
   },
   mounted() {
-    this.isSignin();
+    this.isSignin()
     this.$http
       .get(`${process.env.VUE_APP_api}/rooms`, {
         /* headers: {
@@ -129,35 +172,43 @@ export default {
           this.roomKind.push({
             id: e.id,
             name: e['rooms-detail'].name.split(' Room')[0],
-            pic: e['rooms-detail'].imageUrl,
-          });
-        });
-      });
+            pic: e['rooms-detail'].imageUrl
+          })
+        })
+      })
     this.$bus.$on('refreshSignin', () => {
-      this.isSignin();
-    });
+      this.isSignin()
+    })
     this.$bus.$on('isLoading', isLoading => {
-      this.isLoading = isLoading;
-    });
+      this.isLoading = isLoading
+    })
+    this.$bus.$on('dark', () => {
+      this.$refs.dark.classList.toggle('dark')
+    })
     document.querySelector('body').addEventListener('click', e => {
       if (!e.target.className.includes('off')) {
-        this.$refs['dashboard-confirm'].checked && !e.target.className.includes('dashboard') ? (this.$refs['dashboard-confirm'].checked = false) : '';
+        this.$refs['dashboard-confirm'].checked &&
+        !e.target.className.includes('dashboard')
+          ? (this.$refs['dashboard-confirm'].checked = false)
+          : ''
       }
-      if (!e.target.className.includes('close')) {
-        this.$refs.room.checked && !e.target.className.includes('room') ? (this.$refs.room.checked = false) : '';
-      }
-    });
+      /* if (!e.target.className.includes('close')) {
+        this.$refs.room.checked && !e.target.className.includes('room')
+          ? (this.$refs.room.checked = false)
+          : ''
+      } */
+    })
   },
   watch: {
     $route(now) {
       //this.roomId = now.params.id;
-      this.$emit('refreshRoom', now.params.id);
-    },
+      this.$emit('refreshRoom', now.params.id)
+    }
   },
   components: {
-    Loading,
-  },
-};
+    Loading
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -219,7 +270,7 @@ export default {
     align-items: center;
     position: relative;
     padding: 10px 0;
-    justify-content: space-around;
+    justify-content: flex-end;
     @include lapTopHigh {
       justify-content: flex-start;
       padding: 0;
@@ -240,6 +291,7 @@ export default {
       background-color: rgba(255, 255, 255, 0);
       transition: 0.5s all;
       position: relative;
+      margin-right: 10px;
       & ~ & {
         @include lapTopHigh {
           margin-left: 5px;
@@ -294,7 +346,6 @@ export default {
         }
       }
       .dashboard {
-        padding: 25px 40px;
         display: none;
         position: absolute;
         z-index: -1;
@@ -302,14 +353,16 @@ export default {
         right: 5px;
         border: 0px solid gray;
         box-shadow: 0px 0px 10px 0px gray;
-        border-radius: 5%;
+        border-radius: 10px;
         background-color: white;
+        padding: 15px 0;
         cursor: auto;
         &-pic {
           @extend %bg;
           border-radius: 50%;
           width: 100px;
           height: 100px;
+          margin: auto;
         }
         &-icon {
           font-size: 30px !important;
@@ -325,9 +378,8 @@ export default {
         &-item {
           display: block;
           color: gray;
-          text-align: center;
-          margin: 0 auto 5px;
-          padding: 5px;
+          margin: 0 auto;
+          padding: 5px 30px;
           font-size: 16px;
           white-space: nowrap;
           &:hover {
@@ -352,9 +404,10 @@ export default {
           white-space: nowrap;
         }
         &-signout {
-          margin-top: 15px;
-          padding: 5px 10px;
+          margin: 15px 20px 0;
+          padding: 5px 0;
           border: rgb(240, 239, 239) 1px solid;
+          text-align: center;
         }
       }
     }
@@ -414,7 +467,7 @@ export default {
   }
   left: -35px;
   box-shadow: 0px 0px 10px 0px gray;
-  border-radius: 5%;
+  border-radius: 10px;
   &-item {
     display: flex;
     align-items: center;
@@ -448,9 +501,9 @@ export default {
 }
 .dark {
   background-color: rgba(32, 28, 28, 0.7);
-  @include lapTopHigh {
+  /* @include lapTopHigh {
     background-color: rgba(255, 255, 255, 0);
-  }
+  } */
   position: fixed;
   top: 0;
   bottom: 0;

@@ -10,31 +10,77 @@
             <div class="login-item-flex-icon">
               <i class="far fa-envelope"></i>
             </div>
-            <input type="email" class="login-item-flex-input" placeholder="Email ID" v-model="account.email" v-validate="'required|email'" data-vv-as="電子郵件" name="email" />
+            <input
+              type="email"
+              class="login-item-flex-input"
+              placeholder="Email ID"
+              v-model="account.email"
+              v-validate="'required|email'"
+              data-vv-as="電子郵件"
+              name="email"
+            />
           </div>
-          <div class="login-item-error" v-if="errors.has('email')">不符合email格式<!-- {{errors.first('email')}} --></div>
+          <div class="login-item-error" v-if="errors.has('email')">
+            不符合email格式<!-- {{errors.first('email')}} -->
+          </div>
         </div>
         <div class="login-name">密碼</div>
         <div class="login-item">
-          <div class="login-item-flex" :class="{ error: errors.has('password') }">
+          <div
+            class="login-item-flex"
+            :class="{ error: errors.has('password') }"
+          >
             <div class="login-item-flex-icon">
               <i class="fas fa-lock"></i>
             </div>
-            <input type="password" class="login-item-flex-input" placeholder="Password" ref="password" v-model="account.password" v-validate="'required'" data-vv-as="密碼" name="password" />
-            <i class="far fa-eye login-item-flex-eye" :class="[eye ? 'fa-eye' : 'fa-eye-slash']" @click="eyeHandler('eye', 'password')"></i>
+            <input
+              type="password"
+              class="login-item-flex-input"
+              placeholder="Password"
+              ref="password"
+              v-model="account.password"
+              v-validate="'required'"
+              data-vv-as="密碼"
+              name="password"
+            />
+            <i
+              class="far fa-eye login-item-flex-eye"
+              :class="[eye ? 'fa-eye' : 'fa-eye-slash']"
+              @click="eyeHandler('eye', 'password')"
+            ></i>
           </div>
-          <div class="login-item-error" v-if="errors.has('password')">密碼為必填<!-- {{errors.first('password')}} --></div>
+          <div class="login-item-error" v-if="errors.has('password')">
+            密碼為必填<!-- {{errors.first('password')}} -->
+          </div>
         </div>
         <div class="login-name">確認密碼</div>
         <div class="login-item">
-          <div class="login-item-flex" :class="{ error: errors.has('password-again') }">
+          <div
+            class="login-item-flex"
+            :class="{ error: errors.has('password-again') }"
+          >
             <div class="login-item-flex-icon">
               <i class="fas fa-check-circle"></i>
             </div>
-            <input type="password" class="login-item-flex-input" placeholder="Confirm Password" ref="password-again" v-model="account.passwordAgain" v-validate="'required'" data-vv-as="密碼" name="password-again" />
-            <i class="far fa-eye login-item-flex-eye" :class="[secondEye ? 'fa-eye' : 'fa-eye-slash']" @click="eyeHandler('secondEye', 'password-again')"></i>
+            <input
+              type="password"
+              class="login-item-flex-input"
+              placeholder="Confirm Password"
+              ref="password-again"
+              v-model="account.passwordAgain"
+              v-validate="'required'"
+              data-vv-as="密碼"
+              name="password-again"
+            />
+            <i
+              class="far fa-eye login-item-flex-eye"
+              :class="[secondEye ? 'fa-eye' : 'fa-eye-slash']"
+              @click="eyeHandler('secondEye', 'password-again')"
+            ></i>
           </div>
-          <div class="login-item-error" v-if="errors.has('password-again')">密碼為必填<!-- {{errors.first('password')}} --></div>
+          <div class="login-item-error" v-if="errors.has('password-again')">
+            密碼為必填<!-- {{errors.first('password')}} -->
+          </div>
         </div>
         <div class="login-name">手機號碼</div>
         <div class="login-item">
@@ -42,9 +88,19 @@
             <div class="login-item-flex-icon">
               <i class="fas fa-mobile-alt"></i>
             </div>
-            <input type="text" class="login-item-flex-input" placeholder="Phone" v-model="account.phone" v-validate="'required|numeric'" data-vv-as="電話號碼" name="phone" />
+            <input
+              type="text"
+              class="login-item-flex-input"
+              placeholder="Phone"
+              v-model="account.phone"
+              v-validate="'required|numeric'"
+              data-vv-as="電話號碼"
+              name="phone"
+            />
           </div>
-          <div class="login-item-error" v-if="errors.has('phone')">電話號碼必須為數字<!-- {{errors.first('password')}} --></div>
+          <div class="login-item-error" v-if="errors.has('phone')">
+            電話號碼必須為數字<!-- {{errors.first('password')}} -->
+          </div>
         </div>
         <div class="login-name">姓名</div>
         <div class="login-item">
@@ -52,16 +108,34 @@
             <div class="login-item-flex-icon">
               <i class="fas fa-file-signature"></i>
             </div>
-            <input type="text" class="login-item-flex-input" placeholder="Name" v-model="account.name" v-validate="'required'" data-vv-as="名字" name="name" />
+            <input
+              type="text"
+              class="login-item-flex-input"
+              placeholder="Name"
+              v-model="account.name"
+              v-validate="'required'"
+              data-vv-as="名字"
+              name="name"
+            />
           </div>
-          <div class="login-item-error" v-if="errors.has('name')">名字為必填<!-- {{errors.first('password')}} --></div>
+          <div class="login-item-error" v-if="errors.has('name')">
+            名字為必填<!-- {{errors.first('password')}} -->
+          </div>
         </div>
 
         <template v-if="error.switch">
-          <div class="login-item-error" v-for="item in error.message" :key="item.param">{{ item.msg || item }}</div>
+          <div
+            class="login-item-error"
+            v-for="item in error.message"
+            :key="item.param"
+          >
+            {{ item.msg || item }}
+          </div>
         </template>
 
-        <button type="button" class="login-register" @click="signup()">立即註冊</button>
+        <button type="button" class="login-register" @click="signup()">
+          立即註冊
+        </button>
       </div>
     </div>
   </div>
@@ -102,7 +176,7 @@ export default {
       message: 'The email address is already in use by another account.',
       error: {
         switch: false,
-        message: [],
+        message: []
       },
       eye: false,
       secondEye: false,
@@ -111,35 +185,40 @@ export default {
         password: '',
         passwordAgain: '',
         phone: '',
-        name: '',
-      },
-    };
+        name: ''
+      }
+    }
   },
   methods: {
     eyeHandler(eye, val) {
-      this[eye] ? (this.$refs[val].type = 'password') : (this.$refs[val].type = 'text');
-      this[eye] = !this[eye];
+      this[eye]
+        ? (this.$refs[val].type = 'password')
+        : (this.$refs[val].type = 'text')
+      this[eye] = !this[eye]
     },
     signup() {
       this.$validator.validate().then(validate => {
         if (validate) {
-          this.$bus.$emit('isLoading', true);
+          this.$bus.$emit('isLoading', true)
           this.$http
             .post(`${process.env.VUE_APP_api}/users/signup`, {
-              ...this.account,
+              ...this.account
             })
             .then(res => {
               if (res.data.success) {
-                this.$router.push('/login');
+                this.$router.push('/login')
               } else {
-                this.error.switch = true;
-                this.error.message = typeof res.data.message === 'string' ? ['此帳號已被申辦'] : res.data.message;
+                this.error.switch = true
+                this.error.message =
+                  typeof res.data.message === 'string'
+                    ? ['此帳號已被申辦']
+                    : res.data.message
               }
-              this.$bus.$emit('isLoading', false);
-            });
+              this.$bus.$emit('isLoading', false)
+            })
         }
-      });
-    },
-  },
-};
+      })
+    }
+  }
+}
 </script>
