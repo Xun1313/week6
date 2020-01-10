@@ -4,11 +4,10 @@
       <div class="news-title-other">最新消息</div>
       <div class="row">
         <div class="col-md-6 item" v-for="item in news" :key="item.id">
-          <div class="news-item">
+          <div class="news-item" @click="routeHandler(item.id)">
             <div
               class="news-item-pic"
               :style="`background-image:url(${item.pic})`"
-              @click="routeHandler(item.id)"
             ></div>
             <div class="news-item-content">
               <div class="news-item-content-title">{{ item.name }}</div>
@@ -106,6 +105,7 @@ export default {
     position: relative;
     height: 100%;
     transition: 0.3s all;
+    cursor: pointer;
     &:hover {
       box-shadow: 0px 0px 15px 0px grey;
     }
@@ -113,7 +113,6 @@ export default {
       @extend %bg;
       width: 100%;
       height: 300px;
-      cursor: pointer;
     }
     &-content {
       padding: 0px 50px;

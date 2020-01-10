@@ -2,7 +2,7 @@
   <div class="date">
     <div class="date-title">姓名</div>
     <div class="date-group" :class="{ 'is-invalid': errors.has('name') }">
-      <i class="date-group-icon fas fa-user-alt"></i>
+      <!-- <i class="date-group-icon fas fa-user-alt"></i> -->
       <input
         type="text"
         class="date-group-input"
@@ -17,7 +17,7 @@
 
     <div class="date-title">電話號碼</div>
     <div class="date-group" :class="{ 'is-invalid': errors.has('tel') }">
-      <i class="date-group-icon fas fa-phone-alt"></i>
+      <!-- <i class="date-group-icon fas fa-phone-alt"></i> -->
       <input
         type="tel"
         class="date-group-input"
@@ -30,44 +30,34 @@
     </div>
     <p class="invalid-word">{{ errors.first('tel') }}</p>
 
-    <div class="date-title">日期</div>
-    <div class="date-groups input-daterange outline-none">
-      <div
-        class="date-groups-check"
-        :class="{ 'is-invalid': errors.has('date') }"
-      >
-        <i class="far fa-calendar-times"></i>
-        <input
-          type="text"
-          class="date-groups-check-input check-in"
-          v-validate="'required'"
-          placeholder="Check in"
-          name="date"
-          data-vv-as="日期"
-          readonly
-        />
-      </div>
-      <div
-        class="date-groups-check"
-        :class="{ 'is-invalid': errors.has('date2') }"
-      >
-        <i class="far fa-calendar-times"></i>
-        <input
-          type="text"
-          class="date-groups-check-input check-out"
-          v-validate="'required'"
-          placeholder="Check out"
-          name="date2"
-          data-vv-as="日期"
-          readonly
-        />
-      </div>
+    <div class="date-title">入住日期</div>
+    <div class="date-groups">
+      <Datepicker
+        v-model="first.date"
+        :disabled-dates="first.disabledDates"
+        @selected="firstHandler"
+        :format="'yyyy-MM-dd'"
+        :language="zh"
+        :input-class="'picker-input'"
+        :wrapper-class="'picker'"
+      ></Datepicker>
     </div>
-    <p class="invalid-word">
+    <div class="date-title">退房日期</div>
+    <div class="date-groups">
+      <Datepicker
+        v-model="end.date"
+        :disabled-dates="end.disabledDates"
+        :format="'yyyy-MM-dd'"
+        :language="zh"
+        class="picker"
+        :input-class="'picker-input'"
+        :wrapper-class="'picker'"
+      ></Datepicker>
+    </div>
+
+    <!-- <p class="invalid-word">
       {{ errors.first('date') || errors.first('date2') }}
-    </p>
-    <input type="hidden" class="check-in-info" ref="check-in-info" />
-    <input type="hidden" class="check-out-info" ref="check-out-info" />
+    </p> -->
     <div class="date-nav">
       <button
         type="button"
@@ -75,7 +65,7 @@
         @click="collectionToggle($event)"
       >
         <i class="fas fa-cart-plus"></i>
-        加入購物車
+        加入收藏
       </button>
       <button type="button" class="date-nav-order" @click="toggleOrder()">
         預約
@@ -85,6 +75,9 @@
 </template>
 
 <script>
+import Datepicker from 'vuejs-datepicker'
+import { zh } from 'vuejs-datepicker/dist/locale'
+import moment from 'moment'
 export default {
   props: ['roomId'],
   data() {
@@ -93,7 +86,22 @@ export default {
         name: '',
         tel: '',
         date: []
-      }
+      },
+      first: {
+        date: new Date(),
+        disabledDates: {
+          to: ''
+        }
+      },
+      end: {
+        date: '',
+        disabledDates: {
+          to: new Date()
+        }
+      },
+      picker: ['picker'],
+      zh,
+      moment
     }
   },
   methods: {
@@ -116,8 +124,10 @@ export default {
         .validate()
         .then(valid => {
           if (valid) {
-            this.sendInfo.date.push(this.$refs['check-in-info'].value)
-            this.sendInfo.date.push(this.$refs['check-out-info'].value)
+            this.sendInfo.date.push(
+              moment(this.first.date).format('YYYY-MM-DD')
+            )
+            this.sendInfo.date.push(moment(this.end.date).format('YYYY-MM-DD'))
             this.$emit('toggleOrder', { ...this.sendInfo })
           }
         })
@@ -127,90 +137,26 @@ export default {
             this.$validator.reset();
           }, 3000); */
         })
+    },
+    firstHandler(val) {
+      const date = new Date(val)
+      const date2 = new Date(val)
+      date.setDate(val.getDate() + 1)
+      this.end.disabledDates.to = date
+      date2.setDate(val.getDate() + 1)
+      this.end.date = date2
     }
   },
   mounted() {
-    //(1)$("input的父層").datepicker();針對input的父層初始化能夠選 (api在option)
-
-    //(2)以change事件偵測到選到的日期 (api在event)
-
-    //(3)$("input").datepicker("getFormattedDate") 此時操作的datepicker就是return值,option時有format也能接到format後的值 (api在method)
-    $.fn.datepicker.dates['en'] = {
-      days: [
-        'Sunday',
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday'
-      ],
-      daysShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-      daysMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-      months: [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July',
-        'August',
-        'September',
-        'October',
-        'November',
-        'December'
-      ],
-      monthsShort: [
-        'Jan',
-        'Feb',
-        'Mar',
-        'Apr',
-        'May',
-        'Jun',
-        'Jul',
-        'Aug',
-        'Sep',
-        'Oct',
-        'Nov',
-        'Dec'
-      ],
-      today: 'Today',
-      clear: 'Clear',
-      format: 'yyyy/mm/dd',
-      titleFormat: 'yyyy/mm',
-      weekStart: 0
-    }
-
-    const datePicker = {
-      todayHighlight: true,
-      autoclose: true,
-      multidateSeparator: '-',
-      format: 'yyyy-mm-dd',
-      startDate: new Date()
-    }
-
-    /* $(".date-groups").datepicker({
-      ...datePicker
-    }); */
-
-    $('.check-in').datepicker({
-      ...datePicker,
-      startDate: new Date()
-    })
-
-    $('.check-in').on('changeDate', function() {
-      $('.check-in-info').val($(this).datepicker('getFormattedDate'))
-    })
-
-    $('.check-out').datepicker({
-      ...datePicker,
-      startDate: new Date(new Date().setDate(new Date().getDate() + 1))
-    })
-
-    $('.check-out').on('changeDate', function() {
-      $('.check-out-info').val($(this).datepicker('getFormattedDate'))
-    })
+    const date = new Date()
+    date.setDate(date.getDate() - 1)
+    this.first.disabledDates.to = date
+    const date2 = new Date()
+    date2.setDate(date2.getDate() + 1)
+    this.end.date = date2
+  },
+  components: {
+    Datepicker
   }
 }
 </script>
@@ -248,34 +194,17 @@ export default {
     }
   }
   &-groups {
-    display: flex;
+    /* display: flex;
     align-items: center;
-    margin-bottom: 5px;
+    margin-bottom: 5px; */
     font-size: 16px;
-    &-check {
-      display: flex;
-      align-items: center;
-      font-size: 16px;
-      outline: 1px black solid;
-      width: 50%;
-      padding-left: 10px;
-      &:last-of-type {
-        margin-left: 10px;
-      }
-      &-input {
-        padding: 10px 5px;
-        width: 100%;
-        border: none;
-        outline: none;
-        margin-left: 5px;
-        text-align: left;
-      }
-    }
   }
   &-nav {
     display: flex;
     align-items: flex-end;
+    margin-top: 20px;
     &-cart {
+      height: 38px;
       outline: none;
       background-color: $important;
       color: white;
@@ -290,6 +219,7 @@ export default {
       }
     }
     &-order {
+      height: 38px;
       outline: none;
       margin-left: 10px;
       width: 80px;
@@ -308,10 +238,19 @@ export default {
 /* .outline-none{
   outline: none;
 } */
-/* .datepicker table tr /deep/ td.active:active,
-.datepicker table tr /deep/ td.active.highlighted:active,
-.datepicker table tr /deep/ td.active.active,
-.datepicker table tr /deep/ td.active.highlighted.active {
-  background-color: green !important;
-} */
+</style>
+
+<style lang="scss">
+.picker {
+  width: 100%;
+  &-input {
+    width: 100%;
+    display: block;
+    padding: 10px 20px;
+    border: 1px solid black;
+    opacity: 0.7;
+    cursor: pointer;
+    outline: none;
+  }
+}
 </style>

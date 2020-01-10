@@ -71,35 +71,42 @@
             ref="dashboard-confirm"
           />
           <nav class="dashboard">
-            <div
-              :style="`background-image:url(${account.img})`"
-              class="dashboard-pic dashboard-account"
-              alt=""
-              v-if="account.img"
-            ></div>
-            <i class="fas fa-user dashboard-account dashboard-icon" v-else></i>
-            <div class="dashboard-account">{{ account.name }}</div>
-            <div class="dashboard-account dashboard-email">
-              {{ account.email }}
+            <div class="dashboard-block1">
+              <div
+                :style="`background-image:url(${account.img})`"
+                class="dashboard-pic dashboard-account"
+                alt=""
+                v-if="account.img"
+              ></div>
+              <i
+                class="fas fa-user dashboard-account dashboard-icon"
+                v-else
+              ></i>
+              <div class="dashboard-account">{{ account.name }}</div>
+              <div class="dashboard-account">
+                {{ account.email }}
+              </div>
             </div>
-            <a href="#" class="dashboard-item" @click="modifyDashboard()">
-              <i class="fas fa-user-circle"></i>
-              <span>管理帳戶</span>
-            </a>
-            <router-link class="dashboard-item" to="/favorite">
-              <i class="fas fa-shopping-cart"></i>
-              <span>收藏</span>
-            </router-link>
-            <router-link class="dashboard-item" to="/purchase">
-              <i class="fas fa-list"></i>
-              <span>購買清單</span>
-            </router-link>
-            <a
-              href="#"
-              class="dashboard-signout dashboard-item"
-              @click="signout()"
-              >登出</a
-            >
+            <div class="dashboard-block2">
+              <a href="#" class="dashboard-item" @click="modifyDashboard()">
+                <i class="fas fa-user-circle"></i>
+                <span>管理帳戶</span>
+              </a>
+              <router-link class="dashboard-item" to="/favorite">
+                <i class="fas fa-shopping-cart"></i>
+                <span>收藏</span>
+              </router-link>
+              <router-link class="dashboard-item" to="/purchase">
+                <i class="fas fa-list"></i>
+                <span>購買清單</span>
+              </router-link>
+              <a
+                href="#"
+                class="dashboard-signout dashboard-item"
+                @click="signout()"
+                >登出</a
+              >
+            </div>
           </nav>
         </a>
       </nav>
@@ -355,8 +362,13 @@ export default {
         box-shadow: 0px 0px 10px 0px gray;
         border-radius: 10px;
         background-color: white;
-        padding: 15px 0;
         cursor: auto;
+        &-block1 {
+          padding: 20px;
+        }
+        &-block2 {
+          padding-bottom: 10px;
+        }
         &-pic {
           @extend %bg;
           border-radius: 50%;
@@ -379,7 +391,7 @@ export default {
           display: block;
           color: gray;
           margin: 0 auto;
-          padding: 5px 30px;
+          padding: 5px 20px;
           font-size: 16px;
           white-space: nowrap;
           &:hover {
@@ -387,14 +399,10 @@ export default {
           }
           &:active {
             background-color: darken(rgb(240, 239, 239), 15%);
-            box-shadow: 0px 0px 10px 0px rgb(240, 239, 239);
           }
           span {
             margin-left: 5px;
           }
-        }
-        &-email {
-          margin-bottom: 15px;
         }
         &-account {
           display: block;

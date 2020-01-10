@@ -3,7 +3,7 @@
     <div class="detail">
       <img :src="facility.pic" alt="" class="detail-pic" />
       <div class="detail-title">{{ facility.name }}</div>
-      <div class="detail-word">{{ facility.content }}</div>
+      <!-- <div class="detail-word">{{ facility.content }}</div> -->
       <div class="detail-notice">
         <div class="detail-notice-title">注意事項</div>
         <div class="detail-notice-content">
@@ -11,15 +11,25 @@
           <p>開放時間：{{ facility.timeStart }}~{{ facility.timeEnd }}</p>
         </div>
       </div>
+      <pool v-if="title[0] === show"></pool>
+      <kid v-if="title[1] === show"></kid>
+      <gym v-if="title[2] === show"></gym>
+      <friend v-if="title[3] === show"></friend>
     </div>
   </div>
 </template>
 
 <script>
+import gym from '../components/facility/gym'
+import kid from '../components/facility/kid'
+import pool from '../components/facility/pool'
+import friend from '../components/facility/friend'
 export default {
   data() {
     return {
-      facility: {}
+      facility: {},
+      show: '',
+      title: ['大眾池', '兒童戲水區', '健身房', '交誼廳']
     }
   },
   mounted() {
@@ -28,10 +38,18 @@ export default {
       .get(`${process.env.VUE_APP_api}/facility/${this.$route.params.id}`)
       .then(res => {
         if (res.data.success) {
+          console.log(res.data)
+          this.show = res.data.facility.name
           this.facility = res.data.facility
         }
         this.$bus.$emit('isLoading', false)
       })
+  },
+  components: {
+    pool,
+    kid,
+    gym,
+    friend
   }
 }
 </script>

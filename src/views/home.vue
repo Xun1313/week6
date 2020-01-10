@@ -37,11 +37,10 @@
     <div class="container">
       <div class="home-title-other">關於我們</div>
       <div class="about">
-        <img
-          class="about-pic"
-          src="https://images.unsplash.com/photo-1524063221847-15c7329095d8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=600&q=60"
-          alt=""
-        />
+        <div class="about-bg">
+          <div class="about-bg-pic"></div>
+          <!-- <img class="about-pic" src="https://images.unsplash.com/photo-1541987817603-d2b3e0fad6d0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=60" alt="" /> -->
+        </div>
         <div class="about-word">
           <p>
             WHITE
@@ -53,6 +52,12 @@
             Messe Exhibition Grounds展覽中心距離酒店有大約5分鐘車程。
             Europa酒店每天早晨供應自助早餐。酒店的酒吧供應各種飲品。
             禮賓處的工作人員可以幫助客人安排遊覽法蘭克福市的行程，24小時前台可以提供行李寄存服務。
+          </p>
+          <p>
+            飯店於 2018 年 11
+            月新開業，提供現代風格的空調客房。房內設有平面電視、附淋浴和吹風機的私人衛浴、抗過敏寢具和枕頭目錄。接待櫃台備有
+            iPad 供客人免費租用。此外，所有客房均配有當代藝術家Hartwig
+            Ebersbach的大幅畫作以及42英寸的電視、Nespresso咖啡機和高效的空調系統。
           </p>
         </div>
       </div>
@@ -123,28 +128,14 @@
       <div class="scroll">
         <div class="scroll-flex">
           <img
-            src="../assets/scroll/anmol-seth-hDbCjHNdF48-unsplash.jpg"
-            alt=""
-            class="scroll-flex-pic"
-          />
-          <div class="scroll-flex-people">
-            <div class="scroll-flex-people-name">蔡小姐</div>
-            <div class="scroll-flex-people-word">
-              飯店裝潢很棒，非常有渡假村的氣息
-            </div>
-          </div>
-        </div>
-
-        <div class="scroll-flex">
-          <img
-            src="../assets/scroll/daniil-vnoutchkov-U1IHfPUYyPE-unsplash.jpg"
+            src="../assets/scroll/sean-o-KMn4VEeEPR8-unsplash.jpg"
             alt=""
             class="scroll-flex-pic"
           />
           <div class="scroll-flex-people">
             <div class="scroll-flex-people-name">周小姐</div>
             <div class="scroll-flex-people-word">
-              游泳池很寬闊，下次還會再來
+              玩沙玩水的首選，有絕美的獨立沙灘，沙質細膩，整體乾淨舒適，環境很好，也提供很多水上的玩法，大人、小孩都玩得很開心。
             </div>
           </div>
         </div>
@@ -158,25 +149,41 @@
           <div class="scroll-flex-people">
             <div class="scroll-flex-people-name">蔣先生</div>
             <div class="scroll-flex-people-word">
-              房間窗簾拉開看到的風景很美
+              飯店的天台有瞭望台提供高處往下看的視角，並且有提供簡易拍照區供遊客拍照，不過因瞭望台地勢較高，要小心強風的吹襲。
             </div>
           </div>
         </div>
 
         <div class="scroll-flex">
           <img
-            src="../assets/scroll/manuel-moreno-DGa0LQ0yDPc-unsplash.jpg"
+            src="../assets/scroll/patric-wong-iIn9RMIlay8-unsplash.jpg"
+            alt=""
+            class="scroll-flex-pic"
+          />
+          <div class="scroll-flex-people">
+            <div class="scroll-flex-people-name">蔡小姐</div>
+            <div class="scroll-flex-people-word">
+              我是一大早就去游泳，喜歡一個人靜靜玩。工作人員會主動打招呼。清潔做得非常好。游累了可以泡湯，用水按摩身體，非常舒服！
+            </div>
+          </div>
+        </div>
+
+        <div class="scroll-flex">
+          <img
+            src="../assets/scroll/troy-t-kbiGSJpiTKE-unsplash.jpg"
             alt=""
             class="scroll-flex-pic"
           />
           <div class="scroll-flex-people">
             <div class="scroll-flex-people-name">顏先生</div>
-            <div class="scroll-flex-people-word">讓人可以很放鬆的地方</div>
+            <div class="scroll-flex-people-word">
+              服務好，早餐buffet原本不敢抱太大期待，結果出忽意料之外的好吃，菜色豐富，補菜速度快，餐點多樣品質也好，真的很有誠意。
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="home-info">
+      <!-- <div class="home-info">
         <div class="home-info-group">
           <i class="fas fa-map-marker-alt"></i>
           <div class="content">台北市OO區OO街123號</div>
@@ -189,7 +196,7 @@
           <i class="fas fa-envelope"></i>
           <div class="content">abcd@efgijk.com</div>
         </div>
-      </div>
+      </div> -->
     </div>
     <!-- </div> -->
   </div>
@@ -390,25 +397,25 @@ export default {
 }
 .about {
   margin-bottom: 50px;
-  @include lapTop {
-    display: flex;
-  }
-  &-pic {
+  &-bg {
+    position: relative;
     width: 100%;
-    @include lapTop {
-      width: 400px;
+    height: 0;
+    padding-bottom: 45%;
+    margin-bottom: 30px;
+    &-pic {
+      @extend %bg;
+      background-image: url('https://images.unsplash.com/photo-1541987817603-d2b3e0fad6d0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=60');
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      box-shadow: 0px 0px 10px 0px grey;
+      border-radius: 10px;
     }
-    height: auto;
-    box-shadow: 0px 0px 10px 0px grey;
-    border-radius: 10px;
   }
   &-word {
     opacity: 0.7;
     text-indent: 40px;
-    @include lapTop {
-      padding: 0 20px;
-    }
-    padding: 20px;
   }
 }
 .group-grid {

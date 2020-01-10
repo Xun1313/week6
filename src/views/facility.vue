@@ -10,11 +10,10 @@
       </p>
       <div class="row">
         <div class="col-md-6 item" v-for="item in facility" :key="item.id">
-          <div class="facility-item">
+          <div class="facility-item" @click="routeHandler(item.id)">
             <div
               class="facility-item-pic"
               :style="`background-image:url(${item.pic})`"
-              @click="routeHandler(item.id)"
             ></div>
             <div class="facility-item-content">
               <div class="facility-item-content-title">{{ item.name }}</div>
@@ -110,6 +109,7 @@ export default {
     position: relative;
     height: 100%;
     transition: 0.3s all;
+    cursor: pointer;
     &:hover {
       box-shadow: 0px 0px 15px 0px grey;
     }
@@ -117,7 +117,6 @@ export default {
       @extend %bg;
       width: 100%;
       height: 300px;
-      cursor: pointer;
     }
     &-content {
       padding: 0px 50px;
@@ -129,6 +128,11 @@ export default {
       }
       &-word {
         opacity: 0.7;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
       }
     }
     &-more {
