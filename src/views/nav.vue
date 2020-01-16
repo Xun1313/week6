@@ -262,7 +262,7 @@ export default {
     })
     const pageOffsetTop = this.$refs.page.offsetTop
 
-    window.addEventListener('scroll', e => {
+    window.addEventListener('scroll', () => {
       const page = this.$refs.page
       /* if (window.getComputedStyle(page, null).display === 'flex') { */
       if (window.scrollY > pageOffsetTop) {
