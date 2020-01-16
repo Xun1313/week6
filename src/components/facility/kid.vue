@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <article>
     請家長注意以下規定
     <p>
       1. 游泳池邊不可奔跑或追逐，以免滑倒受傷。
@@ -12,11 +12,11 @@
       <br />
       5. 玩水時，應依自身能力為限，以免發生意外。
     </p>
-  </div>
+  </article>
 </template>
 
 <style lang="scss" scoped>
-div {
+article {
   opacity: 0.7;
 }
 </style>

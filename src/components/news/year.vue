@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <article>
     <p>
       通通發大財春酒尾牙專案
       <br />
@@ -30,7 +30,7 @@
       <br />
       本館隨時保有變更、取消、解釋活動內容之權利，如有異議恕不另行通知。
     </p>
-  </div>
+  </article>
 </template>
 
 <style lang="scss" scoped>

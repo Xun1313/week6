@@ -3,9 +3,9 @@
     <div class="opacity-login">
       <div class="login">
         <i class="fas fa-user-alt login-icon"></i>
-        <div class="login-title">MEMBER UPDATE</div>
+        <h3 class="login-title">MEMBER UPDATE</h3>
 
-        <div class="login-name">手機號碼</div>
+        <h4 class="login-name">手機號碼</h4>
         <div class="login-item">
           <div class="login-item-flex" :class="{ error: errors.has('phone') }">
             <div class="login-item-flex-icon">
@@ -21,11 +21,11 @@
               name="phone"
             />
           </div>
-          <div class="login-item-error" v-if="errors.has('phone')">
+          <p class="login-item-error" v-if="errors.has('phone')">
             電話號碼必須為數字<!-- {{errors.first('password')}} -->
-          </div>
+          </p>
         </div>
-        <div class="login-name">姓名</div>
+        <h4 class="login-name">姓名</h4>
         <div class="login-item">
           <div class="login-item-flex" :class="{ error: errors.has('name') }">
             <div class="login-item-flex-icon">
@@ -41,11 +41,11 @@
               name="name"
             />
           </div>
-          <div class="login-item-error" v-if="errors.has('name')">
+          <p class="login-item-error" v-if="errors.has('name')">
             名字為必填<!-- {{errors.first('password')}} -->
-          </div>
+          </p>
         </div>
-        <div class="login-name">照片上傳區</div>
+        <h4 class="login-name">照片上傳區</h4>
         <div class="upload" ref="upload">
           <div
             class="upload-region"
@@ -63,9 +63,9 @@
             <i class="fas fa-cloud-upload-alt"></i>
             <div class="upload-region-describe">{{ file }}</div>
           </div>
-          <div class="login-item-error" v-if="errors.has('image')">
+          <p class="login-item-error" v-if="errors.has('image')">
             必須上傳圖片檔
-          </div>
+          </p>
           <img :src="account.img" alt="" class="upload-img" />
         </div>
 

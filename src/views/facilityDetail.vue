@@ -1,11 +1,11 @@
 <template>
   <div class="container">
-    <div class="detail">
+    <figure class="detail">
       <img :src="facility.pic" alt="" class="detail-pic" />
-      <div class="detail-title">{{ facility.name }}</div>
+      <figcaption class="detail-title">{{ facility.name }}</figcaption>
       <!-- <div class="detail-word">{{ facility.content }}</div> -->
       <div class="detail-notice">
-        <div class="detail-notice-title">注意事項</div>
+        <h4 class="detail-notice-title">注意事項</h4>
         <div class="detail-notice-content">
           <p>{{ facility.notice }}</p>
           <p>開放時間：{{ facility.timeStart }}~{{ facility.timeEnd }}</p>
@@ -15,7 +15,7 @@
       <kid v-if="title[1] === show"></kid>
       <gym v-if="title[2] === show"></gym>
       <friend v-if="title[3] === show"></friend>
-    </div>
+    </figure>
   </div>
 </template>
 

@@ -3,8 +3,8 @@
     <div class="opacity-login">
       <div class="login">
         <i class="fas fa-user-alt login-icon"></i>
-        <div class="login-title">MEMBER REGISTER</div>
-        <div class="login-name">email</div>
+        <h3 class="login-title">MEMBER REGISTER</h3>
+        <h4 class="login-name">email</h4>
         <div class="login-item">
           <div class="login-item-flex" :class="{ error: errors.has('email') }">
             <div class="login-item-flex-icon">
@@ -20,11 +20,11 @@
               name="email"
             />
           </div>
-          <div class="login-item-error" v-if="errors.has('email')">
+          <p class="login-item-error" v-if="errors.has('email')">
             不符合email格式<!-- {{errors.first('email')}} -->
-          </div>
+          </p>
         </div>
-        <div class="login-name">密碼</div>
+        <h4 class="login-name">密碼</h4>
         <div class="login-item">
           <div
             class="login-item-flex"
@@ -49,11 +49,11 @@
               @click="eyeHandler('eye', 'password')"
             ></i>
           </div>
-          <div class="login-item-error" v-if="errors.has('password')">
+          <p class="login-item-error" v-if="errors.has('password')">
             密碼為必填<!-- {{errors.first('password')}} -->
-          </div>
+          </p>
         </div>
-        <div class="login-name">確認密碼</div>
+        <h4 class="login-name">確認密碼</h4>
         <div class="login-item">
           <div
             class="login-item-flex"
@@ -78,11 +78,11 @@
               @click="eyeHandler('secondEye', 'password-again')"
             ></i>
           </div>
-          <div class="login-item-error" v-if="errors.has('password-again')">
+          <p class="login-item-error" v-if="errors.has('password-again')">
             密碼為必填<!-- {{errors.first('password')}} -->
-          </div>
+          </p>
         </div>
-        <div class="login-name">手機號碼</div>
+        <h4 class="login-name">手機號碼</h4>
         <div class="login-item">
           <div class="login-item-flex" :class="{ error: errors.has('phone') }">
             <div class="login-item-flex-icon">
@@ -98,11 +98,11 @@
               name="phone"
             />
           </div>
-          <div class="login-item-error" v-if="errors.has('phone')">
+          <p class="login-item-error" v-if="errors.has('phone')">
             電話號碼必須為數字<!-- {{errors.first('password')}} -->
-          </div>
+          </p>
         </div>
-        <div class="login-name">姓名</div>
+        <h4 class="login-name">姓名</h4>
         <div class="login-item">
           <div class="login-item-flex" :class="{ error: errors.has('name') }">
             <div class="login-item-flex-icon">
@@ -118,19 +118,19 @@
               name="name"
             />
           </div>
-          <div class="login-item-error" v-if="errors.has('name')">
+          <p class="login-item-error" v-if="errors.has('name')">
             名字為必填<!-- {{errors.first('password')}} -->
-          </div>
+          </p>
         </div>
 
         <template v-if="error.switch">
-          <div
+          <p
             class="login-item-error"
             v-for="item in error.message"
             :key="item.param"
           >
             {{ item.msg || item }}
-          </div>
+          </p>
         </template>
 
         <button type="button" class="login-register" @click="signup()">

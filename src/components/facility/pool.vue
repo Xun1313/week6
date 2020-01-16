@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <article>
     泳客須知 The requirements of the pool rules
     <p>
       1. 請接受救生員輔導
@@ -31,11 +31,11 @@
       <br />
       Please do not enter pools wearing glasses or slippers
     </p>
-  </div>
+  </article>
 </template>
 
 <style lang="scss" scoped>
-div {
+article {
   opacity: 0.7;
 }
 </style>

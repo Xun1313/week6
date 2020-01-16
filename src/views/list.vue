@@ -1,16 +1,18 @@
 <template>
   <div>
-    <div class="list-pic">
+    <header class="list-pic">
       <div class="list-pic-bg"></div>
-    </div>
+    </header>
     <div class="container">
-      <div class="list-title-other">客房介紹</div>
-      <p class="list-introduce">
-        全館74間房間內，提供多達65間大坪數的親子四人房間，空間寬敞、乾淨舒適、採光明亮、備品齊全、適合用做家族旅遊、團體旅遊。
-        房內採用大尺寸的平面液晶電視，浴室設計採用古典西洋風格類型，並且在客房內即可享用游泳池。
-      </p>
-      <div class="list-title-other">選擇房型</div>
-      <div class="list-scroll">
+      <article>
+        <h3 class="list-title-other">客房介紹</h3>
+        <p class="list-introduce">
+          全館74間房間內，提供多達65間大坪數的親子四人房間，空間寬敞、乾淨舒適、採光明亮、備品齊全、適合用做家族旅遊、團體旅遊。
+          房內採用大尺寸的平面液晶電視，浴室設計採用古典西洋風格類型，並且在客房內即可享用游泳池。
+        </p>
+      </article>
+      <h3 class="list-title-other">選擇房型</h3>
+      <section class="list-scroll">
         <a
           href="#"
           class="list-scroll-single"
@@ -18,7 +20,7 @@
         >
           <div class="list-scroll-item">
             <div class="single-bg"></div>
-            <div class="single-word">Single</div>
+            <h4 class="single-word">Single</h4>
           </div>
         </a>
         <a
@@ -28,15 +30,15 @@
         >
           <div class="list-scroll-item">
             <div class="double-bg"></div>
-            <div class="double-word">Double</div>
+            <h4 class="double-word">Double</h4>
           </div>
         </a>
-      </div>
+      </section>
 
-      <div class="list-title-other" ref="single">精選單人房</div>
+      <h3 class="list-title-other" ref="single">精選單人房</h3>
       <div class="list-all row">
         <template v-for="item in allRooms">
-          <div
+          <figure
             class="list-all-item item col-md-6"
             v-if="item['room-detail'].descriptionShort.GuestMin === 1"
             :key="item.id"
@@ -47,24 +49,26 @@
                 class="item-group-pic"
               />
               <div class="item-group-more">
-                <div class="item-group-more-word">See More</div>
+                <h4 class="item-group-more-word">See More</h4>
               </div>
             </div>
-            <div class="item-title">{{ item['rooms-detail'].name }}</div>
-            <div class="item-normal">
-              平日$ {{ item['rooms-detail'].normalDayPrice }}
-            </div>
-            <div class="item-holiday">
-              假日$ {{ item['rooms-detail'].holidayPrice }}
-            </div>
-          </div>
+            <figcaption>
+              <h4 class="item-title">{{ item['rooms-detail'].name }}</h4>
+              <h4 class="item-normal">
+                平日$ {{ item['rooms-detail'].normalDayPrice }}
+              </h4>
+              <h4 class="item-holiday">
+                假日$ {{ item['rooms-detail'].holidayPrice }}
+              </h4>
+            </figcaption>
+          </figure>
         </template>
       </div>
 
-      <div class="list-title-other" ref="double">精選雙人房</div>
+      <h3 class="list-title-other" ref="double">精選雙人房</h3>
       <div class="list-all row">
         <template v-for="item in allRooms">
-          <div
+          <figure
             class="list-all-item item col-md-6"
             v-if="item['room-detail'].descriptionShort.GuestMin === 2"
             :key="item.id"
@@ -75,17 +79,19 @@
                 class="item-group-pic"
               />
               <div class="item-group-more">
-                <div class="item-group-more-word">See More</div>
+                <h4 class="item-group-more-word">See More</h4>
               </div>
             </div>
-            <div class="item-title">{{ item['rooms-detail'].name }}</div>
-            <div class="item-normal">
-              $ {{ item['rooms-detail'].normalDayPrice }}
-            </div>
-            <div class="item-holiday">
-              $ {{ item['rooms-detail'].holidayPrice }}
-            </div>
-          </div>
+            <figcaption>
+              <h4 class="item-title">{{ item['rooms-detail'].name }}</h4>
+              <h4 class="item-normal">
+                $ {{ item['rooms-detail'].normalDayPrice }}
+              </h4>
+              <h4 class="item-holiday">
+                $ {{ item['rooms-detail'].holidayPrice }}
+              </h4>
+            </figcaption>
+          </figure>
         </template>
       </div>
     </div>

@@ -1,7 +1,20 @@
 <template>
   <footer class="footer">
     <div class="container">
-      <div class="row">
+      <h2 class="footer-title">WHITE INN</h2>
+      <div class="footer-item">
+        <i class="fas fa-phone"></i>
+        免費熱線: 0800-01 1068
+      </div>
+      <div class="footer-item">
+        <i class="fas fa-phone"></i>
+        電話:+886-6-934-4112
+      </div>
+      <div class="footer-item">
+        <i class="far fa-envelope"></i>
+        email:service@WHITE INN.com.tw
+      </div>
+      <!-- <div class="row">
         <div class="col-md-6">
           <div>Address:台北市OO區OO街123號</div>
           <div>Phone:00-1234567</div>
@@ -11,8 +24,12 @@
           <div>Email:asdf@132456789.com.tw</div>
         </div>
       </div>
+      <div class="row">
+        <div class="col-md-6">周邊旅遊</div>
+        <div class="col-md-6"></div>
+      </div> -->
       <div class="footer-other">
-        © Copyright WHITE INN - 2020
+        WHITE INN 版權所有 - 2020
       </div>
     </div>
   </footer>
@@ -25,6 +42,14 @@
   background-color: $other;
   color: $important;
   padding: 30px;
+  margin-top: 30px;
+  &-title {
+    text-align: center;
+    font-size: 40px;
+  }
+  &-item {
+    text-align: center;
+  }
   /* &-item {
     @include lapTop {
       display: flex;

@@ -1,14 +1,14 @@
 <template>
   <div class="container">
-    <div class="detail">
-      <div class="detail-title">{{ news.name }}</div>
+    <figure class="detail">
+      <figcaption class="detail-title">{{ news.name }}</figcaption>
       <!-- <div class="detail-word">{{ news.content }}</div> -->
       <trip v-if="title[0] === show"></trip>
       <protect v-if="title[1] === show"></protect>
       <lines v-if="title[2] === show"></lines>
       <year v-if="title[3] === show"></year>
       <img :src="news.pic" alt="" class="detail-pic" />
-    </div>
+    </figure>
   </div>
 </template>
 

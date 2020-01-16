@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="gallery-title">照片集錦</div>
+    <h3 class="gallery-title">照片集錦</h3>
     <div class="row">
       <div
         class="gallery"
@@ -20,12 +20,12 @@
         </div>
       </div>
     </div>
-    <div class="zoom none" ref="zoom">
+    <section class="zoom none" ref="zoom">
       <div class="zoom-pic" :style="`background-image:url(${zoomPic})`"></div>
-      <div class="zoom-cancel" @click="toggleWindow()">
+      <button type="button" class="zoom-cancel" @click="toggleWindow()">
         <i class="fas fa-times"></i>
-      </div>
-    </div>
+      </button>
+    </section>
   </div>
 </template>
 
@@ -123,7 +123,8 @@ export default {
     border-radius: 50%;
     width: 40px;
     height: 40px;
-    cursor: pointer;
+    outline: none;
+    border: none;
     transition: 0.5s background-color;
     &:hover {
       background-color: darken(#f0f0f0, 10%);

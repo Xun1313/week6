@@ -1,6 +1,6 @@
 <template>
-  <div class="date">
-    <div class="date-title">姓名</div>
+  <section class="date">
+    <h4 class="date-title">姓名</h4>
     <div class="date-group" :class="{ 'is-invalid': errors.has('name') }">
       <!-- <i class="date-group-icon fas fa-user-alt"></i> -->
       <input
@@ -15,7 +15,7 @@
     </div>
     <p class="invalid-word">{{ errors.first('name') }}</p>
 
-    <div class="date-title">電話號碼</div>
+    <h4 class="date-title">電話號碼</h4>
     <div class="date-group" :class="{ 'is-invalid': errors.has('tel') }">
       <!-- <i class="date-group-icon fas fa-phone-alt"></i> -->
       <input
@@ -30,7 +30,7 @@
     </div>
     <p class="invalid-word">{{ errors.first('tel') }}</p>
 
-    <div class="date-title">入住日期</div>
+    <h4 class="date-title">入住日期</h4>
     <div class="date-groups">
       <Datepicker
         v-model="first.date"
@@ -42,7 +42,7 @@
         :wrapper-class="'picker'"
       ></Datepicker>
     </div>
-    <div class="date-title">退房日期</div>
+    <h4 class="date-title">退房日期</h4>
     <div class="date-groups">
       <Datepicker
         v-model="end.date"
@@ -71,7 +71,7 @@
         預約
       </button>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -186,11 +186,10 @@ export default {
     font-size: 16px;
     padding: 0 10px;
     &-input {
-      padding: 10px 5px;
+      padding: 10px 0;
       width: 100%;
       border: none;
       outline: none;
-      margin-left: 5px;
     }
   }
   &-groups {
@@ -214,8 +213,7 @@ export default {
       transition: 0.5s all;
       padding: 5px 15px;
       &:hover {
-        background-color: white;
-        color: $important;
+        background-color: darken($important, 10%);
       }
     }
     &-order {
@@ -229,15 +227,14 @@ export default {
       transition: 0.5s all;
       padding: 2px 0px;
       &:hover {
-        background-color: white;
-        color: $important;
+        background-color: darken($important, 10%);
       }
     }
   }
 }
-/* .outline-none{
-  outline: none;
-} */
+h4 {
+  margin: 0;
+}
 </style>
 
 <style lang="scss">
@@ -246,7 +243,7 @@ export default {
   &-input {
     width: 100%;
     display: block;
-    padding: 10px 20px;
+    padding: 10px;
     border: 1px solid black;
     opacity: 0.7;
     cursor: pointer;

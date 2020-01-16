@@ -1,16 +1,17 @@
 <template>
-  <div class="container">
-    <div class="contact-title-other">最新消息</div>
+  <article class="container">
+    <h3 class="contact-title-other">最新消息</h3>
     <p>
-      感謝您對礁溪-鳳凰德陽川泉旅的支持與愛護，如果您對於本公司的服務上需要進一步的詢問，或是其他寶貴建議事項，請留下您聯絡的方式和寶貴的意見，我們將儘快與您聯絡。
+      感謝您對WHITE
+      INN的支持與愛護，如果您對於本公司的服務上需要進一步的詢問，或是其他寶貴建議事項，請留下您聯絡的方式和寶貴的意見，我們將儘快與您聯絡。
       <br />
-      專線 / +886-1-123-4567
+      專線 / +886-6-934-4112
       <br />
-      傳真 / +886-1-123-4567
+      傳真 / +886-6-934-4112
       <br />
-      信箱 / service@asdfg.com.tw
+      信箱 / service@WHITE INN.com.tw
     </p>
-  </div>
+  </article>
 </template>
 <style lang="scss" scoped>
 @import '../assets/_grid.scss';

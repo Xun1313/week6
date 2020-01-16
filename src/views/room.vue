@@ -1,37 +1,39 @@
 <template>
   <div class="container">
-    <div class="nav">
+    <nav class="nav">
       <div class="nav-group">
         <template v-for="item in roomKind">
-          <div
+          <a
+            href="#"
             class="nav-group-item"
             v-if="item.id !== roomInfo.id"
-            @click="routeRoom(item.id)"
+            @click="routeRoom(item.id, $event)"
             :key="item.id"
           >
             {{ item.name }}
-          </div>
+          </a>
         </template>
       </div>
-    </div>
+    </nav>
 
     <div class="all">
-      <div class="main">
-        <div class="main-primary">
+      <main class="main">
+        <section class="main-primary">
           <div
             class="main-primary-pic1"
             :style="`background-image:url(${roomInfo.imageUrl[switchPic[0]]})`"
             @click="zoomHandler()"
           >
-            <div
+            <button
+              type="button"
               class="main-primary-pic1-btn"
               @click="switchPicHandler($event)"
             >
               <i class="fas fa-angle-right"></i>
-            </div>
+            </button>
           </div>
-        </div>
-        <div class="main-sub">
+        </section>
+        <section class="main-sub">
           <div class="main-sub-pic2">
             <div
               class="main-sub-pic2-sub"
@@ -48,48 +50,48 @@
               "
             ></div>
           </div>
-        </div>
-      </div>
+        </section>
+      </main>
 
-      <div class="info">
-        <div class="info-header">
-          <div class="info-header-title">{{ roomInfo.name }}</div>
+      <section class="info">
+        <header class="info-header">
+          <h3 class="info-header-title">{{ roomInfo.name }}</h3>
           <div class="info-header-price">
-            <div class="info-header-price-day">
+            <h5 class="info-header-price-day">
               平日(一~四)價格:{{ roomInfo.normalDayPrice }}
-            </div>
-            <div class="info-header-price-day">
+            </h5>
+            <h5 class="info-header-price-day">
               假日(五~日)價格:{{ roomInfo.holidayPrice }}
-            </div>
+            </h5>
           </div>
-        </div>
-        <div class="info-main">
+        </header>
+        <section class="info-main">
           <div class="info-main-detail">
-            <div class="info-main-detail-describe">
+            <article class="info-main-detail-describe">
               {{ roomInfo.description }}
-            </div>
-            <div class="info-main-detail-content">
-              <div class="content">
+            </article>
+            <article class="info-main-detail-content">
+              <h4 class="content">
                 房客人數限制:{{ roomInfo.descriptionShort.GuestMax }}人
-              </div>
-              <div class="content">
+              </h4>
+              <h4 class="content">
                 床型:{{ roomInfo.descriptionShort.Bed[0] }}
-              </div>
-              <div class="content">
+              </h4>
+              <h4 class="content">
                 衛浴數量:{{ roomInfo.descriptionShort['Private-Bath'] }}間
-              </div>
-              <div class="content">
+              </h4>
+              <h4 class="content">
                 房間大小:{{ roomInfo.descriptionShort.Footage }}平方公尺
-              </div>
-              <div class="content">
+              </h4>
+              <h4 class="content">
                 checkin時間:{{ roomInfo.checkInAndOut.checkInEarly }}~{{
                   roomInfo.checkInAndOut.checkInLate
                 }}
-              </div>
-              <div class="content">
+              </h4>
+              <h4 class="content">
                 checkout時間:{{ roomInfo.checkInAndOut.checkOut }}
-              </div>
-            </div>
+              </h4>
+            </article>
           </div>
 
           <datePicker
@@ -97,9 +99,9 @@
             @cartHandler="cartHandler"
             :roomId="roomId"
           ></datePicker>
-        </div>
+        </section>
 
-        <div class="info-footer row">
+        <footer class="info-footer row">
           <div
             class="info-footer-item col-4"
             v-for="(key, value) in roomDevice"
@@ -111,16 +113,16 @@
               :checked="key"
               disabled
             />
-            <div class="info-footer-item-name">{{ value }}</div>
+            <h4 class="info-footer-item-name">{{ value }}</h4>
           </div>
-        </div>
-      </div>
+        </footer>
+      </section>
     </div>
 
-    <div class="home-title">其他相關房型</div>
+    <h4 class="home-title">其他相關房型</h4>
     <div class="home-all row">
       <template v-for="item in roomKind">
-        <div
+        <figure
           class="home-all-item item col-md-4"
           v-if="
             item.id !== roomId &&
@@ -131,58 +133,64 @@
           <div class="item-group" @click="roomHandler(item.id)">
             <img :src="item.imageUrl" class="item-group-pic" />
             <div class="item-group-more">
-              <div class="item-group-more-word">See More</div>
+              <h4 class="item-group-more-word">See More</h4>
             </div>
           </div>
-          <div class="item-title">{{ item.name }}</div>
-          <div class="item-normal">平日$ {{ item.normalDayPrice }}</div>
-          <div class="item-holiday">假日$ {{ item.holidayPrice }}</div>
-        </div>
+          <figcaption>
+            <h4 class="item-title">{{ item.name }}</h4>
+            <h4 class="item-normal">平日$ {{ item.normalDayPrice }}</h4>
+            <h4 class="item-holiday">假日$ {{ item.holidayPrice }}</h4>
+          </figcaption>
+        </figure>
       </template>
     </div>
 
-    <div class="zoom none" ref="zoom">
+    <section class="zoom none" ref="zoom">
       <div class="zoom-pic" :style="`background-image:url(${zoomPic})`"></div>
-      <div class="zoom-cancel" @click="zoomHandler()">
+      <button type="button" class="zoom-cancel" @click="zoomHandler()">
         <i class="fas fa-times"></i>
-      </div>
-    </div>
+      </button>
+    </section>
     <div class="light" ref="dark"></div>
 
-    <div class="order none" ref="order">
+    <section class="order none" ref="order">
       <div class="order-all">
-        <div class="order-all-title">{{ roomInfo.name }}</div>
+        <header class="order-all-title">{{ roomInfo.name }}</header>
         <div class="order-all-item">
-          <div class="order-all-item-sign">入住</div>
-          <div class="order-all-item-date">
+          <h4 class="order-all-item-sign">入住</h4>
+          <h4 class="order-all-item-date">
             {{ calculate.firstDate }}星期{{ calculate.firstDay }}
-          </div>
-          <div class="order-all-item-time">
-            ({{ calculate.checkInEarly }}起)
-          </div>
+          </h4>
+          <h4 class="order-all-item-time">({{ calculate.checkInEarly }}起)</h4>
         </div>
         <div class="order-all-item">
-          <div class="order-all-item-sign">退房</div>
-          <div class="order-all-item-date">
+          <h4 class="order-all-item-sign">退房</h4>
+          <h4 class="order-all-item-date">
             {{ calculate.lastDate }}星期{{ calculate.lastDay }}
-          </div>
-          <div class="order-all-item-time">({{ calculate.checkOut }}前)</div>
+          </h4>
+          <h4 class="order-all-item-time">({{ calculate.checkOut }}前)</h4>
         </div>
-        <div class="order-all-sum">
+        <h4 class="order-all-sum">
           {{ calculate.days }}晚/{{ calculate.sum }}元
-        </div>
-        <button type="button" class="order-all-confirm" @click="orderHandler()">
-          確定
-        </button>
-        <div class="order-all-cancel" @click="toggleOrder()">
-          <i class="fas fa-times"></i>
-        </div>
+        </h4>
+        <footer>
+          <button
+            type="button"
+            class="order-all-confirm"
+            @click="orderHandler()"
+          >
+            確定
+          </button>
+          <button type="button" class="order-all-cancel" @click="toggleOrder()">
+            <i class="fas fa-times"></i>
+          </button>
+        </footer>
       </div>
-    </div>
+    </section>
 
-    <div class="cart none" ref="cart">
+    <section class="cart none" ref="cart">
       <div class="cart-container">
-        <div class="cart-container-word">商品已加入收藏!</div>
+        <h4 class="cart-container-word">商品已加入收藏!</h4>
         <button
           type="button"
           class="cart-container-confirm"
@@ -191,7 +199,7 @@
           確定
         </button>
       </div>
-    </div>
+    </section>
   </div>
 </template>
 
@@ -315,7 +323,8 @@ export default {
       this.$refs[dom].classList.toggle('none')
       this.$refs.dark.classList.toggle('dark')
     },
-    routeRoom(val) {
+    routeRoom(val, e) {
+      e.preventDefault()
       this.roomId = val
       this.$refs.dark.classList.remove('dark')
       this.$router.push(`/room/${val}`)
@@ -415,6 +424,9 @@ export default {
       font-size: 16px;
       margin-left: 20px;
       cursor: pointer;
+      text-decoration: none;
+      opacity: 0.7;
+      color: black;
       transition: 0.5s all;
       &:hover {
         color: lighten(black, 50%);
@@ -491,6 +503,8 @@ export default {
       cursor: pointer;
       transition: 1s all;
       &-btn {
+        outline: none;
+        border: none;
         position: absolute;
         bottom: 5%;
         right: 5%;
@@ -541,6 +555,7 @@ export default {
     width: 150%;
   }
   &-header {
+    margin: 0;
     text-align: center;
     @include lapTopHigh {
       display: flex;
@@ -553,7 +568,6 @@ export default {
       margin-bottom: 10px;
     }
     &-price {
-      margin-bottom: 10px;
       &-day {
         color: $important;
         font-weight: bold;
@@ -629,7 +643,8 @@ export default {
     border-radius: 50%;
     width: 40px;
     height: 40px;
-    cursor: pointer;
+    outline: none;
+    border: none;
     transition: 0.5s background-color;
     &:hover {
       background-color: darken(#f0f0f0, 10%);
@@ -714,7 +729,8 @@ export default {
       border-radius: 50%;
       width: 40px;
       height: 40px;
-      cursor: pointer;
+      outline: none;
+      border: none;
       transition: 0.5s background-color;
       &:hover {
         background-color: darken(#f0f0f0, 10%);
@@ -782,8 +798,7 @@ export default {
       margin-bottom: 20px;
       transition: 0.5s all;
       &:hover {
-        background-color: white;
-        color: $important;
+        background-color: darken($important, 10%);
       }
     }
   }
@@ -822,6 +837,9 @@ export default {
     /* @include lapTopHigh {
       padding: 80px;
     } */
+    &-word {
+      margin: 0;
+    }
     &-confirm {
       outline: none;
       color: white;
@@ -830,8 +848,7 @@ export default {
       margin-top: 20px;
       transition: 0.5s all;
       &:hover {
-        background-color: white;
-        color: $important;
+        background-color: darken($important, 10%);
       }
     }
   }

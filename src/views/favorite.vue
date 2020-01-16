@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="title">收藏</div>
+    <h3 class="title">收藏</h3>
     <table class="table table-striped">
       <!-- <thead>
       <tr>
@@ -26,19 +26,19 @@
             </div>
           </td>
           <td class="item-all">
-            <div class="all">
-              <div class="all-primary">{{ item.name }}</div>
+            <article class="all">
+              <h4 class="all-primary">{{ item.name }}</h4>
               <div class="all-secondary">
-                <div class="all-secondary-description">
+                <p class="all-secondary-description">
                   {{ item.description }}
-                </div>
-                <div class="all-secondary-detail">
+                </p>
+                <aside class="all-secondary-detail">
                   <div
                     class="all-secondary-detail-cart"
                     @click="deleteCollection($event, item.id)"
                   >
                     <i class="fas fa-ban"></i>
-                    <span>取消收藏</span>
+                    <h5>取消收藏</h5>
                   </div>
                   <div>
                     <div class="all-secondary-detail-number">
@@ -47,16 +47,16 @@
                         v-for="guest in item.guest"
                         :key="guest + item.name"
                       ></i>
-                      <div class="people">x{{ item.guest }}</div>
+                      <h5 class="people">x{{ item.guest }}</h5>
                     </div>
                     <div class="all-secondary-detail-price">
-                      <div class="two">平日:${{ item.normalDayPrice }}</div>
-                      <div class="two">假日:${{ item.holidayPrice }}</div>
+                      <h5 class="two">平日:${{ item.normalDayPrice }}</h5>
+                      <h5 class="two">假日:${{ item.holidayPrice }}</h5>
                     </div>
                   </div>
-                </div>
+                </aside>
               </div>
-            </div>
+            </article>
           </td>
         </tr>
       </tbody>
@@ -96,7 +96,7 @@ export default {
             return {
               ...e['rooms-detail'],
               id: e.id,
-              guest: e['room-detail'].descriptionShort.GuestMin,
+              guest: e['room-detail'].descriptionShort.GuestMax,
               description: e['room-detail'].description
             }
           })
@@ -133,7 +133,11 @@ export default {
   margin-bottom: 50px;
 }
 .item {
+  transition: 0.5s all;
   cursor: pointer;
+  &:hover {
+    box-shadow: 0px 0px 10px 1px grey;
+  }
   &-img {
     &-container {
       width: 100%;
@@ -192,6 +196,10 @@ export default {
         &:hover {
           color: darken(red, 15%);
         }
+        h5 {
+          font-size: 16px;
+          margin: 0;
+        }
       }
       &-number {
         display: flex;
@@ -208,8 +216,10 @@ export default {
       }
       &-price {
         .two {
+          font-size: 16px;
           white-space: nowrap;
           text-align: right;
+          margin: 0;
         }
       }
     }

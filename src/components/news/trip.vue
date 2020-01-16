@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <article>
     <p>
       快來享秋冬旅遊住宿優惠
       <br />
@@ -13,7 +13,7 @@
       ⭐本泉旅隨時保有變更、取消、解釋活動內容之權利，如有異議恕不另行通知。
     </p>
     <p>訂房專線 039-888-565</p>
-  </div>
+  </article>
 </template>
 
 <style lang="scss" scoped>

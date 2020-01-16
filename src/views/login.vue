@@ -3,8 +3,8 @@
     <div class="opacity-login">
       <div class="login">
         <i class="fas fa-user-alt login-icon"></i>
-        <div class="login-title">MEMBER LOGIN</div>
-        <div class="login-name">email</div>
+        <h3 class="login-title">MEMBER LOGIN</h3>
+        <h4 class="login-name">email</h4>
         <div class="login-item">
           <div class="login-item-flex" :class="{ error: errors.has('email') }">
             <div class="login-item-flex-icon">
@@ -20,11 +20,11 @@
               name="email"
             />
           </div>
-          <div class="login-item-error" v-if="errors.has('email')">
+          <p class="login-item-error" v-if="errors.has('email')">
             不符合email格式<!-- {{errors.first('email')}} -->
-          </div>
+          </p>
         </div>
-        <div class="login-name">密碼</div>
+        <h4 class="login-name">密碼</h4>
         <div class="login-item">
           <div
             class="login-item-flex"
@@ -49,12 +49,12 @@
               @click="eyeHandler()"
             ></i>
           </div>
-          <div class="login-item-error" v-if="errors.has('password')">
+          <p class="login-item-error" v-if="errors.has('password')">
             密碼為必填<!-- {{errors.first('password')}} -->
-          </div>
+          </p>
         </div>
 
-        <div class="login-item-error" v-if="error">帳號或密碼有誤</div>
+        <p class="login-item-error" v-if="error">帳號或密碼有誤</p>
         <button type="button" class="login-login" @click="signin()">
           SIGN IN
         </button>

@@ -57,7 +57,7 @@
       </div>
     </div> -->
     <div class="container">
-      <div class="order-title">恭喜你已訂房成功，以下為你的訂房資訊</div>
+      <h3 class="order-title">恭喜你已訂房成功，以下為你的訂房資訊</h3>
       <!-- <div class="order-all-title">{{ info['rooms-detail'].name }}</div> -->
       <table class="table">
         <tbody>
@@ -123,10 +123,10 @@
       <button type="button" class="order-all-confirm" @click="routeHandler()">
         回首頁
       </button>
-      <div class="home-title">其他相關房型</div>
+      <h4 class="home-title">其他相關房型</h4>
       <div class="home-all row">
         <template v-for="item in roomKind">
-          <div
+          <figure
             class="home-all-item item col-md-4"
             v-if="
               item.id !== info.id &&
@@ -137,13 +137,15 @@
             <div class="item-group" @click="roomHandler(item.id)">
               <img :src="item.imageUrl" class="item-group-pic" />
               <div class="item-group-more">
-                <div class="item-group-more-word">See More</div>
+                <h4 class="item-group-more-word">See More</h4>
               </div>
             </div>
-            <div class="item-title">{{ item.name }}</div>
-            <div class="item-normal">平日$ {{ item.normalDayPrice }}</div>
-            <div class="item-holiday">假日$ {{ item.holidayPrice }}</div>
-          </div>
+            <figcaption>
+              <h4 class="item-title">{{ item.name }}</h4>
+              <h4 class="item-normal">平日$ {{ item.normalDayPrice }}</h4>
+              <h4 class="item-holiday">假日$ {{ item.holidayPrice }}</h4>
+            </figcaption>
+          </figure>
         </template>
       </div>
     </div>
@@ -219,6 +221,7 @@ td {
   &-title {
     text-align: center;
     margin: 30px 0;
+    color: $important;
   }
   &-all {
     /* display: flex;
@@ -292,8 +295,7 @@ td {
       display: block;
       transition: 0.5s all;
       &:hover {
-        background-color: white;
-        color: $important;
+        background-color: darken($important, 10%);
       }
     }
   }

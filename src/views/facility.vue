@@ -1,13 +1,15 @@
 <template>
   <div>
-    <div class="facility-pic">
+    <header class="facility-pic">
       <div class="facility-pic-bg"></div>
-    </div>
+    </header>
     <div class="container">
-      <div class="facility-title-other">設施介紹</div>
-      <p class="facility-introduce">
-        在炎炎夏日的您不僅游泳，還可以運動健身、更可以全家大小享受悠閒的水上活動樂趣。戶外35米舒適的游泳池有樹蔭保護，使你不受炙陽酷曬。
-      </p>
+      <article>
+        <h3 class="facility-title-other">設施介紹</h3>
+        <p class="facility-introduce">
+          在炎炎夏日的您不僅游泳，還可以運動健身、更可以全家大小享受悠閒的水上活動樂趣。戶外35米舒適的游泳池有樹蔭保護，使你不受炙陽酷曬。
+        </p>
+      </article>
       <div class="row">
         <div class="col-md-6 item" v-for="item in facility" :key="item.id">
           <div class="facility-item" @click="routeHandler(item.id)">
@@ -15,10 +17,10 @@
               class="facility-item-pic"
               :style="`background-image:url(${item.pic})`"
             ></div>
-            <div class="facility-item-content">
-              <div class="facility-item-content-title">{{ item.name }}</div>
-              <div class="facility-item-content-word">{{ item.content }}</div>
-            </div>
+            <article class="facility-item-content">
+              <h4 class="facility-item-content-title">{{ item.name }}</h4>
+              <h4 class="facility-item-content-word">{{ item.content }}</h4>
+            </article>
             <router-link :to="`/facility/${item.id}`" class="facility-item-more"
               >了解更多</router-link
             >
@@ -127,6 +129,7 @@ export default {
         text-align: center;
       }
       &-word {
+        font-weight: normal;
         opacity: 0.7;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -150,8 +153,7 @@ export default {
       bottom: 15px;
       transition: 0.5s all;
       &:hover {
-        color: $important;
-        background-color: white;
+        background-color: darken($important, 10%);
       }
     }
   }

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <article>
     <p>
       你我一起共同響應環保‧愛地球
       <br />
@@ -18,7 +18,7 @@
       <br />
       訂房專線 039-888-565
     </p>
-  </div>
+  </article>
 </template>
 
 <style lang="scss" scoped>

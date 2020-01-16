@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="container">
-      <div class="news-title-other">最新消息</div>
+      <h4 class="news-title-other">最新消息</h4>
       <div class="row">
         <div class="col-md-6 item" v-for="item in news" :key="item.id">
           <div class="news-item" @click="routeHandler(item.id)">
@@ -9,10 +9,10 @@
               class="news-item-pic"
               :style="`background-image:url(${item.pic})`"
             ></div>
-            <div class="news-item-content">
-              <div class="news-item-content-title">{{ item.name }}</div>
-              <div class="news-item-content-word">{{ item.content }}</div>
-            </div>
+            <article class="news-item-content">
+              <h4 class="news-item-content-title">{{ item.name }}</h4>
+              <h4 class="news-item-content-word">{{ item.content }}</h4>
+            </article>
             <router-link :to="`/news/${item.id}`" class="news-item-more"
               >了解更多</router-link
             >
@@ -123,6 +123,7 @@ export default {
         text-align: center;
       }
       &-word {
+        font-weight: normal;
         opacity: 0.7;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -146,8 +147,7 @@ export default {
       bottom: 15px;
       transition: 0.5s all;
       &:hover {
-        color: $important;
-        background-color: white;
+        background-color: darken($important, 10%);
       }
     }
   }

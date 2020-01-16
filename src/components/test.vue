@@ -36,31 +36,31 @@
         class="date-groups-check"
         :class="{ 'is-invalid': errors.has('date') }"
       >
-      <i class="far fa-calendar-times"></i>
-      <input
-        type="text"
-        class="date-groups-check-input check-in"
-        v-validate="'required'"
-        placeholder="Check in"
-        name="date"
-        data-vv-as="日期"
-        readonly
-      />
+        <i class="far fa-calendar-times"></i>
+        <input
+          type="text"
+          class="date-groups-check-input check-in"
+          v-validate="'required'"
+          placeholder="Check in"
+          name="date"
+          data-vv-as="日期"
+          readonly
+        />
       </div>
       <div
         class="date-groups-check"
         :class="{ 'is-invalid': errors.has('date2') }"
       >
         <i class="far fa-calendar-times"></i>
-      <input
-        type="text"
-        class="date-groups-check-input check-out"
-        v-validate="'required'"
-        placeholder="Check out"
-        name="date2"
-        data-vv-as="日期"
-        readonly
-      />
+        <input
+          type="text"
+          class="date-groups-check-input check-out"
+          v-validate="'required'"
+          placeholder="Check out"
+          name="date2"
+          data-vv-as="日期"
+          readonly
+        />
       </div>
     </div>
     <p class="invalid-word">

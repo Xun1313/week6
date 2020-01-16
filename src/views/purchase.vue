@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="title">購買紀錄</div>
+    <h3 class="title">購買紀錄</h3>
     <table class="table table-striped">
       <!-- <thead>
       <tr>
@@ -27,34 +27,34 @@
             </div>
           </td>
           <td class="item-all">
-            <div class="all">
-              <div class="all-primary">
+            <article class="all">
+              <h4 class="all-primary">
                 {{ item.room['rooms-detail'].name }}
-              </div>
+              </h4>
               <div class="all-secondary">
                 <div class="all-secondary-item">
-                  <div class="all-secondary-item-sign">入住</div>
-                  <div class="all-secondary-item-date">
+                  <h4 class="all-secondary-item-sign">入住</h4>
+                  <h4 class="all-secondary-item-date">
                     {{ item.user.firstDate }}星期{{ item.user.firstDay }}
-                  </div>
-                  <div class="all-secondary-item-time">
+                  </h4>
+                  <h4 class="all-secondary-item-time">
                     ({{ item.user.checkInEarly }}起)
-                  </div>
+                  </h4>
                 </div>
                 <div class="all-secondary-item">
-                  <div class="all-secondary-item-sign">退房</div>
-                  <div class="all-secondary-item-date">
+                  <h4 class="all-secondary-item-sign">退房</h4>
+                  <h4 class="all-secondary-item-date">
                     {{ item.user.lastDate }}星期{{ item.user.lastDay }}
-                  </div>
-                  <div class="all-secondary-item-time">
+                  </h4>
+                  <h4 class="all-secondary-item-time">
                     ({{ item.user.checkOut }}前)
-                  </div>
+                  </h4>
                 </div>
-                <div class="all-secondary-sum">
+                <h4 class="all-secondary-sum">
                   {{ item.user.days }}晚/{{ item.user.sum }}元
-                </div>
+                </h4>
               </div>
-            </div>
+            </article>
           </td>
         </tr>
       </tbody>

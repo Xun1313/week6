@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <article>
     <p>好友募集中</p>
     <p>WHITE INN現在有自己的官方line帳號囉!</p>
     <p>
       即日起只要加入成為我們的好友圈，讓您好禮馬上擁有~快動動您的手指趕緊加入我們吧！
     </p>
-  </div>
+  </article>
 </template>
 
 <style lang="scss" scoped>

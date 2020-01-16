@@ -15,6 +15,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import './assets/all.scss';
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans+TC&display=swap');
 html,
 body {
