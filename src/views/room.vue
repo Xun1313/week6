@@ -1,21 +1,5 @@
 <template>
   <div class="container">
-    <nav class="nav">
-      <div class="nav-group">
-        <template v-for="item in roomKind">
-          <a
-            href="#"
-            class="nav-group-item"
-            v-if="item.id !== roomInfo.id"
-            @click="routeRoom(item.id, $event)"
-            :key="item.id"
-          >
-            {{ item.name }}
-          </a>
-        </template>
-      </div>
-    </nav>
-
     <div class="all">
       <main class="main">
         <section class="main-primary">
@@ -58,10 +42,10 @@
           <h3 class="info-header-title">{{ roomInfo.name }}</h3>
           <div class="info-header-price">
             <h5 class="info-header-price-day">
-              平日(一~四)價格:{{ roomInfo.normalDayPrice }}
+              平日(一~四)價格:{{ roomInfo.normalDayPrice | currency }}
             </h5>
             <h5 class="info-header-price-day">
-              假日(五~日)價格:{{ roomInfo.holidayPrice }}
+              假日(五~日)價格:{{ roomInfo.holidayPrice | currency }}
             </h5>
           </div>
         </header>
@@ -84,12 +68,12 @@
                 房間大小:{{ roomInfo.descriptionShort.Footage }}平方公尺
               </h4>
               <h4 class="content">
-                checkin時間:{{ roomInfo.checkInAndOut.checkInEarly }}~{{
+                入住時間:{{ roomInfo.checkInAndOut.checkInEarly }}~{{
                   roomInfo.checkInAndOut.checkInLate
                 }}
               </h4>
               <h4 class="content">
-                checkout時間:{{ roomInfo.checkInAndOut.checkOut }}
+                退房時間:{{ roomInfo.checkInAndOut.checkOut }}
               </h4>
             </article>
           </div>
@@ -102,18 +86,19 @@
         </section>
 
         <footer class="info-footer row">
+          <!-- v-for="(key, value) in roomDevice" :key="value" -->
           <div
             class="info-footer-item col-4"
-            v-for="(key, value) in roomDevice"
-            :key="value"
+            v-for="(item, key, index) in roomDevice"
+            :key="index"
           >
             <input
               type="checkbox"
               class="info-footer-item-check"
-              :checked="key"
+              :checked="item"
               disabled
             />
-            <h4 class="info-footer-item-name">{{ value }}</h4>
+            <h4 class="info-footer-item-name">{{ roomDeviceZh[key] }}</h4>
           </div>
         </footer>
       </section>
@@ -138,8 +123,12 @@
           </div>
           <figcaption>
             <h4 class="item-title">{{ item.name }}</h4>
-            <h4 class="item-normal">平日$ {{ item.normalDayPrice }}</h4>
-            <h4 class="item-holiday">假日$ {{ item.holidayPrice }}</h4>
+            <h4 class="item-normal">
+              平日$ {{ item.normalDayPrice | currency }}
+            </h4>
+            <h4 class="item-holiday">
+              假日$ {{ item.holidayPrice | currency }}
+            </h4>
           </figcaption>
         </figure>
       </template>
@@ -205,7 +194,7 @@
 
 <script>
 import datePicker from '../components/date-picker'
-const moment = require('moment')
+import moment from 'moment'
 export default {
   data() {
     return {
@@ -218,20 +207,21 @@ export default {
       },
       zoomPic: '',
       switchPic: [0, 1, 2],
-      roomDevice: {
-        空調: '',
-        早餐: '',
-        適合兒童: '',
-        漂亮的視野: '',
-        'Mini Bar': '',
-        寵物攜帶: '',
-        冰箱: '',
-        'Room Service': '',
-        禁止吸菸: '',
-        沙發: '',
-        電話: '',
-        wifi: ''
+      roomDeviceZh: {
+        'Air-Conditioner': '空調',
+        Breakfast: '早餐',
+        'Child-Friendly': '適合兒童',
+        'Great-View': '漂亮的視野',
+        'Mini-Bar': 'Mini Bar',
+        'Pet-Friendly': '攜帶寵物',
+        Refrigerator: '冰箱',
+        'Room-Service': '客房服務',
+        'Smoke-Free': '禁止吸菸',
+        Sofa: '沙發',
+        Television: '電話',
+        'Wi-Fi': 'Wi-Fi'
       },
+      roomDevice: {},
       roomKind: [],
       roomInfo: {
         checkInAndOut: {},
@@ -323,35 +313,19 @@ export default {
       this.$refs[dom].classList.toggle('none')
       this.$refs.dark.classList.toggle('dark')
     },
-    routeRoom(val, e) {
+    /* routeRoom(val, e) {
       e.preventDefault()
       this.roomId = val
       this.$refs.dark.classList.remove('dark')
       this.$router.push(`/room/${val}`)
-      //this.$refs['nav-switch'].checked = false;
-      /* this.$router.push(`/room/${val}`)
-      .then(() => {
-          location.reload();
-        })
-        .catch(err => {}); */
-    },
+    }, */
     updateRoom() {
       this.$bus.$emit('isLoading', true)
       this.$http
-        .get(`${process.env.VUE_APP_api}/room/${this.roomId}`, {
-          /* headers: {
-          "CSRF-Token": token
-        } */
-        })
+        .get(`${process.env.VUE_APP_api}/room/${this.roomId}`)
         .then(res => {
           this.roomInfo = res.data.room[0]
-          let sum = 0
-          for (const key in this.roomDevice) {
-            this.roomDevice[key] = Object.values(res.data.room[0].amenities)[
-              sum
-            ]
-            sum++
-          }
+          this.roomDevice = res.data.room[0].amenities
           this.$bus.$emit('isLoading', false)
         })
     },
@@ -363,16 +337,14 @@ export default {
     }
   },
   mounted() {
-    //let token = document.head.querySelector('meta[name="csrf-token"]');
     this.roomId = this.$route.params.id
     this.updateRoom()
     this.$http.get(`${process.env.VUE_APP_api}/rooms`).then(res => {
-      console.log(res.data)
       res.data.item.forEach(e => {
         this.roomKind.push({
           id: e.id,
           ...e['rooms-detail'],
-          GuestMin: e['room-detail'].descriptionShort.GuestMin
+          GuestMin: e.primary.descriptionShort.GuestMin
         })
       })
     })
@@ -406,68 +378,6 @@ export default {
 @import '../assets/_grid.scss';
 @import '../assets/_variable.scss';
 @import url('https://fonts.googleapis.com/css?family=Indie+Flower&display=swap');
-/* .room{
-  min-height: 100vh;
-} */
-.nav {
-  position: relative;
-  z-index: 25;
-  width: 100%;
-  &-group {
-    display: none;
-    @include lapTopHigh {
-      display: flex;
-      align-items: center;
-    }
-    padding: 30px 0 0 0;
-    &-item {
-      font-size: 16px;
-      margin-left: 20px;
-      cursor: pointer;
-      text-decoration: none;
-      opacity: 0.7;
-      color: black;
-      transition: 0.5s all;
-      &:hover {
-        color: lighten(black, 50%);
-      }
-    }
-    &-item:first-child {
-      margin-left: auto;
-    }
-  }
-  /* &-menu {
-    margin-left: auto;
-    display: block;
-    text-align: right;
-    @include lapTopHigh {
-      display: none;
-    }
-    i {
-      cursor: pointer;
-    }
-  } */
-}
-/* .menu {
-  @include lapTopHigh {
-    display: none;
-  }
-  z-index: 10;
-  position: fixed;
-  background-color: black;
-  width: 100%;
-  overflow: hidden;
-  transition: 0.5s all;
-  transform: translateY(-110%);
-  //margin-bottom: 60px;
-  &-item {
-    border-bottom: 1px white solid;
-    padding: 10px;
-    color: white;
-    cursor: pointer;
-  }
-} */
-
 .all {
   padding: 0;
   position: relative;
@@ -588,10 +498,14 @@ export default {
         margin: 0 auto 15px auto;
         font-size: 16px;
         color: $word;
+        font-size: 20px;
       }
       &-content {
         opacity: 0.6;
         font-size: 16px;
+        h4 {
+          margin: 0;
+        }
       }
     }
   }
@@ -605,6 +519,9 @@ export default {
       display: flex;
       align-items: center;
       padding: 0;
+      &-name {
+        margin: 0;
+      }
       &-check {
         margin-right: 5px;
       }

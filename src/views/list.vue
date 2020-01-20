@@ -40,7 +40,7 @@
         <template v-for="item in allRooms">
           <figure
             class="list-all-item item col-md-6"
-            v-if="item['room-detail'].descriptionShort.GuestMin === 1"
+            v-if="item.primary.descriptionShort.GuestMin === 1"
             :key="item.id"
           >
             <div class="item-group" @click="roomHandler(item.id)">
@@ -55,10 +55,10 @@
             <figcaption>
               <h4 class="item-title">{{ item['rooms-detail'].name }}</h4>
               <h4 class="item-normal">
-                平日$ {{ item['rooms-detail'].normalDayPrice }}
+                平日$ {{ item['rooms-detail'].normalDayPrice | currency }}
               </h4>
               <h4 class="item-holiday">
-                假日$ {{ item['rooms-detail'].holidayPrice }}
+                假日$ {{ item['rooms-detail'].holidayPrice | currency }}
               </h4>
             </figcaption>
           </figure>
@@ -70,7 +70,7 @@
         <template v-for="item in allRooms">
           <figure
             class="list-all-item item col-md-6"
-            v-if="item['room-detail'].descriptionShort.GuestMin === 2"
+            v-if="item.primary.descriptionShort.GuestMin === 2"
             :key="item.id"
           >
             <div class="item-group" @click="roomHandler(item.id)">

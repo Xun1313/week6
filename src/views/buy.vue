@@ -1,64 +1,7 @@
 <template>
   <div>
-    <!-- <div class="order container">
-      <div class="order-title">恭喜你已訂房成功，以下為你的訂房資訊</div>
-      <div class="order-all">
-        <div class="order-all-title">{{ info['rooms-detail'].name }}</div>
-        <div class="order-all-item">
-          <div class="order-all-item-sign">入住</div>
-          <div class="order-all-item-date">{{ calc.firstDate }}星期{{ calc.firstDay }}</div>
-          <div class="order-all-item-time">({{ calc.checkInEarly }}起)</div>
-        </div>
-        <div class="order-all-item">
-          <div class="order-all-item-sign">退房</div>
-          <div class="order-all-item-date">{{ calc.lastDate }}星期{{ calc.lastDay }}</div>
-          <div class="order-all-item-time">({{ calc.checkOut }}前)</div>
-        </div>
-
-        <div class="order-all-item">
-          <div class="order-all-item-sign">房型說明</div>
-          <span>{{ info['room-detail'].description }}</span>
-        </div>
-
-        <div class="order-all-item">
-          <div class="order-all-item-sign">房客人數限制</div>
-          <span>{{ info['room-detail'].descriptionShort.GuestMax }}人</span>
-        </div>
-
-        <div class="order-all-item">
-          <div class="order-all-item-sign">床型</div>
-          <span>{{ info['room-detail'].descriptionShort.Bed[0] }}</span>
-        </div>
-
-        <div class="order-all-item">
-          <div class="order-all-item-sign">衛浴數量</div>
-          <span>{{ info['room-detail'].descriptionShort['Private-Bath'] }}間</span>
-        </div>
-
-        <div class="order-all-item">
-          <div class="order-all-item-sign">房間大小</div>
-          <span>{{ info['room-detail'].descriptionShort.Footage }}平方公尺</span>
-        </div>
-
-        <div class="order-all-item">
-          <div class="order-all-item-sign">checkin時間</div>
-          <span>{{ info['room-detail'].checkInAndOut.checkInEarly }}~{{ info['room-detail'].checkInAndOut.checkInLate }}</span>
-        </div>
-
-        <div class="order-all-item">
-          <div class="order-all-item-sign">checkout時間</div>
-          <span>{{ info['room-detail'].checkInAndOut.checkOut }}</span>
-        </div>
-
-        <div class="order-all-sum">{{ calc.days }}晚/{{ calc.sum }}元</div>
-        <button type="button" class="order-all-confirm" @click="routeHandler()">
-          回首頁
-        </button>
-      </div>
-    </div> -->
     <div class="container">
       <h3 class="order-title">恭喜你已訂房成功，以下為你的訂房資訊</h3>
-      <!-- <div class="order-all-title">{{ info['rooms-detail'].name }}</div> -->
       <table class="table">
         <tbody>
           <tr>
@@ -81,37 +24,35 @@
           </tr>
           <tr>
             <th>房型說明</th>
-            <td>{{ info['room-detail'].description }}</td>
+            <td>{{ info.primary.description }}</td>
           </tr>
           <tr>
             <th>房客人數限制</th>
-            <td>{{ info['room-detail'].descriptionShort.GuestMax }}人</td>
+            <td>{{ info.primary.descriptionShort.GuestMax }}人</td>
           </tr>
           <tr>
             <th>床型</th>
-            <td>{{ info['room-detail'].descriptionShort.Bed[0] }}</td>
+            <td>{{ info.primary.descriptionShort.Bed[0] }}</td>
           </tr>
           <tr>
             <th>衛浴數量</th>
-            <td>
-              {{ info['room-detail'].descriptionShort['Private-Bath'] }}間
-            </td>
+            <td>{{ info.primary.descriptionShort['Private-Bath'] }}間</td>
           </tr>
           <tr>
             <th>房間大小</th>
-            <td>{{ info['room-detail'].descriptionShort.Footage }}平方公尺</td>
+            <td>{{ info.primary.descriptionShort.Footage }}平方公尺</td>
           </tr>
           <tr>
             <th>checkin時間</th>
             <td>
-              {{ info['room-detail'].checkInAndOut.checkInEarly }}~{{
-                info['room-detail'].checkInAndOut.checkInLate
+              {{ info.primary.checkInAndOut.checkInEarly }}~{{
+                info.primary.checkInAndOut.checkInLate
               }}
             </td>
           </tr>
           <tr>
             <th>checkout時間</th>
-            <td>{{ info['room-detail'].checkInAndOut.checkOut }}</td>
+            <td>{{ info.primary.checkInAndOut.checkOut }}</td>
           </tr>
           <tr>
             <th colspan="2" class="order-sum">
@@ -130,7 +71,7 @@
             class="home-all-item item col-md-4"
             v-if="
               item.id !== info.id &&
-                item.GuestMin === info['room-detail'].descriptionShort.GuestMin
+                item.GuestMin === info.primary.descriptionShort.GuestMin
             "
             :key="item.id"
           >
@@ -192,7 +133,7 @@ export default {
         this.roomKind.push({
           id: e.id,
           ...e['rooms-detail'],
-          GuestMin: e['room-detail'].descriptionShort.GuestMin
+          GuestMin: e.primary.descriptionShort.GuestMin
         })
       })
       this.$bus.$emit('isLoading', false)

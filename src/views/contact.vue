@@ -17,6 +17,10 @@
 @import '../assets/_grid.scss';
 @import '../assets/_mixin.scss';
 @import '../assets/_variable.scss';
+article {
+  height: 100vh;
+}
+
 .contact {
   &-title-other {
     color: $important;

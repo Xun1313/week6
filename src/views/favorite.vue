@@ -33,26 +33,28 @@
                   {{ item.description }}
                 </p>
                 <aside class="all-secondary-detail">
+                  <div class="all-secondary-detail-number">
+                    <i
+                      class="fas fa-male icon"
+                      v-for="guest in item.guest"
+                      :key="guest + item.name"
+                    ></i>
+                    <h5 class="people">x{{ item.guest }}</h5>
+                  </div>
+                  <div class="all-secondary-detail-price">
+                    <h5 class="two">
+                      平日:${{ item.normalDayPrice | currency }}
+                    </h5>
+                    <h5 class="two">
+                      假日:${{ item.holidayPrice | currency }}
+                    </h5>
+                  </div>
                   <div
                     class="all-secondary-detail-cart"
                     @click="deleteCollection($event, item.id)"
                   >
                     <i class="fas fa-ban"></i>
                     <h5>取消收藏</h5>
-                  </div>
-                  <div>
-                    <div class="all-secondary-detail-number">
-                      <i
-                        class="fas fa-male icon"
-                        v-for="guest in item.guest"
-                        :key="guest + item.name"
-                      ></i>
-                      <h5 class="people">x{{ item.guest }}</h5>
-                    </div>
-                    <div class="all-secondary-detail-price">
-                      <h5 class="two">平日:${{ item.normalDayPrice }}</h5>
-                      <h5 class="two">假日:${{ item.holidayPrice }}</h5>
-                    </div>
                   </div>
                 </aside>
               </div>
@@ -96,8 +98,8 @@ export default {
             return {
               ...e['rooms-detail'],
               id: e.id,
-              guest: e['room-detail'].descriptionShort.GuestMax,
-              description: e['room-detail'].description
+              guest: e.primary.descriptionShort.GuestMax,
+              description: e.primary.description
             }
           })
         }
@@ -181,16 +183,15 @@ export default {
       opacity: 0.6;
     }
     &-detail {
-      display: flex;
+      /* display: flex;
       align-items: flex-end;
       justify-content: flex-end;
-      position: relative;
+      position: relative; */
       &-cart {
         display: flex;
         align-items: center;
+        justify-content: flex-end;
         color: red;
-        position: absolute;
-        right: 85px;
         cursor: pointer;
         transition: 0.5s all;
         &:hover {

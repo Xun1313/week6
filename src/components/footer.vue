@@ -14,20 +14,6 @@
         <i class="far fa-envelope"></i>
         email:service@WHITE INN.com.tw
       </div>
-      <!-- <div class="row">
-        <div class="col-md-6">
-          <div>Address:台北市OO區OO街123號</div>
-          <div>Phone:00-1234567</div>
-        </div>
-        <div class="col-md-6">
-          <div>Fax:00-76543217</div>
-          <div>Email:asdf@132456789.com.tw</div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">周邊旅遊</div>
-        <div class="col-md-6"></div>
-      </div> -->
       <div class="footer-other">
         WHITE INN 版權所有 - 2020
       </div>
@@ -41,7 +27,6 @@
 .footer {
   background-color: $other;
   color: $important;
-  padding: 30px;
   margin-top: 30px;
   &-title {
     text-align: center;

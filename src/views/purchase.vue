@@ -51,7 +51,7 @@
                   </h4>
                 </div>
                 <h4 class="all-secondary-sum">
-                  {{ item.user.days }}晚/{{ item.user.sum }}元
+                  {{ item.user.days }}晚/{{ item.user.sum | currency }}元
                 </h4>
               </div>
             </article>

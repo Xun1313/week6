@@ -6,7 +6,8 @@ import axios from 'axios'
 axios.defaults.withCredentials = true
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 import VueAxios from 'vue-axios'
-
+import currency from './components/filter/currency'
+Vue.filter('currency', currency)
 import VueI18n from 'vue-i18n'
 import VeeValidate from 'vee-validate'
 import validationMessages from 'vee-validate/dist/locale/zh_TW'

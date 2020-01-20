@@ -50,7 +50,7 @@ export default {
   mounted() {
     this.$http.get(`${process.env.VUE_APP_api}/rooms`).then(res => {
       res.data.item.forEach(e => {
-        this.allRooms.push(...e['room-detail'].imageUrl)
+        this.allRooms.push(...e.primary.imageUrl)
       })
     })
   }

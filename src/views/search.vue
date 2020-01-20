@@ -40,8 +40,12 @@
                         <h5 class="people">x{{ item.guest }}</h5>
                       </div>
                       <div class="all-secondary-detail-price">
-                        <h5 class="two">平日:${{ item.normalDayPrice }}</h5>
-                        <h5 class="two">假日:${{ item.holidayPrice }}</h5>
+                        <h5 class="two">
+                          平日:${{ item.normalDayPrice | currency }}
+                        </h5>
+                        <h5 class="two">
+                          假日:${{ item.holidayPrice | currency }}
+                        </h5>
                       </div>
                     </div>
                   </aside>
@@ -53,29 +57,37 @@
       </table>
       <section class="picker">
         <!-- <div class="picker-group"> -->
-        <div class="picker-group-item">
+        <label class="picker-group-item" id="picker-in">
           <h4 class="picker-group-item-title">入住時間</h4>
+          <h4 class="picker-group-item-time">
+            {{ moment(first.date).format('YYYY年MM月DD日') }}
+          </h4>
           <Datepicker
             v-model="first.date"
             :disabled-dates="first.disabledDates"
             @selected="firstHandler"
             :wrapper-class="'search-picker'"
             :input-class="'search-picker-input'"
+            :id="'picker-in'"
             :format="'yyyy-MM-dd'"
             :language="zh"
           ></Datepicker>
-        </div>
-        <div class="picker-group-item">
+        </label>
+        <label class="picker-group-item" id="picker-out">
           <h4 class="picker-group-item-title">退房時間</h4>
+          <h4 class="picker-group-item-time">
+            {{ moment(end.date).format('YYYY年MM月DD日') }}
+          </h4>
           <Datepicker
             v-model="end.date"
             :disabled-dates="end.disabledDates"
             :format="'yyyy-MM-dd'"
             :wrapper-class="'search-picker'"
             :input-class="'search-picker-input'"
+            :id="'picker-out'"
             :language="zh"
           ></Datepicker>
-        </div>
+        </label>
         <!-- </div> -->
         <!-- <div class="picker-group"> -->
         <div class="picker-group-item">
@@ -204,8 +216,8 @@ export default {
         this.rooms.push({
           id: e.id,
           ...e['rooms-detail'],
-          guest: e['room-detail'].descriptionShort.GuestMax,
-          description: e['room-detail'].description
+          guest: e['primary'].descriptionShort.GuestMax,
+          description: e['primary'].description
         })
       })
       this.$bus.$emit('isLoading', false)
@@ -245,6 +257,13 @@ export default {
         &-title {
           //color: white;
           opacity: 0.8;
+        }
+        &-time {
+          padding: 5px;
+          cursor: pointer;
+          margin: 0;
+          border: 1px solid rgba(0, 0, 0, 0.2);
+          opacity: 0.7;
         }
         &:last-child {
           margin-left: 15px;
@@ -420,8 +439,14 @@ td {
 .search-picker {
   //width: 200px;
   &-input {
-    width: 100%;
-    opacity: 0.5;
+    display: block;
+    cursor: pointer;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    padding: 0;
+    border: none;
   }
 }
 </style>
