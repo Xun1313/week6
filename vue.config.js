@@ -1,5 +1,5 @@
 module.exports = {
-  publicPath: '/week6/dist/',
+  publicPath: '/WHITE INN/dist/',
   devServer: {
     port: 8081
   }
