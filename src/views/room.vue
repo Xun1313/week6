@@ -500,7 +500,7 @@ export default {
       &-content {
         opacity: 0.6;
         font-size: 16px;
-        h4 {
+        p {
           margin: 0;
         }
       }

@@ -48,10 +48,12 @@ export default {
     }
   },
   mounted() {
+    this.$bus.$emit('isLoading', true)
     this.$http.get(`${process.env.VUE_APP_api}/rooms`).then(res => {
       res.data.item.forEach(e => {
         this.allRooms.push(...e.primary.imageUrl)
       })
+      this.$bus.$emit('isLoading', false)
     })
   }
 }
