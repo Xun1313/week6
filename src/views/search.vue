@@ -4,18 +4,10 @@
     <div class="search container">
       <table class="table table-striped">
         <tbody>
-          <tr
-            class="item"
-            v-for="item in filterRooms"
-            :key="item.name"
-            @click="routeRoom(item.id)"
-          >
+          <tr class="item" v-for="item in filterRooms" :key="item.name" @click="routeRoom(item.id)">
             <td class="item-img">
               <div class="item-img-container">
-                <div
-                  class="item-img-container-bg"
-                  :style="`background-image:url(${item.imageUrl})`"
-                ></div>
+                <div class="item-img-container-bg" :style="`background-image:url(${item.imageUrl})`"></div>
               </div>
             </td>
             <td class="item-all">
@@ -32,20 +24,12 @@
                   </div> -->
                     <div>
                       <div class="all-secondary-detail-number">
-                        <i
-                          class="fas fa-male icon"
-                          v-for="guest in item.guest"
-                          :key="guest + item.name"
-                        ></i>
+                        <i class="fas fa-male icon" v-for="guest in item.guest" :key="guest + item.name"></i>
                         <p class="people">x{{ item.guest }}</p>
                       </div>
                       <div class="all-secondary-detail-price">
-                        <p class="two">
-                          平日:${{ item.normalDayPrice | currency }}
-                        </p>
-                        <p class="two">
-                          假日:${{ item.holidayPrice | currency }}
-                        </p>
+                        <p class="two">平日:${{ item.normalDayPrice | currency }}</p>
+                        <p class="two">假日:${{ item.holidayPrice | currency }}</p>
                       </div>
                     </div>
                   </aside>
@@ -56,12 +40,8 @@
         </tbody>
       </table>
       <section class="picker">
-        <!-- <div class="picker-group"> -->
         <label class="picker-group-item" id="picker-in">
           <h4 class="picker-group-item-title">入住時間</h4>
-          <h4 class="picker-group-item-time">
-            {{ moment(first.date).format('YYYY年MM月DD日') }}
-          </h4>
           <Datepicker
             v-model="first.date"
             :disabled-dates="first.disabledDates"
@@ -75,44 +55,22 @@
         </label>
         <label class="picker-group-item" id="picker-out">
           <h4 class="picker-group-item-title">退房時間</h4>
-          <h4 class="picker-group-item-time">
-            {{ moment(end.date).format('YYYY年MM月DD日') }}
-          </h4>
-          <Datepicker
-            v-model="end.date"
-            :disabled-dates="end.disabledDates"
-            :format="'yyyy-MM-dd'"
-            :wrapper-class="'search-picker'"
-            :input-class="'search-picker-input'"
-            :id="'picker-out'"
-            :language="zh"
-          ></Datepicker>
+          <Datepicker v-model="end.date" :disabled-dates="end.disabledDates" :format="'yyyy-MM-dd'" :wrapper-class="'search-picker'" :input-class="'search-picker-input'" :id="'picker-out'" :language="zh"></Datepicker>
         </label>
-        <!-- </div> -->
-        <!-- <div class="picker-group"> -->
+
         <div class="picker-group-item">
           <h4 class="picker-group-item-title">大人</h4>
           <select v-model="adult">
-            <option :value="item" v-for="item in 4" :key="item + '大人'">{{
-              item
-            }}</option>
+            <option :value="item" v-for="item in 4" :key="item + '大人'">{{ item }}</option>
           </select>
         </div>
         <div class="picker-group-item">
           <h4 class="picker-group-item-title">小孩</h4>
           <select v-model="kid">
-            <option
-              :value="item - 1"
-              v-for="item in 5"
-              :key="item - 1 + '小孩'"
-              >{{ item - 1 }}</option
-            >
+            <option :value="item - 1" v-for="item in 5" :key="item - 1 + '小孩'">{{ item - 1 }}</option>
           </select>
         </div>
-        <!-- </div> -->
-        <a href="#" class="picker-book" @click="searchHandler($event)"
-          >search</a
-        >
+        <a href="#" class="picker-book" @click="searchHandler($event)">search</a>
       </section>
     </div>
   </div>
