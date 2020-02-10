@@ -39,15 +39,13 @@
                       v-for="guest in item.guest"
                       :key="guest + item.name"
                     ></i>
-                    <h5 class="people">x{{ item.guest }}</h5>
+                    <p class="people">x{{ item.guest }}</p>
                   </div>
                   <div class="all-secondary-detail-price">
-                    <h5 class="two">
+                    <p class="two">
                       平日:${{ item.normalDayPrice | currency }}
-                    </h5>
-                    <h5 class="two">
-                      假日:${{ item.holidayPrice | currency }}
-                    </h5>
+                    </p>
+                    <p class="two">假日:${{ item.holidayPrice | currency }}</p>
                   </div>
                   <div
                     class="all-secondary-detail-cart"

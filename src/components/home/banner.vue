@@ -35,9 +35,6 @@
           <div class="picker-group">
             <label class="picker-group-item" for="picker-group-in">
               <h4 class="picker-group-item-title">入住時間</h4>
-              <h4 class="picker-group-item-time">
-                {{ moment(first.date).format('YYYY年MM月DD日') }}
-              </h4>
               <Datepicker
                 v-model="first.date"
                 :disabled-dates="first.disabledDates"
@@ -52,9 +49,6 @@
 
             <label class="picker-group-item" for="picker-group-out">
               <h4 class="picker-group-item-title">退房時間</h4>
-              <h4 class="picker-group-item-time">
-                {{ moment(end.date).format('YYYY年MM月DD日') }}
-              </h4>
               <Datepicker
                 v-model="end.date"
                 :disabled-dates="end.disabledDates"
@@ -284,7 +278,7 @@ export default {
 }
 .header {
   width: 100%;
-  height: 100vh;
+  height: 80vh;
   position: relative;
   display: flex;
   justify-content: flex-start;
@@ -404,12 +398,11 @@ body {
   &-input {
     display: block;
     cursor: pointer;
-    opacity: 0;
-    width: 0;
-    height: 0;
     overflow: hidden;
-    padding: 0;
-    border: none;
+    border: 1px solid black;
+    width: 100%;
+    padding: 0 0 0 5px;
+    outline: none;
   }
 }
 </style>

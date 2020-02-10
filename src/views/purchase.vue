@@ -33,22 +33,22 @@
               </h4>
               <div class="all-secondary">
                 <div class="all-secondary-item">
-                  <h4 class="all-secondary-item-sign">入住</h4>
-                  <h4 class="all-secondary-item-date">
+                  <p class="all-secondary-item-sign">入住</p>
+                  <p class="all-secondary-item-date">
                     {{ item.user.firstDate }}星期{{ item.user.firstDay }}
-                  </h4>
-                  <h4 class="all-secondary-item-time">
+                  </p>
+                  <p class="all-secondary-item-time">
                     ({{ item.user.checkInEarly }}起)
-                  </h4>
+                  </p>
                 </div>
                 <div class="all-secondary-item">
-                  <h4 class="all-secondary-item-sign">退房</h4>
-                  <h4 class="all-secondary-item-date">
+                  <p class="all-secondary-item-sign">退房</p>
+                  <p class="all-secondary-item-date">
                     {{ item.user.lastDate }}星期{{ item.user.lastDay }}
-                  </h4>
-                  <h4 class="all-secondary-item-time">
+                  </p>
+                  <p class="all-secondary-item-time">
                     ({{ item.user.checkOut }}前)
-                  </h4>
+                  </p>
                 </div>
                 <h4 class="all-secondary-sum">
                   {{ item.user.days }}晚/{{ item.user.sum | currency }}元

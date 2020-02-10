@@ -39,9 +39,6 @@
     <div class="date-groups">
       <label for="date-groups-in">
         <h4 class="date-title">入住日期</h4>
-        <h4 class="date-groups-time">
-          {{ moment(first.date).format('YYYY年MM月DD日') }}
-        </h4>
         <Datepicker
           v-model="first.date"
           :disabled-dates="first.disabledDates"
@@ -57,9 +54,6 @@
     <div class="date-groups">
       <label for="date-groups-out">
         <h4 class="date-title">退房日期</h4>
-        <h4 class="date-groups-time">
-          {{ moment(end.date).format('YYYY年MM月DD日') }}
-        </h4>
         <Datepicker
           v-model="end.date"
           :disabled-dates="end.disabledDates"
@@ -258,12 +252,12 @@ label {
   &-input {
     display: block;
     cursor: pointer;
-    opacity: 0;
-    width: 0;
-    height: 0;
     overflow: hidden;
-    padding: 0;
-    border: none;
+    border: 1px solid black;
+    width: 100%;
+    padding: 10px 0 10px 5px;
+    opacity: 0.7;
+    outline: none;
   }
 }
 </style>

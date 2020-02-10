@@ -50,33 +50,31 @@
           </div>
         </header>
         <section class="info-main">
-          <div class="info-main-detail">
+          <article class="info-main-detail">
             <article class="info-main-detail-describe">
               {{ roomInfo.description }}
             </article>
             <article class="info-main-detail-content">
-              <h4 class="content">
+              <p class="content">
                 房客人數限制:{{ roomInfo.descriptionShort.GuestMax }}人
-              </h4>
-              <h4 class="content">
-                床型:{{ roomInfo.descriptionShort.Bed[0] }}
-              </h4>
-              <h4 class="content">
+              </p>
+              <p class="content">床型:{{ roomInfo.descriptionShort.Bed[0] }}</p>
+              <p class="content">
                 衛浴數量:{{ roomInfo.descriptionShort['Private-Bath'] }}間
-              </h4>
-              <h4 class="content">
+              </p>
+              <p class="content">
                 房間大小:{{ roomInfo.descriptionShort.Footage }}平方公尺
-              </h4>
-              <h4 class="content">
+              </p>
+              <p class="content">
                 入住時間:{{ roomInfo.checkInAndOut.checkInEarly }}~{{
                   roomInfo.checkInAndOut.checkInLate
                 }}
-              </h4>
-              <h4 class="content">
+              </p>
+              <p class="content">
                 退房時間:{{ roomInfo.checkInAndOut.checkOut }}
-              </h4>
+              </p>
             </article>
-          </div>
+          </article>
 
           <datePicker
             @toggleOrder="toggleOrder"
@@ -86,7 +84,6 @@
         </section>
 
         <footer class="info-footer row">
-          <!-- v-for="(key, value) in roomDevice" :key="value" -->
           <div
             class="info-footer-item col-4"
             v-for="(item, key, index) in roomDevice"

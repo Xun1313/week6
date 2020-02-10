@@ -19,7 +19,7 @@
             ></div>
             <article class="facility-item-content">
               <h4 class="facility-item-content-title">{{ item.name }}</h4>
-              <h4 class="facility-item-content-word">{{ item.content }}</h4>
+              <p class="facility-item-content-word">{{ item.content }}</p>
             </article>
             <router-link :to="`/facility/${item.id}`" class="facility-item-more"
               >了解更多</router-link

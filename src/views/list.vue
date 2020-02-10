@@ -54,12 +54,12 @@
             </div>
             <figcaption>
               <h4 class="item-title">{{ item['rooms-detail'].name }}</h4>
-              <h4 class="item-normal">
+              <p class="item-normal">
                 平日$ {{ item['rooms-detail'].normalDayPrice | currency }}
-              </h4>
-              <h4 class="item-holiday">
+              </p>
+              <p class="item-holiday">
                 假日$ {{ item['rooms-detail'].holidayPrice | currency }}
-              </h4>
+              </p>
             </figcaption>
           </figure>
         </template>
@@ -84,12 +84,12 @@
             </div>
             <figcaption>
               <h4 class="item-title">{{ item['rooms-detail'].name }}</h4>
-              <h4 class="item-normal">
+              <p class="item-normal">
                 $ {{ item['rooms-detail'].normalDayPrice }}
-              </h4>
-              <h4 class="item-holiday">
+              </p>
+              <p class="item-holiday">
                 $ {{ item['rooms-detail'].holidayPrice }}
-              </h4>
+              </p>
             </figcaption>
           </figure>
         </template>

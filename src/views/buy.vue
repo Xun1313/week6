@@ -83,8 +83,8 @@
             </div>
             <figcaption>
               <h4 class="item-title">{{ item.name }}</h4>
-              <h4 class="item-normal">平日$ {{ item.normalDayPrice }}</h4>
-              <h4 class="item-holiday">假日$ {{ item.holidayPrice }}</h4>
+              <p class="item-normal">平日$ {{ item.normalDayPrice }}</p>
+              <p class="item-holiday">假日$ {{ item.holidayPrice }}</p>
             </figcaption>
           </figure>
         </template>

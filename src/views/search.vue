@@ -37,15 +37,15 @@
                           v-for="guest in item.guest"
                           :key="guest + item.name"
                         ></i>
-                        <h5 class="people">x{{ item.guest }}</h5>
+                        <p class="people">x{{ item.guest }}</p>
                       </div>
                       <div class="all-secondary-detail-price">
-                        <h5 class="two">
+                        <p class="two">
                           平日:${{ item.normalDayPrice | currency }}
-                        </h5>
-                        <h5 class="two">
+                        </p>
+                        <p class="two">
                           假日:${{ item.holidayPrice | currency }}
-                        </h5>
+                        </p>
                       </div>
                     </div>
                   </aside>
@@ -437,16 +437,14 @@ td {
 
 <style lang="scss">
 .search-picker {
-  //width: 200px;
   &-input {
     display: block;
     cursor: pointer;
-    opacity: 0;
-    width: 0;
-    height: 0;
+    opacity: 0.5;
     overflow: hidden;
-    padding: 0;
-    border: none;
+    padding: 0 0 0 5px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    outline: none;
   }
 }
 </style>
