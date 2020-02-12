@@ -17,11 +17,12 @@
   width: 90%;
   @include lapTop {
     width: 500px;
+    padding: 35px;
   }
   background-color: rgba(55, 55, 55, 0.8);
   border-radius: 2%;
   margin: 30px auto;
-  padding: 35px;
+  padding:35px 15px;
   &-name {
     color: white;
     font-size: 20px;
