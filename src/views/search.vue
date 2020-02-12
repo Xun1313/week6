@@ -4,10 +4,18 @@
     <div class="search container">
       <table class="table table-striped">
         <tbody>
-          <tr class="item" v-for="item in filterRooms" :key="item.name" @click="routeRoom(item.id)">
+          <tr
+            class="item"
+            v-for="item in filterRooms"
+            :key="item.name"
+            @click="routeRoom(item.id)"
+          >
             <td class="item-img">
               <div class="item-img-container">
-                <div class="item-img-container-bg" :style="`background-image:url(${item.imageUrl})`"></div>
+                <div
+                  class="item-img-container-bg"
+                  :style="`background-image:url(${item.imageUrl})`"
+                ></div>
               </div>
             </td>
             <td class="item-all">
@@ -18,18 +26,22 @@
                     {{ item.description }}
                   </p>
                   <aside class="all-secondary-detail">
-                    <!-- <div class="all-secondary-detail-cart" @click="deleteCollection($event, item.id)">
-                    <i class="fas fa-ban"></i>
-                    <span>取消收藏</span>
-                  </div> -->
                     <div>
                       <div class="all-secondary-detail-number">
-                        <i class="fas fa-male icon" v-for="guest in item.guest" :key="guest + item.name"></i>
+                        <i
+                          class="fas fa-male icon"
+                          v-for="guest in item.guest"
+                          :key="guest + item.name"
+                        ></i>
                         <p class="people">x{{ item.guest }}</p>
                       </div>
                       <div class="all-secondary-detail-price">
-                        <p class="two">平日:${{ item.normalDayPrice | currency }}</p>
-                        <p class="two">假日:${{ item.holidayPrice | currency }}</p>
+                        <p class="two">
+                          平日:${{ item.normalDayPrice | currency }}
+                        </p>
+                        <p class="two">
+                          假日:${{ item.holidayPrice | currency }}
+                        </p>
                       </div>
                     </div>
                   </aside>
@@ -55,22 +67,39 @@
         </label>
         <label class="picker-group-item" id="picker-out">
           <h4 class="picker-group-item-title">退房時間</h4>
-          <Datepicker v-model="end.date" :disabled-dates="end.disabledDates" :format="'yyyy-MM-dd'" :wrapper-class="'search-picker'" :input-class="'search-picker-input'" :id="'picker-out'" :language="zh"></Datepicker>
+          <Datepicker
+            v-model="end.date"
+            :disabled-dates="end.disabledDates"
+            :format="'yyyy-MM-dd'"
+            :wrapper-class="'search-picker'"
+            :input-class="'search-picker-input'"
+            :id="'picker-out'"
+            :language="zh"
+          ></Datepicker>
         </label>
 
         <div class="picker-group-item">
           <h4 class="picker-group-item-title">大人</h4>
           <select v-model="adult">
-            <option :value="item" v-for="item in 4" :key="item + '大人'">{{ item }}</option>
+            <option :value="item" v-for="item in 4" :key="item + '大人'">{{
+              item
+            }}</option>
           </select>
         </div>
         <div class="picker-group-item">
           <h4 class="picker-group-item-title">小孩</h4>
           <select v-model="kid">
-            <option :value="item - 1" v-for="item in 5" :key="item - 1 + '小孩'">{{ item - 1 }}</option>
+            <option
+              :value="item - 1"
+              v-for="item in 5"
+              :key="item - 1 + '小孩'"
+              >{{ item - 1 }}</option
+            >
           </select>
         </div>
-        <a href="#" class="picker-book" @click="searchHandler($event)">search</a>
+        <a href="#" class="picker-book" @click="searchHandler($event)"
+          >search</a
+        >
       </section>
     </div>
   </div>
@@ -119,15 +148,6 @@ export default {
       e.preventDefault()
       const start = moment(this.first.date).format('YYYY-MM-DD')
       const end = moment(this.end.date).format('YYYY-MM-DD')
-      /* let obj = {}
-      this.$router.push({
-        query: Object.assign({}, this.$route.query, obj)
-      }) */
-      /* this.$route.query.adult=3
-      this.$route.query.kid=3
-      this.$route.query.start=start
-      this.$route.query.end=end */
-
       this.$router.push({
         path: 'search',
         query: {
@@ -164,10 +184,6 @@ export default {
     this.end.date = new Date(end)
     this.adult = adult
     this.kid = kid
-
-    /* const date2 = new Date()
-    date2.setDate(date2.getDate() + 1)
-    this.end.date = date2 */
 
     this.$http.get(`${process.env.VUE_APP_api}/rooms`).then(res => {
       res.data.item.forEach(e => {
@@ -258,12 +274,8 @@ export default {
   width: 250px;
 }
 .table {
-  //width: 95%;
   width: 100%;
   margin-top: 20px !important;
-  /* @include lapTop {
-    width: 80%;
-  } */
   margin: auto;
   margin-bottom: 50px;
 }

@@ -104,7 +104,13 @@ export default {
           },
           checkInAndOut: {}
         },
-        'rooms-detail': {}
+        'rooms-detail': {},
+        primary: {
+          descriptionShort: {
+            Bed: []
+          },
+          checkInAndOut: ''
+        }
       },
       calc: {},
       roomKind: []

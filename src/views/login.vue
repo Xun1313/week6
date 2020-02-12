@@ -13,7 +13,7 @@
             <input
               type="email"
               class="login-item-flex-input"
-              placeholder="Email ID"
+              placeholder="請輸入123@123.com"
               v-model="account.email"
               v-validate="'required|email'"
               data-vv-as="電子郵件"
@@ -21,7 +21,7 @@
             />
           </div>
           <p class="login-item-error" v-if="errors.has('email')">
-            不符合email格式<!-- {{errors.first('email')}} -->
+            不符合email格式
           </p>
         </div>
         <h4 class="login-name">密碼</h4>
@@ -36,7 +36,7 @@
             <input
               type="password"
               class="login-item-flex-input"
-              placeholder="Password"
+              placeholder="請輸入123123"
               ref="password"
               v-model="account.password"
               v-validate="'required'"
@@ -50,7 +50,7 @@
             ></i>
           </div>
           <p class="login-item-error" v-if="errors.has('password')">
-            密碼為必填<!-- {{errors.first('password')}} -->
+            密碼為必填
           </p>
         </div>
 

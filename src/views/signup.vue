@@ -21,7 +21,7 @@
             />
           </div>
           <p class="login-item-error" v-if="errors.has('email')">
-            不符合email格式<!-- {{errors.first('email')}} -->
+            不符合email格式
           </p>
         </div>
         <h4 class="login-name">密碼</h4>
@@ -50,7 +50,7 @@
             ></i>
           </div>
           <p class="login-item-error" v-if="errors.has('password')">
-            密碼為必填<!-- {{errors.first('password')}} -->
+            密碼為必填
           </p>
         </div>
         <h4 class="login-name">確認密碼</h4>
@@ -79,7 +79,7 @@
             ></i>
           </div>
           <p class="login-item-error" v-if="errors.has('password-again')">
-            密碼為必填<!-- {{errors.first('password')}} -->
+            密碼為必填
           </p>
         </div>
         <h4 class="login-name">手機號碼</h4>
@@ -99,7 +99,7 @@
             />
           </div>
           <p class="login-item-error" v-if="errors.has('phone')">
-            電話號碼必須為數字<!-- {{errors.first('password')}} -->
+            電話號碼必須為數字
           </p>
         </div>
         <h4 class="login-name">姓名</h4>
@@ -118,9 +118,7 @@
               name="name"
             />
           </div>
-          <p class="login-item-error" v-if="errors.has('name')">
-            名字為必填<!-- {{errors.first('password')}} -->
-          </p>
+          <p class="login-item-error" v-if="errors.has('name')">名字為必填</p>
         </div>
 
         <template v-if="error.switch">
@@ -173,7 +171,6 @@
 export default {
   data() {
     return {
-      message: 'The email address is already in use by another account.',
       error: {
         switch: false,
         message: []

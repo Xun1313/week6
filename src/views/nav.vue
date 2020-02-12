@@ -5,14 +5,7 @@
       <header>
         <router-link to="/" class="nav-title">WHITE INN</router-link>
       </header>
-      <router-link
-        to="/login"
-        class="account-name"
-        v-if="!account.name"
-        data-toggle="tooltip"
-        data-placement="bottom"
-        title="登入會員"
-      >
+      <router-link to="/login" class="account-name" v-if="!account.name">
         <i class="fas fa-user nav-menu-item-icon"></i>
         <span>會員</span>
       </router-link>
@@ -96,9 +89,7 @@
 </template>
 
 <script>
-// Import component
 import Loading from 'vue-loading-overlay'
-// Import stylesheet
 import 'vue-loading-overlay/dist/vue-loading.css'
 export default {
   data() {
@@ -118,16 +109,6 @@ export default {
     barHandler() {
       this.$refs.dark.classList.toggle('dark')
     },
-    /* routeRoom(val) {
-      this.roomId = val;
-      this.$refs.dark.classList.remove('dark');
-      this.$refs['nav-switch'].checked = false;
-      this.$router.push(`/room/${val}`);
-    }, */
-    /* routeRoom(val) {
-      this.$refs.room.checked = false
-      this.$router.push(`/room/${val}`)
-    }, */
     isSignin() {
       this.$http.get(`${process.env.VUE_APP_api}/users/isSignin`).then(res => {
         if (res.data.success) {
@@ -195,7 +176,6 @@ export default {
 
     window.addEventListener('scroll', () => {
       const page = this.$refs.page
-      /* if (window.getComputedStyle(page, null).display === 'flex') { */
       if (window.scrollY > pageOffsetTop) {
         document.querySelector('body').style.paddingTop = '70px'
         page.classList.add('page-fixed')
@@ -203,7 +183,6 @@ export default {
         document.querySelector('body').style.paddingTop = '0px'
         page.classList.remove('page-fixed')
       }
-      /* } */
     })
   },
   watch: {
@@ -256,18 +235,6 @@ export default {
       display: block;
     }
   }
-  /* &-phone {
-    display: block;
-    margin: 0 20px 0 auto;
-    @include lapTopHigh {
-      display: none;
-    }
-    button {
-      background-color: $important;
-      outline: none;
-      color: white;
-    }
-  } */
   &-phone {
     display: block;
     margin: 0 20px 0 auto;
@@ -318,9 +285,7 @@ export default {
 }
 
 .nav {
-  //background-image: linear-gradient(135deg,white,gray,white);
   background-color: $other;
-  //height: 10vh;
   position: relative;
   display: flex;
   padding: 20px 0;
@@ -577,9 +542,6 @@ export default {
 }
 .dark {
   background-color: rgba(32, 28, 28, 0.7);
-  /* @include lapTopHigh {
-    background-color: rgba(255, 255, 255, 0);
-  } */
   position: fixed;
   top: 0;
   bottom: 0;

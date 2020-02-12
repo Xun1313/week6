@@ -292,10 +292,6 @@ export default {
     background-position: bottom;
   }
   &-picker {
-    /* display: none;
-    @include lapTopHigh {
-      display: block;
-    } */
     margin: 20px 0;
     @include lapTopHigh {
       margin: 0;
@@ -310,44 +306,6 @@ export default {
     }
   }
 }
-/* .start {
-  text-decoration: none;
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin: auto;
-  width: 30px;
-  bottom: 40px;
-  color: white;
-  z-index: 50;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 10px;
-  border: 1px solid white;
-  padding: 5px;
-  text-align: center;
-  display: none;
-  @include lapTop {
-    font-size: 20px;
-    display: block;
-  }
-  &:after {
-    content: '>>';
-    color: white;
-    display: block;
-    animation-name: arrow;
-    animation-duration: 1.5s;
-    animation-iteration-count: infinite;
-  }
-} */
-/* @keyframes arrow {
-  0% {
-    transform: translateY(-5px) rotate(90deg);
-  }
-  100% {
-    transform: translateY(5px) rotate(90deg);
-  }
-} */
 html,
 body {
   position: relative;

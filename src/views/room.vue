@@ -80,6 +80,7 @@
             @toggleOrder="toggleOrder"
             @cartHandler="cartHandler"
             :roomId="roomId"
+            :error="error"
           ></datePicker>
         </section>
 
@@ -157,7 +158,7 @@
           <h4 class="order-all-item-time">({{ calculate.checkOut }}前)</h4>
         </div>
         <h4 class="order-all-sum">
-          {{ calculate.days }}晚/{{ calculate.sum }}元
+          {{ calculate.days }}晚/{{ calculate.sum | currency }}元
         </h4>
         <footer>
           <button
@@ -167,7 +168,7 @@
           >
             確定
           </button>
-          <button type="button" class="order-all-cancel" @click="toggleOrder()">
+          <button type="button" class="order-all-cancel" @click="cancelOrder()">
             <i class="fas fa-times"></i>
           </button>
         </footer>
@@ -195,6 +196,10 @@ import moment from 'moment'
 export default {
   data() {
     return {
+      error: {
+        switch: false,
+        message: []
+      },
       moment: moment,
       roomId: '',
       orderInfo: {
@@ -267,42 +272,49 @@ export default {
     },
     toggleOrder(val) {
       //初始化訂單資料
-      if (val) {
-        this.$bus.$emit('isLoading', true)
-        this.orderInfo = val
-        //差異天數
-        const diff = moment(this.orderInfo.date[1]).diff(
-          moment(this.orderInfo.date[0]),
-          'days'
-        )
-        //初始天
-        let firstDay = this.orderInfo.date[0]
-        //所有星期
-        let days = [this.orderInfo.date[0]]
-        for (let i = 0; i < diff; i++) {
-          const result = moment(firstDay)
-            .add(1, 'd')
-            .format('YYYY-MM-DD')
-          days.push(result)
-          firstDay = result
-        }
-        this.orderInfo.date = days
-        const { holidayPrice, normalDayPrice } = this.roomInfo
-        this.$http
-          .post(`${process.env.VUE_APP_api}/purchase/calculate`, {
-            date: this.orderInfo.date,
-            checkInAndOut: this.roomInfo.checkInAndOut,
-            price: { holidayPrice, normalDayPrice }
-          })
-          .then(res => {
-            this.calculate = res.data
-            this.$bus.$emit('isLoading', false)
-          })
-      } else {
-        this.calculate = {}
-        this.orderInfo = {}
-        this.$set(this.orderInfo, 'date', [])
+      this.orderInfo = val
+      //差異天數
+      const diff = moment(this.orderInfo.date[1]).diff(
+        moment(this.orderInfo.date[0]),
+        'days'
+      )
+      //初始天
+      let firstDay = this.orderInfo.date[0]
+      //所有星期
+      let days = [this.orderInfo.date[0]]
+      for (let i = 0; i < diff; i++) {
+        const result = moment(firstDay)
+          .add(1, 'd')
+          .format('YYYY-MM-DD')
+        days.push(result)
+        firstDay = result
       }
+      this.orderInfo.date = days
+      const { holidayPrice, normalDayPrice } = this.roomInfo
+      this.$http
+        .post(`${process.env.VUE_APP_api}/purchase/calculate`, {
+          ...this.orderInfo,
+          checkInAndOut: this.roomInfo.checkInAndOut,
+          price: { holidayPrice, normalDayPrice }
+        })
+        .then(res => {
+          if (res.data.success) {
+            this.calculate = res.data
+            this.error = { switch: false, message: [] }
+            //彈跳視窗
+            this.toggleWindow('order')
+          } else {
+            res.data.message === '未登入'
+              ? this.$router.push('/login')
+              : (this.error = { switch: true, message: res.data.message })
+          }
+          this.$bus.$emit('isLoading', false)
+        })
+    },
+    cancelOrder() {
+      this.calculate = {}
+      this.orderInfo = {}
+      this.$set(this.orderInfo, 'date', [])
       //彈跳視窗
       this.toggleWindow('order')
     },
@@ -310,12 +322,6 @@ export default {
       this.$refs[dom].classList.toggle('none')
       this.$refs.dark.classList.toggle('dark')
     },
-    /* routeRoom(val, e) {
-      e.preventDefault()
-      this.roomId = val
-      this.$refs.dark.classList.remove('dark')
-      this.$router.push(`/room/${val}`)
-    }, */
     updateRoom() {
       this.$bus.$emit('isLoading', true)
       this.$http
@@ -349,14 +355,6 @@ export default {
       this.roomId = roomId
       this.updateRoom()
     })
-    /* this.$http.get('https://challenge.thef2e.com/api/thef2e2019/stage6/room/3Elqe8kfMxdZv5xFLV4OUeN6jhmxIvQSTyj4eTgIowfIRvF4rerA2Nuegzc2Rgwu',{
-      headers:{
-        Authorization:'Bearer 90jD9OF3s2JA5WZuRfcHTkHpCwAqMVv3C8m3j2J8VbhcRj7Lpn1wbNrWJZ9N',
-        Accept:'application/json'
-      }
-    }).then(res=>{
-      console.log(res.data);
-    }) */
   },
   watch: {
     $route(now) {

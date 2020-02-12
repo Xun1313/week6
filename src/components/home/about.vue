@@ -10,7 +10,7 @@
                 設施多樣
               </h4>
               <p>
-                <!-- WHITE INN坐落在美茵河畔法蘭克福市的中心地帶，距離法蘭克福中央火車站只有100米之遙。 -->飯店1F提供桌上型個人電腦，多功能事務機（列印、影印、掃描），沙發休息區，書報區。另外客房提供配備了空調以及免費無線網路連接的隔音客房，並設有一間時尚的餐廳。Europa
+                飯店1F提供桌上型個人電腦，多功能事務機（列印、影印、掃描），沙發休息區，書報區。另外客房提供配備了空調以及免費無線網路連接的隔音客房，並設有一間時尚的餐廳。Europa
                 Style酒店的所有客房都擁有舒適的陳設，配有可以收看衛星頻道的平面電視、筆記本電腦保險箱和迷你吧，部分客房設有沏茶/咖啡設施。
               </p>
             </article>
@@ -100,8 +100,6 @@ export default {
     position: relative;
     width: 100%;
     height: 100vh;
-    //padding-bottom: 45%;
-    //margin-bottom: 30px;
     @extend %bg;
     &1 {
       background-image: url('https://images.unsplash.com/photo-1541987817603-d2b3e0fad6d0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=60');

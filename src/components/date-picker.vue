@@ -25,7 +25,7 @@
           type="tel"
           class="date-group-input"
           id="date-group-tel"
-          :class="{ 'is-invalid': errors.has('tel') }"
+          :class="{ 'is-invalid': errors.has('tel') || error.switch }"
           v-validate="'required|numeric'"
           placeholder="Phone"
           data-vv-as="電話號碼"
@@ -34,6 +34,11 @@
         />
       </label>
     </div>
+    <template v-if="error.switch">
+      <p class="invalid-word" v-for="item in error.message" :key="item.param">
+        {{ item.msg || item }}
+      </p>
+    </template>
     <p class="invalid-word">{{ errors.first('tel') }}</p>
 
     <div class="date-groups">
@@ -67,9 +72,12 @@
       </label>
     </div>
 
-    <!-- <p class="invalid-word">
-      {{ errors.first('date') || errors.first('date2') }}
-    </p> -->
+    <!-- <template v-if="error.switch">
+      <p class="invalid-word" v-for="item in error.message" :key="item.param">
+        {{ item.msg || item }}
+      </p>
+    </template> -->
+
     <div class="date-nav">
       <button
         type="button"
@@ -91,7 +99,7 @@ import Datepicker from 'vuejs-datepicker'
 import { zh } from 'vuejs-datepicker/dist/locale'
 import moment from 'moment'
 export default {
-  props: ['roomId'],
+  props: ['roomId', 'error'],
   data() {
     return {
       sendInfo: {
@@ -135,19 +143,19 @@ export default {
       this.$validator
         .validate()
         .then(valid => {
+          this.$bus.$emit('isLoading', true)
           if (valid) {
             this.sendInfo.date.push(
               moment(this.first.date).format('YYYY-MM-DD')
             )
             this.sendInfo.date.push(moment(this.end.date).format('YYYY-MM-DD'))
             this.$emit('toggleOrder', { ...this.sendInfo })
+          } else {
+            this.$bus.$emit('isLoading', false)
           }
         })
         .then(() => {
           this.sendInfo.date = []
-          /* setTimeout(() => {
-            this.$validator.reset();
-          }, 3000); */
         })
     },
     firstHandler(val) {

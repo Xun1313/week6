@@ -34,7 +34,6 @@
                   <p class="home-suggest-detail-none">
                     房間大小:{{ item.primary.descriptionShort.Footage }}平方公尺
                   </p>
-
                   <router-link
                     :to="`/room/${item.id}`"
                     class="home-suggest-detail-book"
@@ -42,9 +41,6 @@
                   >
                 </article>
               </section>
-              <!-- <div class="home-suggest" @click="roomHandler(item.id)">
-                  <div class="home-suggest-pic" :style="`background-image:url(${item.primary.imageUrl[1]})`" @click="roomHandler(item.id)"></div>
-                </div> -->
             </div>
           </div>
           <!-- Add Pagination -->
