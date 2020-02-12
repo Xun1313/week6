@@ -3,7 +3,6 @@
     <figure class="detail">
       <img :src="facility.pic" alt="" class="detail-pic" />
       <figcaption class="detail-title">{{ facility.name }}</figcaption>
-      <!-- <div class="detail-word">{{ facility.content }}</div> -->
       <div class="detail-notice">
         <h4 class="detail-notice-title">注意事項</h4>
         <div class="detail-notice-content">

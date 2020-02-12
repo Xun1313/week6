@@ -22,7 +22,7 @@
             />
           </div>
           <p class="login-item-error" v-if="errors.has('phone')">
-            電話號碼必須為數字<!-- {{errors.first('password')}} -->
+            電話號碼必須為數字
           </p>
         </div>
         <h4 class="login-name">姓名</h4>
@@ -42,7 +42,7 @@
             />
           </div>
           <p class="login-item-error" v-if="errors.has('name')">
-            名字為必填<!-- {{errors.first('password')}} -->
+            名字為必填
           </p>
         </div>
         <h4 class="login-name">照片上傳區</h4>
@@ -72,7 +72,6 @@
         <button type="button" class="login-update" @click="updateUser()">
           確認修改
         </button>
-        <!-- <img :src="base64" alt="" /> -->
       </div>
     </div>
   </div>
@@ -137,12 +136,6 @@ export default {
       }
       this.$bus.$emit('isLoading', false)
     })
-    /* this.$refs.upload.addEventListener('dragenter', e => {
-      this.$refs.upload.classList.add('upload-drag');
-    });
-    this.$refs.upload.addEventListener('dragleave', e => {
-      this.$refs.upload.classList.remove('upload-drag');
-    }); */
   }
 }
 </script>
@@ -182,6 +175,10 @@ export default {
     }
     &-describe {
       color: white;
+      width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     i {
       color: white;

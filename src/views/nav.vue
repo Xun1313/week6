@@ -250,7 +250,7 @@ export default {
   }
   &-block {
     position: absolute;
-    top: 56px;
+    top: 50px;
     @include lapTopHigh {
       top: 50px;
       display: none;

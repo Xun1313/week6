@@ -2,7 +2,6 @@
   <div class="container">
     <figure class="detail">
       <figcaption class="detail-title">{{ news.name }}</figcaption>
-      <!-- <div class="detail-word">{{ news.content }}</div> -->
       <trip v-if="title[0] === show"></trip>
       <protect v-if="title[1] === show"></protect>
       <lines v-if="title[2] === show"></lines>

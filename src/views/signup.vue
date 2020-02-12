@@ -13,7 +13,7 @@
             <input
               type="email"
               class="login-item-flex-input"
-              placeholder="Email ID"
+              placeholder="請輸入123@123.com的格式"
               v-model="account.email"
               v-validate="'required|email'"
               data-vv-as="電子郵件"

@@ -27,7 +27,6 @@
 .footer {
   background-color: $other;
   color: $important;
-  margin-top: 30px;
   &-title {
     text-align: center;
     font-size: 40px;
@@ -35,15 +34,6 @@
   &-item {
     text-align: center;
   }
-  /* &-item {
-    @include lapTop {
-      display: flex;
-    }
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    padding: 20px 0;
-  } */
   &-other {
     text-align: center;
     padding: 20px 0;
