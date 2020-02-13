@@ -35,22 +35,22 @@
           </div>
         </div>
         <nav class="dashboard-block2">
-          <a href="#" class="dashboard-item" @click="routeHandler('dashboard')">
+          <a href="#" class="dashboard-item" @click.prevent="routeHandler('dashboard')">
             <i class="fas fa-user-circle"></i>
             <span>管理帳戶</span>
           </a>
-          <a href="#" class="dashboard-item" @click="routeHandler('favorite')">
+          <a href="#" class="dashboard-item" @click.prevent="routeHandler('favorite')">
             <i class="fas fa-shopping-cart"></i>
             <span>收藏</span>
           </a>
-          <a href="#" class="dashboard-item" @click="routeHandler('purchase')">
+          <a href="#" class="dashboard-item" @click.prevent="routeHandler('purchase')">
             <i class="fas fa-list"></i>
             <span>購買清單</span>
           </a>
           <a
             href="#"
             class="dashboard-signout dashboard-item"
-            @click="signout()"
+            @click.prevent="signout()"
             >登出</a
           >
         </nav>
