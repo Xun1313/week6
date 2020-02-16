@@ -6,17 +6,11 @@
         <tbody>
           <tr>
             <th>入住</th>
-            <td>
-              {{ calc.firstDate }}星期{{ calc.firstDay }} ({{
-                calc.checkInEarly
-              }}起)
-            </td>
+            <td>{{ calc.firstDate }}星期{{ calc.firstDay }} ({{ calc.checkInEarly }}起)</td>
           </tr>
           <tr>
             <th>退房</th>
-            <td>
-              {{ calc.lastDate }}星期{{ calc.lastDay }} ({{ calc.checkOut }}前)
-            </td>
+            <td>{{ calc.lastDate }}星期{{ calc.lastDay }} ({{ calc.checkOut }}前)</td>
           </tr>
           <tr>
             <th>房型名稱</th>
@@ -44,20 +38,14 @@
           </tr>
           <tr>
             <th>checkin時間</th>
-            <td>
-              {{ info.primary.checkInAndOut.checkInEarly }}~{{
-                info.primary.checkInAndOut.checkInLate
-              }}
-            </td>
+            <td>{{ info.primary.checkInAndOut.checkInEarly }}~{{ info.primary.checkInAndOut.checkInLate }}</td>
           </tr>
           <tr>
             <th>checkout時間</th>
             <td>{{ info.primary.checkInAndOut.checkOut }}</td>
           </tr>
           <tr>
-            <th colspan="2" class="order-sum">
-              {{ calc.days }}晚/{{ calc.sum }}元
-            </th>
+            <th colspan="2" class="order-sum">{{ calc.days }}晚/{{ calc.sum }}元</th>
           </tr>
         </tbody>
       </table>
@@ -67,14 +55,7 @@
       <h4 class="home-title">其他相關房型</h4>
       <div class="home-all row">
         <template v-for="item in roomKind">
-          <figure
-            class="home-all-item item col-md-4"
-            v-if="
-              item.id !== info.id &&
-                item.GuestMin === info.primary.descriptionShort.GuestMin
-            "
-            :key="item.id"
-          >
+          <figure class="home-all-item item col-md-4" v-if="item.id !== info.id && item.GuestMin === info.primary.descriptionShort.GuestMin" :key="item.id">
             <div class="item-group" @click="roomHandler(item.id)">
               <img :src="item.imageUrl" class="item-group-pic" />
               <div class="item-group-more">
@@ -125,25 +106,27 @@ export default {
     }
   },
   mounted() {
-    this.$bus.$emit('isLoading', false)
-    this.$http.get(`${process.env.VUE_APP_api}/purchase/last`).then(res => {
-      if (res.data.success) {
-        this.info = res.data.content
-        this.calc = res.data.calculate
-      }
-      this.$bus.$emit('isLoading', false)
-    })
-    this.$http.get(`${process.env.VUE_APP_api}/rooms`).then(res => {
-      console.log(res.data)
-      res.data.item.forEach(e => {
-        this.roomKind.push({
-          id: e.id,
-          ...e['rooms-detail'],
-          GuestMin: e.primary.descriptionShort.GuestMin
+    this.$bus.$emit('isLoading', true)
+    this.$http
+      .get(`${process.env.VUE_APP_api}/purchase/last`)
+      .then(res => {
+        if (res.data.success) {
+          this.info = res.data.content
+          this.calc = res.data.calculate
+        }
+      })
+      .then(() => {
+        this.$http.get(`${process.env.VUE_APP_api}/rooms`).then(res => {
+          res.data.item.forEach(e => {
+            this.roomKind.push({
+              id: e.id,
+              ...e['rooms-detail'],
+              GuestMin: e.primary.descriptionShort.GuestMin
+            })
+          })
+          this.$bus.$emit('isLoading', false)
         })
       })
-      this.$bus.$emit('isLoading', false)
-    })
   }
 }
 </script>

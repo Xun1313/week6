@@ -7,27 +7,18 @@
       <article>
         <h3 class="list-title-other">客房介紹</h3>
         <p class="list-introduce">
-          全館74間房間內，提供多達65間大坪數的親子四人房間，空間寬敞、乾淨舒適、採光明亮、備品齊全、適合用做家族旅遊、團體旅遊。
-          房內採用大尺寸的平面液晶電視，浴室設計採用古典西洋風格類型，並且在客房內即可享用游泳池。
+          全館74間房間內，提供多達65間大坪數的親子四人房間，空間寬敞、乾淨舒適、採光明亮、備品齊全、適合用做家族旅遊、團體旅遊。 房內採用大尺寸的平面液晶電視，浴室設計採用古典西洋風格類型，並且在客房內即可享用游泳池。
         </p>
       </article>
       <h3 class="list-title-other">選擇房型</h3>
       <section class="list-scroll">
-        <a
-          href="#"
-          class="list-scroll-single"
-          @click="scrollRoom($event, 'single')"
-        >
+        <a href="#" class="list-scroll-single" @click.prevent="scrollRoom('single')">
           <div class="list-scroll-item">
             <div class="single-bg"></div>
             <h4 class="single-word">Single</h4>
           </div>
         </a>
-        <a
-          href="#"
-          class="list-scroll-double"
-          @click="scrollRoom($event, 'double')"
-        >
+        <a href="#" class="list-scroll-double" @click.prevent="scrollRoom('double')">
           <div class="list-scroll-item">
             <div class="double-bg"></div>
             <h4 class="double-word">Double</h4>
@@ -38,28 +29,17 @@
       <h3 class="list-title-other" ref="single">精選單人房</h3>
       <div class="list-all row">
         <template v-for="item in allRooms">
-          <figure
-            class="list-all-item item col-md-6"
-            v-if="item.primary.descriptionShort.GuestMin === 1"
-            :key="item.id"
-          >
+          <figure class="list-all-item item col-md-6" v-if="item.primary.descriptionShort.GuestMin === 1" :key="item.id">
             <div class="item-group" @click="roomHandler(item.id)">
-              <img
-                :src="item['rooms-detail'].imageUrl"
-                class="item-group-pic"
-              />
+              <img :src="item['rooms-detail'].imageUrl" class="item-group-pic" />
               <div class="item-group-more">
                 <h4 class="item-group-more-word">See More</h4>
               </div>
             </div>
             <figcaption>
               <h4 class="item-title">{{ item['rooms-detail'].name }}</h4>
-              <p class="item-normal">
-                平日$ {{ item['rooms-detail'].normalDayPrice | currency }}
-              </p>
-              <p class="item-holiday">
-                假日$ {{ item['rooms-detail'].holidayPrice | currency }}
-              </p>
+              <p class="item-normal">平日$ {{ item['rooms-detail'].normalDayPrice | currency }}</p>
+              <p class="item-holiday">假日$ {{ item['rooms-detail'].holidayPrice | currency }}</p>
             </figcaption>
           </figure>
         </template>
@@ -68,28 +48,17 @@
       <h3 class="list-title-other" ref="double">精選雙人房</h3>
       <div class="list-all row">
         <template v-for="item in allRooms">
-          <figure
-            class="list-all-item item col-md-6"
-            v-if="item.primary.descriptionShort.GuestMin === 2"
-            :key="item.id"
-          >
+          <figure class="list-all-item item col-md-6" v-if="item.primary.descriptionShort.GuestMin === 2" :key="item.id">
             <div class="item-group" @click="roomHandler(item.id)">
-              <img
-                :src="item['rooms-detail'].imageUrl"
-                class="item-group-pic"
-              />
+              <img :src="item['rooms-detail'].imageUrl" class="item-group-pic" />
               <div class="item-group-more">
                 <h4 class="item-group-more-word">See More</h4>
               </div>
             </div>
             <figcaption>
               <h4 class="item-title">{{ item['rooms-detail'].name }}</h4>
-              <p class="item-normal">
-                $ {{ item['rooms-detail'].normalDayPrice }}
-              </p>
-              <p class="item-holiday">
-                $ {{ item['rooms-detail'].holidayPrice }}
-              </p>
+              <p class="item-normal">$ {{ item['rooms-detail'].normalDayPrice }}</p>
+              <p class="item-holiday">$ {{ item['rooms-detail'].holidayPrice }}</p>
             </figcaption>
           </figure>
         </template>
@@ -109,8 +78,7 @@ export default {
     roomHandler(id) {
       this.$router.push(`/room/${id}`)
     },
-    scrollRoom(e, val) {
-      e.preventDefault()
+    scrollRoom(val) {
       window.scrollTo({
         top: this.$refs[val].offsetTop,
         behavior: 'smooth'

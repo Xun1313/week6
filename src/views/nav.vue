@@ -14,20 +14,10 @@
         <i class="fas fa-user nav-menu-item-icon off" v-else></i>
         <div class="account-name off">{{ account.name }}</div>
       </label>
-      <input
-        type="checkbox"
-        id="dashboard-confirm"
-        class="off"
-        ref="dashboard-confirm"
-      />
+      <input type="checkbox" id="dashboard-confirm" class="off" ref="dashboard-confirm" />
       <section class="dashboard">
         <div class="dashboard-block1">
-          <div
-            :style="`background-image:url(${account.img})`"
-            class="dashboard-pic dashboard-account"
-            alt=""
-            v-if="account.img"
-          ></div>
+          <div :style="`background-image:url(${account.img})`" class="dashboard-pic dashboard-account" alt="" v-if="account.img"></div>
           <i class="fas fa-user dashboard-account dashboard-icon" v-else></i>
           <div class="dashboard-account">{{ account.name }}</div>
           <div class="dashboard-account">
@@ -47,12 +37,7 @@
             <i class="fas fa-list"></i>
             <span>購買清單</span>
           </a>
-          <a
-            href="#"
-            class="dashboard-signout dashboard-item"
-            @click.prevent="signout()"
-            >登出</a
-          >
+          <a href="#" class="dashboard-signout dashboard-item" @click.prevent="signout()">登出</a>
         </nav>
       </section>
     </section>
@@ -70,17 +55,11 @@
       </button>
       <input type="checkbox" id="page-phone" ref="page-phone" />
       <nav class="page-block">
-        <router-link to="/list" class="page-block-item">客房介紹</router-link>
-        <router-link to="/facility" class="page-block-item"
-          >設施介紹</router-link
-        >
-        <router-link to="/news" class="page-block-item">最新消息</router-link>
-        <router-link to="/gallery" class="page-block-item"
-          >照片集錦</router-link
-        >
-        <router-link to="/contact" class="page-block-item"
-          >聯絡我們</router-link
-        >
+        <a href="#" @click.prevent="barHandler('list')" class="page-block-item">客房介紹</a>
+        <a href="#" @click.prevent="barHandler('facility')" class="page-block-item">設施介紹</a>
+        <a href="#" @click.prevent="barHandler('news')" class="page-block-item">最新消息</a>
+        <a href="#" @click.prevent="barHandler('gallery')" class="page-block-item">照片集錦</a>
+        <a href="#" @click.prevent="barHandler('contact')" class="page-block-item">聯絡我們</a>
       </nav>
     </nav>
     <router-view></router-view>
@@ -106,16 +85,17 @@ export default {
       this.$refs['dashboard-confirm'].checked = false
       this.$router.push(`/${val}`)
     },
-    barHandler() {
-      this.$refs.dark.classList.toggle('dark')
+    barHandler(val) {
+      this.togglePage()
+      this.$router.push(`/${val}`)
+    },
+    togglePage() {
+      this.$refs['page-phone'].checked = !this.$refs['page-phone'].checked
+      this.checked = !this.checked
     },
     isSignin() {
       this.$http.get(`${process.env.VUE_APP_api}/users/isSignin`).then(res => {
-        if (res.data.success) {
-          this.account = res.data
-        } else {
-          this.account = {}
-        }
+        res.data.success ? (this.account = res.data) : (this.account = {})
       })
     },
     signout() {
@@ -126,10 +106,6 @@ export default {
         this.$refs['dashboard-confirm'].checked = false
         this.$bus.$emit('isLoading', false)
       })
-    },
-    togglePage() {
-      this.$refs['page-phone'].checked = !this.$refs['page-phone'].checked
-      this.checked = !this.checked
     }
   },
   mounted() {
@@ -161,10 +137,7 @@ export default {
     })
     document.querySelector('body').addEventListener('click', e => {
       if (!e.target.className.includes('off')) {
-        this.$refs['dashboard-confirm'].checked &&
-        !e.target.className.includes('dashboard')
-          ? (this.$refs['dashboard-confirm'].checked = false)
-          : ''
+        this.$refs['dashboard-confirm'].checked && !e.target.className.includes('dashboard') ? (this.$refs['dashboard-confirm'].checked = false) : ''
       }
       /* if (!e.target.className.includes('close')) {
         this.$refs.room.checked && !e.target.className.includes('room')

@@ -3,36 +3,18 @@
     <div class="all">
       <main class="main">
         <section class="main-primary">
-          <div
-            class="main-primary-pic1"
-            :style="`background-image:url(${roomInfo.imageUrl[switchPic[0]]})`"
-            @click="zoomHandler()"
-          >
-            <button
-              type="button"
-              class="main-primary-pic1-btn"
-              @click="switchPicHandler($event)"
-            >
+          <div class="main-primary-pic1" :style="`background-image:url(${roomInfo.imageUrl[switchPic[0]]})`" @click="zoomHandler()">
+            <button type="button" class="main-primary-pic1-btn" @click.stop="switchPicHandler()">
               <i class="fas fa-angle-right"></i>
             </button>
           </div>
         </section>
         <section class="main-sub">
           <div class="main-sub-pic2">
-            <div
-              class="main-sub-pic2-sub"
-              :style="
-                `background-image:url(${roomInfo.imageUrl[switchPic[1]]})`
-              "
-            ></div>
+            <div class="main-sub-pic2-sub" :style="`background-image:url(${roomInfo.imageUrl[switchPic[1]]})`"></div>
           </div>
           <div class="main-sub-pic2">
-            <div
-              class="main-sub-pic2-sub"
-              :style="
-                `background-image:url(${roomInfo.imageUrl[switchPic[2]]})`
-              "
-            ></div>
+            <div class="main-sub-pic2-sub" :style="`background-image:url(${roomInfo.imageUrl[switchPic[2]]})`"></div>
           </div>
         </section>
       </main>
@@ -41,12 +23,8 @@
         <header class="info-header">
           <h3 class="info-header-title">{{ roomInfo.name }}</h3>
           <div class="info-header-price">
-            <h5 class="info-header-price-day">
-              平日(一~四)價格:{{ roomInfo.normalDayPrice | currency }}
-            </h5>
-            <h5 class="info-header-price-day">
-              假日(五~日)價格:{{ roomInfo.holidayPrice | currency }}
-            </h5>
+            <h5 class="info-header-price-day">平日(一~四)價格:{{ roomInfo.normalDayPrice | currency }}</h5>
+            <h5 class="info-header-price-day">假日(五~日)價格:{{ roomInfo.holidayPrice | currency }}</h5>
           </div>
         </header>
         <section class="info-main">
@@ -55,47 +33,21 @@
               {{ roomInfo.description }}
             </article>
             <article class="info-main-detail-content">
-              <p class="content">
-                房客人數限制:{{ roomInfo.descriptionShort.GuestMax }}人
-              </p>
+              <p class="content">房客人數限制:{{ roomInfo.descriptionShort.GuestMax }}人</p>
               <p class="content">床型:{{ roomInfo.descriptionShort.Bed[0] }}</p>
-              <p class="content">
-                衛浴數量:{{ roomInfo.descriptionShort['Private-Bath'] }}間
-              </p>
-              <p class="content">
-                房間大小:{{ roomInfo.descriptionShort.Footage }}平方公尺
-              </p>
-              <p class="content">
-                入住時間:{{ roomInfo.checkInAndOut.checkInEarly }}~{{
-                  roomInfo.checkInAndOut.checkInLate
-                }}
-              </p>
-              <p class="content">
-                退房時間:{{ roomInfo.checkInAndOut.checkOut }}
-              </p>
+              <p class="content">衛浴數量:{{ roomInfo.descriptionShort['Private-Bath'] }}間</p>
+              <p class="content">房間大小:{{ roomInfo.descriptionShort.Footage }}平方公尺</p>
+              <p class="content">入住時間:{{ roomInfo.checkInAndOut.checkInEarly }}~{{ roomInfo.checkInAndOut.checkInLate }}</p>
+              <p class="content">退房時間:{{ roomInfo.checkInAndOut.checkOut }}</p>
             </article>
           </article>
 
-          <datePicker
-            @toggleOrder="toggleOrder"
-            @cartHandler="cartHandler"
-            :roomId="roomId"
-            :error="error"
-          ></datePicker>
+          <datePicker @toggleOrder="toggleOrder" @cartHandler="cartHandler" :roomId="roomId" :error="error"></datePicker>
         </section>
 
         <footer class="info-footer row">
-          <div
-            class="info-footer-item col-4"
-            v-for="(item, key, index) in roomDevice"
-            :key="index"
-          >
-            <input
-              type="checkbox"
-              class="info-footer-item-check"
-              :checked="item"
-              disabled
-            />
+          <div class="info-footer-item col-4" v-for="(item, key, index) in roomDevice" :key="index">
+            <input type="checkbox" class="info-footer-item-check" :checked="item" disabled />
             <h4 class="info-footer-item-name">{{ roomDeviceZh[key] }}</h4>
           </div>
         </footer>
@@ -105,14 +57,7 @@
     <h4 class="home-title">其他相關房型</h4>
     <div class="home-all row">
       <template v-for="item in roomKind">
-        <figure
-          class="home-all-item item col-md-4"
-          v-if="
-            item.id !== roomId &&
-              item.GuestMin === roomInfo.descriptionShort.GuestMin
-          "
-          :key="item.id"
-        >
+        <figure class="home-all-item item col-md-4" v-if="item.id !== roomId && item.GuestMin === roomInfo.descriptionShort.GuestMin" :key="item.id">
           <div class="item-group" @click="roomHandler(item.id)">
             <img :src="item.imageUrl" class="item-group-pic" />
             <div class="item-group-more">
@@ -121,12 +66,8 @@
           </div>
           <figcaption>
             <h4 class="item-title">{{ item.name }}</h4>
-            <h4 class="item-normal">
-              平日$ {{ item.normalDayPrice | currency }}
-            </h4>
-            <h4 class="item-holiday">
-              假日$ {{ item.holidayPrice | currency }}
-            </h4>
+            <h4 class="item-normal">平日$ {{ item.normalDayPrice | currency }}</h4>
+            <h4 class="item-holiday">假日$ {{ item.holidayPrice | currency }}</h4>
           </figcaption>
         </figure>
       </template>
@@ -145,30 +86,35 @@
         <header class="order-all-title">{{ roomInfo.name }}</header>
         <div class="order-all-item">
           <h4 class="order-all-item-sign">入住</h4>
-          <h4 class="order-all-item-date">
-            {{ calculate.firstDate }}星期{{ calculate.firstDay }}
-          </h4>
+          <h4 class="order-all-item-date">{{ calculate.firstDate }}星期{{ calculate.firstDay }}</h4>
           <h4 class="order-all-item-time">({{ calculate.checkInEarly }}起)</h4>
         </div>
         <div class="order-all-item">
           <h4 class="order-all-item-sign">退房</h4>
-          <h4 class="order-all-item-date">
-            {{ calculate.lastDate }}星期{{ calculate.lastDay }}
-          </h4>
+          <h4 class="order-all-item-date">{{ calculate.lastDate }}星期{{ calculate.lastDay }}</h4>
           <h4 class="order-all-item-time">({{ calculate.checkOut }}前)</h4>
         </div>
-        <h4 class="order-all-sum">
-          {{ calculate.days }}晚/{{ calculate.sum | currency }}元
-        </h4>
-        <footer>
-          <button
-            type="button"
-            class="order-all-confirm"
-            @click="orderHandler()"
-          >
+        <h4 class="order-all-sum">{{ calculate.days }}晚/{{ calculate.sum | currency }}元</h4>
+        <div class="order-all-pay">
+          <h3 class="order-all-pay-title">付款方式</h3>
+          <div class="order-all-pay-group">
+            <label class="pay" for="store">
+              <input type="radio" name="pay" id="store" value="store" v-model="payKind" />
+              <p class="pay-way">現場付款</p>
+            </label>
+            <label class="pay" for="line">
+              <input type="radio" name="pay" id="line" value="line" v-model="payKind" />
+              <div class="pay-pic"></div>
+              <!-- <p class="pay-way">LINE PAY</p> -->
+            </label>
+          </div>
+        </div>
+        <footer class="order-all-footer">
+          <button type="button" class="order-all-footer-confirm" @click="orderHandler()">
             確定
           </button>
-          <button type="button" class="order-all-cancel" @click="cancelOrder()">
+          <!-- <div @click="mobile()">mobile</div> -->
+          <button type="button" class="order-all-footer-cancel" @click="cancelOrder()">
             <i class="fas fa-times"></i>
           </button>
         </footer>
@@ -178,11 +124,7 @@
     <section class="cart none" ref="cart">
       <div class="cart-container">
         <h4 class="cart-container-word">商品已加入收藏!</h4>
-        <button
-          type="button"
-          class="cart-container-confirm"
-          @click="cartHandler()"
-        >
+        <button type="button" class="cart-container-confirm" @click="cartHandler()">
           確定
         </button>
       </div>
@@ -193,6 +135,7 @@
 <script>
 import datePicker from '../components/date-picker'
 import moment from 'moment'
+import { v4 as uuidv4 } from 'uuid'
 export default {
   data() {
     return {
@@ -200,7 +143,8 @@ export default {
         switch: false,
         message: []
       },
-      moment: moment,
+      payKind: 'store',
+      moment,
       roomId: '',
       orderInfo: {
         date: [],
@@ -237,8 +181,34 @@ export default {
     }
   },
   methods: {
-    switchPicHandler(e) {
-      e.stopPropagation()
+    mobileHandler() {
+      this.$bus.$emit('isLoading', true)
+      this.$http
+        .post(
+          `https://cors-anywhere.herokuapp.com/https://sandbox-api-pay.line.me/v2/payments/request`,
+          {
+            amount: this.calculate.sum,
+            productName: this.roomInfo.name,
+            orderId: uuidv4(),
+            currency: 'TWD',
+            confirmUrl: process.env.VUE_APP_confirmUrl,
+            productImageUrl: this.roomInfo.imageUrl[0]
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              'X-LINE-ChannelId': '1653856070',
+              'X-LINE-ChannelSecret': 'c048569e7ccbbf22e5dac612c47a15a9'
+            },
+            withCredentials: false
+          }
+        )
+        .then(res => {
+          console.log(res.data)
+          location.href = res.data.info.paymentUrl.web
+        })
+    },
+    switchPicHandler() {
       this.switchPic = this.switchPic
         .map(e => {
           return e + 1
@@ -259,25 +229,19 @@ export default {
           id: this.roomId
         })
         .then(res => {
-          //彈跳視窗
-          res.data.success
-            ? this.$router.push({
-                name: 'buy',
-                params: { ...this.calculate, name: this.roomInfo.name }
-              })
-            : this.$router.push('/login')
-          this.toggleWindow('order')
-          this.$bus.$emit('isLoading', false)
+          if (res.data.success) {
+            //在這裡判斷是用哪種支付
+            this.payKind === 'store' ? this.$router.push('/buy') : this.mobileHandler()
+          } else {
+            this.$router.push('/login')
+          }
         })
     },
     toggleOrder(val) {
       //初始化訂單資料
       this.orderInfo = val
       //差異天數
-      const diff = moment(this.orderInfo.date[1]).diff(
-        moment(this.orderInfo.date[0]),
-        'days'
-      )
+      const diff = moment(this.orderInfo.date[1]).diff(moment(this.orderInfo.date[0]), 'days')
       //初始天
       let firstDay = this.orderInfo.date[0]
       //所有星期
@@ -304,9 +268,7 @@ export default {
             //彈跳視窗
             this.toggleWindow('order')
           } else {
-            res.data.message === '未登入'
-              ? this.$router.push('/login')
-              : (this.error = { switch: true, message: res.data.message })
+            res.data.message === '未登入' ? this.$router.push('/login') : (this.error = { switch: true, message: res.data.message })
           }
           this.$bus.$emit('isLoading', false)
         })
@@ -324,13 +286,11 @@ export default {
     },
     updateRoom() {
       this.$bus.$emit('isLoading', true)
-      this.$http
-        .get(`${process.env.VUE_APP_api}/room/${this.roomId}`)
-        .then(res => {
-          this.roomInfo = res.data.room[0]
-          this.roomDevice = res.data.room[0].amenities
-          this.$bus.$emit('isLoading', false)
-        })
+      this.$http.get(`${process.env.VUE_APP_api}/room/${this.roomId}`).then(res => {
+        this.roomInfo = res.data.room[0]
+        this.roomDevice = res.data.room[0].amenities
+        this.$bus.$emit('isLoading', false)
+      })
     },
     roomHandler(id) {
       this.$router.push(`/room/${id}`)
@@ -605,62 +565,41 @@ export default {
   z-index: 30;
   transition: 0.5s all;
   opacity: 1;
-  height: 0;
   width: 95%;
-  padding-bottom: 100%;
+  height: 450px;
+  overflow-y: auto;
   @include pad {
+    width: 500px;
+    height: 550px;
+  }
+  /* @include pad {
     width: 75%;
     padding-bottom: 55%;
   }
   @include lapTopHigh {
     width: 55%;
     padding-bottom: 35%;
-  }
+  } */
   &-all {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: white;
-    position: absolute;
+    /* position: absolute;
     width: 100%;
-    height: 100%;
+    height: 100%; */
     padding: 20px;
     font-size: 16px;
     @include pad {
       font-size: 20px;
-    }
-    @include lapTopHigh {
-      padding: 80px;
-    }
-    &-cancel {
-      position: absolute;
-      bottom: 5%;
-      right: 5%;
-      background-color: #f0f0f0;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      outline: none;
-      border: none;
-      transition: 0.5s background-color;
-      &:hover {
-        background-color: darken(#f0f0f0, 10%);
-      }
-      i {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-size: 25px;
-        opacity: 0.4;
-      }
+      padding: 20px 50px;
     }
     &-title {
       width: 100%;
       text-align: center;
-      font-size: 30px;
-      padding: 10px;
+      font-size: 26px;
+      padding-bottom: 10px;
       border-bottom: 1px solid rgba(0, 0, 0, 0.6);
       margin-bottom: 20px;
     }
@@ -692,25 +631,80 @@ export default {
       }
     }
     &-sum {
-      width: 60%;
-      @include phone {
-        width: 90%;
-      }
-      margin: 20px auto 0 auto;
+      width: 100%;
+      margin: 20px auto 0;
       padding: 10px;
       border-top: 2px solid black;
       font-weight: bold;
       text-align: right;
     }
-    &-confirm {
-      outline: none;
-      color: white;
-      background-color: $important;
-      padding: 5px 20px;
-      margin-bottom: 20px;
-      transition: 0.5s all;
-      &:hover {
-        background-color: darken($important, 10%);
+    &-pay {
+      width: 100%;
+      margin: 0 auto;
+      &-title {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+        padding-bottom: 10px;
+      }
+      &-group {
+        display: flex;
+        align-items: center;
+        .pay {
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          margin-bottom: 0;
+          &-way {
+            margin: 0 0 0 5px;
+          }
+          &-pic {
+            background-image: url('../assets/line-pay3.jpg');
+            @extend %bg;
+            height: 100px;
+            width: 170px;
+            margin-left: 5px;
+          }
+        }
+        .pay + .pay {
+          margin-left: 20px;
+        }
+      }
+    }
+    &-footer {
+      width: 100%;
+      &-confirm {
+        outline: none;
+        color: white;
+        background-color: $important;
+        padding: 5px 20px;
+        display: block;
+        margin: 20px auto;
+        transition: 0.5s all;
+        &:hover {
+          background-color: darken($important, 10%);
+        }
+      }
+      &-cancel {
+        background-color: #f0f0f0;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        outline: none;
+        border: none;
+        margin-left: auto;
+        position: relative;
+        display: block;
+        transition: 0.5s background-color;
+        &:hover {
+          background-color: darken(#f0f0f0, 10%);
+        }
+        i {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          font-size: 25px;
+          opacity: 0.4;
+        }
       }
     }
   }
