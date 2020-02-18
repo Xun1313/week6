@@ -11,18 +11,10 @@
       </tr>
     </thead> -->
       <tbody v-if="rooms.length > 0">
-        <tr
-          class="item"
-          v-for="item in rooms"
-          :key="item.name"
-          @click="routeRoom(item.id)"
-        >
+        <tr class="item" v-for="item in rooms" :key="item.name" @click="routeRoom(item.id)">
           <td class="item-img">
             <div class="item-img-container">
-              <div
-                class="item-img-container-bg"
-                :style="`background-image:url(${item.imageUrl})`"
-              ></div>
+              <div class="item-img-container-bg" :style="`background-image:url(${item.imageUrl})`"></div>
             </div>
           </td>
           <td class="item-all">
@@ -34,23 +26,14 @@
                 </p>
                 <aside class="all-secondary-detail">
                   <div class="all-secondary-detail-number">
-                    <i
-                      class="fas fa-male icon"
-                      v-for="guest in item.guest"
-                      :key="guest + item.name"
-                    ></i>
+                    <i class="fas fa-male icon" v-for="guest in item.guest" :key="guest + item.name"></i>
                     <p class="people">x{{ item.guest }}</p>
                   </div>
                   <div class="all-secondary-detail-price">
-                    <p class="two">
-                      平日:${{ item.normalDayPrice | currency }}
-                    </p>
-                    <p class="two">假日:${{ item.holidayPrice | currency }}</p>
+                    <p class="two">平日:{{ item.normalDayPrice | currency }}</p>
+                    <p class="two">假日:{{ item.holidayPrice | currency }}</p>
                   </div>
-                  <div
-                    class="all-secondary-detail-cart"
-                    @click="deleteCollection($event, item.id)"
-                  >
+                  <div class="all-secondary-detail-cart" @click="deleteCollection($event, item.id)">
                     <i class="fas fa-ban"></i>
                     <h5>取消收藏</h5>
                   </div>
@@ -82,11 +65,9 @@ export default {
     },
     deleteCollection(e, id) {
       e.stopPropagation()
-      this.$http
-        .delete(`${process.env.VUE_APP_api}/favorite/${id}`)
-        .then(() => {
-          this.getCollection()
-        })
+      this.$http.delete(`${process.env.VUE_APP_api}/favorite/${id}`).then(() => {
+        this.getCollection()
+      })
     },
     getCollection() {
       this.$bus.$emit('isLoading', true)
